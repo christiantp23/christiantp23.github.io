@@ -155,7 +155,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     rating: 4.6,
     image: '/productos/hombre/adidas_badbo_1.0_blancasl.jpg',
     images: [
-      '/public/productos/hombre/adidas_badbo_1.0_blancas.jpg'
+      '/productos/hombre/adidas_badbo_1.0_blancas.jpg'
     ],
     category: 'Urbano',
     description: 'Estas zapatillas combinan paneles de gamuza con recortes triangulares y detalles bordados en azul en el talón. Tienen cordones gruesos y doble lengüeta.',
@@ -187,7 +187,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     rating: 4.7,
     image: '/productos/unisex/new_balance_9060_negras.jpg',
     images: [
-      '/public/productos/unisex/new_balance_9060_beige.jpg',
+      '/productos/unisex/new_balance_9060_beige.jpg',
     ],
     category: 'Urbano',
     description: 'Este calzado resalta por su estructura robusta y su entresuela ondulada con tecnología de amortiguación ABZORB. Tienes dos opciones disponibles. La primera tiene una base de malla transpirable con gamuza beige y detalles grises. La segunda ofrece un diseño oscuro que mezcla malla y gamuza negra con el logo lateral gris.',

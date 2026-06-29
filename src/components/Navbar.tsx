@@ -30,7 +30,7 @@ export default function Navbar({
           <div className="flex items-center gap-2">
           <a href="/" className="flex items-baseline gap-1.5 group">
             <img 
-              src="/public/logo.png" 
+              src="/logo.png" 
               alt="TRESPA STORE" 
               className="h-12 sm:h-24 md:h-42 w-auto object-contain transition-transform group-hover:scale-105"
               referrerPolicy="no-referrer"

@@ -222,7 +222,7 @@ export default function App() {
                 className="relative z-10 w-full aspect-square max-w-[360px] mx-auto rounded-[32px] overflow-hidden border-4 border-white/10 shadow-2xl"
               >
                 <img
-                  src="/public/lema.png"
+                  src="/lema.png"
                   alt="Como el 23"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover scale-105"
