@@ -431,9 +431,9 @@ export default function App() {
                 <CheckCircle className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-display font-bold text-sm text-slate-900 uppercase">100% Originales</h4>
+                <h4 className="font-display font-bold text-sm text-slate-900 uppercase">Calidad Garantizada</h4>
                 <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Garantía directa del fabricante. Importamos únicamente tenis originales de las mejores marcas globales.
+                  Ofrecemos zapatillas importadas con un alto nivel de detalle, comodidad y excelente relación calidad-precio.
                 </p>
               </div>
             </div>
@@ -451,7 +451,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Box 3 */}
+           {/* {/* Box 3 *
             <div className="flex gap-4 p-2">
               <div className="w-12 h-12 rounded-2xl bg-brand-sky/10 flex items-center justify-center text-brand-blue shrink-0">
                 <Percent className="w-6 h-6" />
@@ -462,7 +462,7 @@ export default function App() {
                   ¿La talla no te quedó? No te preocupes. Realizamos el primer cambio de talla completamente gratis.
                 </p>
               </div>
-            </div>
+            </div> */}
 
             {/* Box 4 */}
             <div className="flex gap-4 p-2">
@@ -506,7 +506,7 @@ export default function App() {
                 </span>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm font-light">
-                Somos distribuidores autorizados de las siluetas de tenis más cotizadas del mercado. Diseñado para atletas modernos, coleccionistas y amantes del street-style.
+                En Trespa Store creemos que unas buenas zapatillas hablan por ti. Por eso ofrecemos referencias importadas con gran nivel de detalle, pensadas para quienes valoran el estilo.
               </p>
               <div className="flex items-center gap-2.5 pt-2">
                 <a

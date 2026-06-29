@@ -33,6 +33,41 @@ export default function CheckoutModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Real-time validation states
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case 'fullName':
+        if (!value.trim()) return 'El nombre completo es obligatorio';
+        if (value.trim().length < 3) return 'El nombre debe tener al menos 3 caracteres';
+        break;
+      case 'cedula':
+        if (!value.trim()) return 'La cédula es obligatoria';
+        if (!/^\d+$/.test(value.trim())) return 'La cédula debe contener solo números';
+        if (value.trim().length < 5) return 'La cédula debe tener al menos 5 dígitos';
+        break;
+      case 'phone':
+        if (!value.trim()) return 'El número de celular es obligatorio';
+        if (!/^\d+$/.test(value.trim())) return 'El celular debe contener solo números';
+        if (value.trim().length !== 10) return 'El celular debe tener exactamente 10 dígitos';
+        if (!value.trim().startsWith('3')) return 'El celular debe iniciar con 3 (Ej: 3001234567)';
+        break;
+      case 'city':
+        if (!value.trim()) return 'La ciudad es obligatoria';
+        if (value.trim().length < 3) return 'Ingresa una ciudad válida';
+        break;
+      case 'address':
+        if (!value.trim()) return 'La dirección de entrega es obligatoria';
+        if (value.trim().length < 8) return 'Por favor ingresa una dirección de entrega más detallada (Ej: Calle 45 #12-34)';
+        break;
+      default:
+        break;
+    }
+    return '';
+  };
+
   // Format currency helper
   const formatPrice = (value: number) => {
     return new Intl.NumberFormat('es-CO', {
@@ -56,6 +91,21 @@ export default function CheckoutModal({
       ...prev,
       [name]: value,
     }));
+
+    if (touched[name]) {
+      const error = validateField(name, value);
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const error = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   const handlePaymentMethodChange = (method: 'bold_tarjeta' | 'transferencia') => {
@@ -67,7 +117,34 @@ export default function CheckoutModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.phone || !formData.address || !formData.city || !formData.cedula) {
+    // Validate all fields on submit
+    const newErrors: Record<string, string> = {};
+    const fieldsToValidate = ['fullName', 'cedula', 'phone', 'city', 'address'];
+
+    fieldsToValidate.forEach((field) => {
+      const error = validateField(field, formData[field as keyof CheckoutData] as string || '');
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    // Mark all as touched to show errors
+    const newTouched: Record<string, boolean> = {};
+    fieldsToValidate.forEach((field) => {
+      newTouched[field] = true;
+    });
+    setTouched(newTouched);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      // Focus first field with error
+      const firstErrorField = fieldsToValidate.find((field) => newErrors[field]);
+      if (firstErrorField) {
+        const inputElement = document.querySelector(`[name="${firstErrorField}"]`) as HTMLInputElement | null;
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }
       return;
     }
 
@@ -82,7 +159,7 @@ export default function CheckoutModal({
     // Compile WhatsApp message
     let message = `👟 *¡NUEVO PEDIDO - TRESPA STORE!* 👟\n\n`;
     message += `Hola *Trespa Store*, acabo de realizar un pedido desde la tienda online. Aquí están mis detalles:\n\n`;
-    
+
     message += `👤 *DATOS DEL CLIENTE:*\n`;
     message += `• *Nombre:* ${formData.fullName.trim()}\n`;
     message += `• *Cédula:* ${formData.cedula.trim()}\n`;
@@ -186,10 +263,20 @@ export default function CheckoutModal({
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         required
                         placeholder="Ej: Camilo Torres"
-                        className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 outline-none transition-all placeholder:text-slate-400"
+                        className={`w-full text-sm px-4 py-3 rounded-xl border outline-none transition-all placeholder:text-slate-400 ${errors.fullName && touched.fullName
+                            ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50/10'
+                            : 'border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 bg-white'
+                          }`}
                       />
+                      {errors.fullName && touched.fullName && (
+                        <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
+                          <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
+                          {errors.fullName}
+                        </p>
+                      )}
                     </div>
 
                     {/* Cédula and Celular Grid */}
@@ -205,10 +292,20 @@ export default function CheckoutModal({
                           name="cedula"
                           value={formData.cedula}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           required
                           placeholder="Ej: 10203040"
-                          className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 outline-none transition-all placeholder:text-slate-400"
+                          className={`w-full text-sm px-4 py-3 rounded-xl border outline-none transition-all placeholder:text-slate-400 ${errors.cedula && touched.cedula
+                              ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50/10'
+                              : 'border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 bg-white'
+                            }`}
                         />
+                        {errors.cedula && touched.cedula && (
+                          <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
+                            <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
+                            {errors.cedula}
+                          </p>
+                        )}
                       </div>
 
                       {/* Phone */}
@@ -222,10 +319,20 @@ export default function CheckoutModal({
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           required
                           placeholder="Ej: 3001234567"
-                          className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 outline-none transition-all placeholder:text-slate-400"
+                          className={`w-full text-sm px-4 py-3 rounded-xl border outline-none transition-all placeholder:text-slate-400 ${errors.phone && touched.phone
+                              ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50/10'
+                              : 'border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 bg-white'
+                            }`}
                         />
+                        {errors.phone && touched.phone && (
+                          <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
+                            <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
+                            {errors.phone}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -242,10 +349,21 @@ export default function CheckoutModal({
                           name="city"
                           value={formData.city}
                           onChange={handleChange}
+                          onBlur={handleBlur}
+
                           required
                           placeholder="Ej: Medellín"
-                          className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 outline-none transition-all placeholder:text-slate-400"
+                          className={`w-full text-sm px-4 py-3 rounded-xl border outline-none transition-all placeholder:text-slate-400 ${errors.city && touched.city
+                              ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50/10'
+                              : 'border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 bg-white'
+                            }`}
                         />
+                        {errors.city && touched.city && (
+                          <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
+                            <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
+                            {errors.city}
+                          </p>
+                        )}
                       </div>
 
                       {/* Address */}
@@ -259,10 +377,21 @@ export default function CheckoutModal({
                           name="address"
                           value={formData.address}
                           onChange={handleChange}
+                          onBlur={handleBlur}
+
                           required
                           placeholder="Ej: Calle 45 #12-34, Apto 301"
-                          className="w-full text-sm px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 outline-none transition-all placeholder:text-slate-400"
+                          className={`w-full text-sm px-4 py-3 rounded-xl border outline-none transition-all placeholder:text-slate-400 ${errors.address && touched.address
+                              ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50/10'
+                              : 'border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 bg-white'
+                            }`}
                         />
+                        {errors.address && touched.address && (
+                          <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
+                            <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
+                            {errors.address}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -292,11 +421,10 @@ export default function CheckoutModal({
                         <button
                           type="button"
                           onClick={() => handlePaymentMethodChange('bold_tarjeta')}
-                          className={`p-4 rounded-2xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${
-                            formData.paymentMethod === 'bold_tarjeta'
+                          className={`p-4 rounded-2xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${formData.paymentMethod === 'bold_tarjeta'
                               ? 'border-brand-blue bg-brand-sky/10 text-slate-900 ring-2 ring-brand-sky/20'
                               : 'border-slate-200 hover:border-slate-300 text-slate-600 bg-white'
-                          }`}
+                            }`}
                         >
                           <span className="text-xs font-bold font-display flex items-center gap-1.5">
                             💳 Pago con Tarjeta (Bold)
@@ -308,11 +436,10 @@ export default function CheckoutModal({
                         <button
                           type="button"
                           onClick={() => handlePaymentMethodChange('transferencia')}
-                          className={`p-4 rounded-2xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${
-                            formData.paymentMethod === 'transferencia'
+                          className={`p-4 rounded-2xl border text-left flex flex-col gap-1 transition-all cursor-pointer ${formData.paymentMethod === 'transferencia'
                               ? 'border-brand-blue bg-brand-sky/10 text-slate-900 ring-2 ring-brand-sky/20'
                               : 'border-slate-200 hover:border-slate-300 text-slate-600 bg-white'
-                          }`}
+                            }`}
                         >
                           <span className="text-xs font-bold font-display flex items-center gap-1.5">
                             🏦 Transferencia Directa
