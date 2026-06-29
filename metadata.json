@@ -1,0 +1,6 @@
+{
+  "name": "Trespa Store",
+  "description": "Una tienda online moderna y premium de tenis deportivos, optimizada para compras rápidas y contacto directo por WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
