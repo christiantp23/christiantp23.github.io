@@ -4,22 +4,54 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Sparkles, TrendingUp, Filter, Heart, ArrowUpRight, CheckCircle, Percent, ChevronDown, Instagram, Facebook } from 'lucide-react';
+import { Truck, TrendingUp, Filter, Heart, ArrowUpRight, CheckCircle, Percent, ChevronDown, Instagram, Facebook } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product, CartItem } from './types';
 import { SNEAKER_PRODUCTS, CATEGORIES, BRANDS } from './data';
 import Navbar from './components/Navbar';
 import ProductCard from './components/ProductCard';
 import CartSidebar from './components/CartSidebar';
+import WishlistSidebar from './components/WishlistSidebar';
 import CheckoutModal from './components/CheckoutModal';
 import FloatingWhatsapp from './components/FloatingWhatsapp';
 import InfoModals from './components/InfoModals';
 
 export default function App() {
-  // Cart state
+  // ==========================================
+  // 1. PERSISTENCIA LOCAL DEL CARRITO (localStorage)
+  // ==========================================
+  // En React, "useState" es un Hook que define un estado (una variable que React vigila).
+  // Cuando este estado cambia, React automáticamente redibuja (re-renderiza) la pantalla para mostrar los datos actualizados.
+  //
+  // Aquí usamos "Lazy Initialization" (inicialización diferida): en lugar de pasar un valor por defecto como [],
+  // le pasamos una función callback () => { ... }. Esto hace que el código dentro se ejecute UNA SOLA VEZ
+  // cuando el componente se monta por primera vez, evitando leer el disco (localStorage) innecesariamente en cada render.
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     try {
+      // Intentamos recuperar la información guardada en el almacenamiento del navegador bajo la clave 'trespa_cart'
       const saved = localStorage.getItem('trespa_cart');
+
+      // localStorage solo guarda cadenas de texto plano (string). Por eso:
+      // - Si hay datos ("saved"), usamos "JSON.parse(saved)" para convertir esa cadena de texto de vuelta a un arreglo de objetos de JavaScript.
+      // - Si no hay datos guardados previamente, retornamos un arreglo vacío [] por defecto.
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      // Si por alguna razón ocurre un error (por ejemplo, datos corruptos en el navegador), devolvemos un arreglo vacío
+      return [];
+    }
+  });
+
+  // ==========================================
+  // 2. PERSISTENCIA LOCAL DE FAVORITOS (Wishlist)
+  // ==========================================
+  // Creamos un estado "favoriteIds" que guardará un arreglo de strings, donde cada string es el ID
+  // de un producto marcado como favorito.
+  // También usamos "Lazy Initialization" para leer el localStorage al iniciar la aplicación.
+  const [favoriteIds, setFavoriteIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('trespa_wishlist');
+      // Si existen favoritos guardados, convertimos el string JSON de vuelta a un arreglo de IDs.
+      // Si no existe nada, inicializamos con un arreglo vacío [].
       return saved ? JSON.parse(saved) : [];
     } catch (e) {
       return [];
@@ -28,6 +60,7 @@ export default function App() {
 
   // UI state
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false); // Nuevo: Estado para abrir/cerrar favoritos (Wishlist)
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [infoModalTab, setInfoModalTab] = useState<'tallas' | 'politicas' | 'pagos' | 'transportes'>('tallas');
@@ -42,11 +75,44 @@ export default function App() {
   const [selectedGender, setSelectedGender] = useState<'Todos' | 'Dama' | 'Caballero' | 'Unisex'>('Todos');
   const [sortBy, setSortBy] = useState<'default' | 'price_asc' | 'price_desc' | 'rating'>('default');
 
-  // Sync cart to local storage
+  // ==========================================
+  // SINCROIZACIÓN DEL CARRITO (useEffect)
+  // ==========================================
+  // El Hook "useEffect" sirve para ejecutar "efectos secundarios" (acciones de sincronización externa o llamadas a APIs).
+  // Recibe dos cosas:
+  // 1. Una función con el código que queremos ejecutar.
+  // 2. Un "arreglo de dependencias" al final: [cartItems].
+  // Esto significa: "Ejecuta esta función cada vez que la variable 'cartItems' cambie de valor".
   useEffect(() => {
+    // Como localStorage solo admite texto plano, usamos "JSON.stringify" para convertir
+    // nuestro arreglo de objetos 'cartItems' en un string con formato JSON de forma segura.
     localStorage.setItem('trespa_cart', JSON.stringify(cartItems));
-  }, [cartItems]);
+  }, [cartItems]); // <-- Dependencia: reacciona ante cualquier cambio de elementos en el carrito
 
+  // ==========================================
+  // SINCROIZACIÓN DE FAVORITOS (useEffect)
+  // ==========================================
+  // Ejecutamos este efecto cada vez que el arreglo 'favoriteIds' cambie,
+  // para guardar la lista actualizada de favoritos en el almacenamiento del navegador (localStorage).
+  useEffect(() => {
+    localStorage.setItem('trespa_wishlist', JSON.stringify(favoriteIds));
+  }, [favoriteIds]); // <-- Dependencia: se ejecuta cada vez que el usuario agregue/quite un favorito
+
+  // ==========================================
+  // ACCIÓN DE AGREGAR/QUITAR FAVORITO (handleToggleFavorite)
+  // ==========================================
+  // Esta función se pasa como propiedad (prop) a las tarjetas de producto.
+  // - Si el ID del producto ya existe en la lista, lo filtramos para removerlo (quitar de favoritos).
+  // - Si no está, creamos un nuevo arreglo añadiendo el nuevo ID al final de los anteriores.
+  const handleToggleFavorite = (productId: string) => {
+    setFavoriteIds((prev) => {
+      if (prev.includes(productId)) {
+        return prev.filter((id) => id !== productId);
+      } else {
+        return [...prev, productId];
+      }
+    });
+  };
   // Cart operations
   const handleAddToCart = (product: Product, size: number, color: string) => {
     setCartItems((prev) => {
@@ -150,6 +216,8 @@ export default function App() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onOpenInfo={openInfoModal}
+        wishlistItemsCount={favoriteIds.length} // Nuevo: pasamos la cantidad de productos favoritos actuales
+        onWishlistOpen={() => setIsWishlistOpen(true)} // Nuevo: función para abrir la barra lateral de favoritos
       />
 
       {/* Hero Banner Section */}
@@ -167,7 +235,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-sky/10 border border-brand-sky/20 text-brand-sky text-xs font-semibold tracking-wider uppercase"
               >
-                <Sparkles className="w-3.5 h-3.5" />
+                <Truck className="w-3.5 h-3.5" />
                 ENVÍO GRATIS A TODA COLOMBIA 🇨🇴
               </motion.div>
 
@@ -287,8 +355,8 @@ export default function App() {
                   type="button"
                   onClick={() => setSelectedBrand(brand)}
                   className={`text-xs px-4 py-2.5 rounded-2xl border transition-all ${selectedBrand === brand
-                      ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-md shadow-slate-300'
-                      : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
+                    ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-md shadow-slate-300'
+                    : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
                     }`}
                 >
                   {brand}
@@ -313,8 +381,8 @@ export default function App() {
                   type="button"
                   onClick={() => setSelectedCategory(category)}
                   className={`text-xs px-4 py-2.5 rounded-2xl border transition-all ${selectedCategory === category
-                      ? 'bg-brand-blue border-brand-blue text-white font-bold shadow-md shadow-brand-blue/20'
-                      : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
+                    ? 'bg-brand-blue border-brand-blue text-white font-bold shadow-md shadow-brand-blue/20'
+                    : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
                     }`}
                 >
                   {category}
@@ -337,8 +405,8 @@ export default function App() {
                 type="button"
                 onClick={() => setSelectedGender('Todos')}
                 className={`text-xs px-4 py-2.5 rounded-2xl border transition-all cursor-pointer ${selectedGender === 'Todos'
-                    ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-md shadow-slate-300'
-                    : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
+                  ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-md shadow-slate-300'
+                  : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
                   }`}
               >
                 Todos los Tenis
@@ -347,8 +415,8 @@ export default function App() {
                 type="button"
                 onClick={() => setSelectedGender('Dama')}
                 className={`text-xs px-4 py-2.5 rounded-2xl border transition-all cursor-pointer flex items-center gap-1.5 ${selectedGender === 'Dama'
-                    ? 'bg-pink-500 border-pink-500 text-white font-bold shadow-md shadow-pink-100'
-                    : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
+                  ? 'bg-pink-500 border-pink-500 text-white font-bold shadow-md shadow-pink-100'
+                  : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
                   }`}
               >
                 🌸 Dama
@@ -357,8 +425,8 @@ export default function App() {
                 type="button"
                 onClick={() => setSelectedGender('Caballero')}
                 className={`text-xs px-4 py-2.5 rounded-2xl border transition-all cursor-pointer flex items-center gap-1.5 ${selectedGender === 'Caballero'
-                    ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-md shadow-slate-300'
-                    : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
+                  ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-md shadow-slate-300'
+                  : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
                   }`}
               >
                 ⚡ Caballero
@@ -367,8 +435,8 @@ export default function App() {
                 type="button"
                 onClick={() => setSelectedGender('Unisex')}
                 className={`text-xs px-4 py-2.5 rounded-2xl border transition-all cursor-pointer flex items-center gap-1.5 ${selectedGender === 'Unisex'
-                    ? 'bg-indigo-600 border-indigo-600 text-white font-bold shadow-md shadow-indigo-100'
-                    : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
+                  ? 'bg-indigo-600 border-indigo-600 text-white font-bold shadow-md shadow-indigo-100'
+                  : 'bg-slate-50/50 border-slate-100 hover:border-slate-200 text-slate-600 hover:text-slate-900'
                   }`}
               >
                 👥 Unisex
@@ -414,6 +482,8 @@ export default function App() {
                   product={product}
                   onAddToCart={handleAddToCart}
                   onOpenSizeGuide={() => openInfoModal('tallas')}
+                  isFavorite={favoriteIds.includes(product.id)} // Nuevo: enviamos si este producto está marcado como favorito
+                  onToggleFavorite={handleToggleFavorite} // Nuevo: enviamos la acción para añadir o quitar de favoritos  
                 />
               ))}
             </motion.div>
@@ -441,7 +511,7 @@ export default function App() {
             {/* Box 2 */}
             <div className="flex gap-4 p-2">
               <div className="w-12 h-12 rounded-2xl bg-brand-sky/10 flex items-center justify-center text-brand-blue shrink-0">
-                <Sparkles className="w-6 h-6" />
+                <Truck className="w-6 h-6" />
               </div>
               <div>
                 <h4 className="font-display font-bold text-sm text-slate-900 uppercase">Envío Gratis</h4>
@@ -451,7 +521,7 @@ export default function App() {
               </div>
             </div>
 
-           {/* {/* Box 3 *
+            {/* {/* Box 3 *
             <div className="flex gap-4 p-2">
               <div className="w-12 h-12 rounded-2xl bg-brand-sky/10 flex items-center justify-center text-brand-blue shrink-0">
                 <Percent className="w-6 h-6" />
@@ -487,23 +557,12 @@ export default function App() {
             {/* Col 1 */}
             <div className="md:col-span-5 space-y-4">
               <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-xl bg-brand-blue flex items-center justify-center text-white">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    className="w-4.5 h-4.5"
-                  >
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                    <path d="M12 22V12" />
-                    <path d="M12 12H3" />
-                  </svg>
-                </div>
-                <span className="font-display text-base font-black tracking-wider uppercase">
-                  TRESPA STORE
-                </span>
+                <img 
+                  src="/logo.png" 
+                  alt="TRESPA STORE" 
+                  className="h-12 sm:h-14 md:h-48 w-auto object-contain"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm font-light">
                 En Trespa Store creemos que unas buenas zapatillas hablan por ti. Por eso ofrecemos referencias importadas con gran nivel de detalle, pensadas para quienes valoran el estilo.
@@ -587,7 +646,7 @@ export default function App() {
 
           {/* Copyright, terms */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-light">
-            <p>© 2026 Trespa Store. Todos los derechos reservados. Desarrollado con ❤️ para amantes de los tenis.</p>
+            <p>© 2026 Trespa Store. Todos los derechos reservados. Desarrollado por Christian</p>
             <div className="flex gap-4">
               <a href="#" className="hover:text-slate-300">Términos y condiciones</a>
               <span>•</span>
@@ -609,6 +668,24 @@ export default function App() {
           setIsCartOpen(false);
           setIsCheckoutOpen(true);
         }}
+      />
+
+      {/* =========================================================================
+        MENU LATERAL DE LISTA DE DESEOS (WishlistSidebar overlay)
+        =========================================================================
+        - Renderizamos el WishlistSidebar pasándole las siguientes propiedades (props):
+        - isOpen: indica si debe estar visible (controlado por el estado isWishlistOpen).
+        - onClose: función callback que cambia el estado isWishlistOpen a false para cerrarlo.
+        - wishlistItems: filtramos el arreglo completo "SNEAKER_PRODUCTS" para pasarle únicamente
+          los objetos de tenis cuyos IDs coincidan con los que el usuario tiene guardados en "favoriteIds".
+        - onRemove: reusamos la función "handleToggleFavorite" para que, al dar clic en quitar,
+          se elimine de la lista de deseos de forma reactiva.
+      */}
+      <WishlistSidebar
+        isOpen={isWishlistOpen}
+        onClose={() => setIsWishlistOpen(false)}
+        wishlistItems={SNEAKER_PRODUCTS.filter((product) => favoriteIds.includes(product.id))}
+        onRemove={handleToggleFavorite}
       />
 
       {/* Checkout Modal Form */}

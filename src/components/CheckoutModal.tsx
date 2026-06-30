@@ -154,52 +154,87 @@ export default function CheckoutModal({
     const paymentMethodText =
       formData.paymentMethod === 'bold_tarjeta'
         ? 'Tarjeta de Crédito/Débito (Pasarela Segura Bold)'
-        : 'Transferencia Bancaria (Bancolombia, Nequi, Daviplata, Nu o Lulo)';
+        : 'Transferencia Bancaria (Bancolombia, Nequi, Nu o Lulo)';
 
-    // Compile WhatsApp message
-    let message = `👟 *¡NUEVO PEDIDO - TRESPA STORE!* 👟\n\n`;
-    message += `Hola *Trespa Store*, acabo de realizar un pedido desde la tienda online. Aquí están mis detalles:\n\n`;
+    // =========================================================================
+    // 4. GENERACIÓN DE MENSAJE DETALLADO PARA WHATSAPP
+    // =========================================================================
+    // Aquí es donde la magia ocurre. Vamos a construir una cadena de texto (string)
+    // extremadamente detallada con la información del cliente y cada zapato que eligió.
+    //
+    // Conceptos clave para aprender:
+    // 1. "Template Literals" (Plantillas de cadena): Usamos las comillas invertidas ` `
+    //    que nos permiten escribir texto multilínea y meter variables directamente usando ${variable}.
+    // 2. "Escape de caracteres": Usamos saltos de línea (\n) para que el mensaje en WhatsApp
+    //    se reciba perfectamente formateado, con párrafos y espacios limpios.
+    // 3. Negritas en WhatsApp: El formato de WhatsApp usa asteriscos (*texto*) para colocar
+    //    letras en negrita, y guiones bajos (_texto_) para cursiva.
 
-    message += `👤 *DATOS DEL CLIENTE:*\n`;
-    message += `• *Nombre:* ${formData.fullName.trim()}\n`;
+    let message = `👟 *¡NUEVO PEDIDO - TRESPA STORE!* 👟\n`;
+    message += `==================================\n`;
+    message += `Hola *Trespa Store*, acabo de completar un pedido en la tienda online. `;
+    message += `Aquí tienes todos los detalles listos para el despacho:\n\n`;
+    
+    // Sección: Información de entrega y contacto del cliente
+    message += `👤 *DATOS DE FACTURACIÓN Y ENVÍO:*\n`;
+    message += `• *Cliente:* ${formData.fullName.trim()}\n`;
     message += `• *Cédula:* ${formData.cedula.trim()}\n`;
     message += `• *Celular:* ${formData.phone.trim()}\n`;
     message += `• *Ciudad:* ${formData.city.trim()}\n`;
     message += `• *Dirección:* ${formData.address.trim()}\n`;
     message += `• *Método de Pago:* ${paymentMethodText}\n`;
     if (formData.observaciones?.trim()) {
-      message += `• *Observaciones:* ${formData.observaciones.trim()}\n`;
+      message += `• *Observaciones/Notas:* "${formData.observaciones.trim()}"\n`;
     }
     message += `\n`;
 
-    message += `📦 *PRODUCTOS SOLICITADOS:*\n`;
-    cartItems.forEach((item) => {
+    // Sección: Listado detallado de productos
+    // Usamos el ciclo "forEach" de JavaScript para recorrer la lista de productos del carrito (cartItems).
+    // Por cada elemento ("item"), sumamos la información correspondiente al mensaje general.
+    message += `📦 *DETALLES DEL PRODUCTO(S):*\n`;
+    cartItems.forEach((item, index) => {
       const itemSubtotal = item.product.price * item.quantity;
-      message += `• *${item.quantity}x* ${item.product.name}\n`;
-      message += `   - Talla: ${item.selectedSize}\n`;
-      message += `   - Color: ${item.selectedColor}\n`;
-      message += `   - Precio unitario: ${formatPrice(item.product.price)}\n`;
-      message += `   - Subtotal: ${formatPrice(itemSubtotal)}\n\n`;
+      
+      message += `*Item #${index + 1}: ${item.product.name.toUpperCase()}*\n`;
+      message += `   - *Marca:* ${item.product.brand}\n`;
+      message += `   - *Categoría:* ${item.product.category}\n`;
+      message += `   - *Talla seleccionada:* US ${item.selectedSize} / Nacional\n`;
+      message += `   - *Color elegido:* ${item.selectedColor}\n`;
+      message += `   - *Cantidad:* ${item.quantity} par(es)\n`;
+      message += `   - *Precio unitario:* ${formatPrice(item.product.price)}\n`;
+      message += `   - *Enlace de referencia visual (Foto):* ${item.product.image}\n`;
+      message += `   - *Subtotal de este calzado:* ${formatPrice(itemSubtotal)}\n`;
+      message += `   ----------------------------------\n`;
     });
+    message += `\n`;
 
-    message += `💵 *RESUMEN DE COMPRA:*\n`;
-    message += `• *Subtotal:* ${formatPrice(total)}\n`;
-    message += `• *Envío:* ¡GRATIS! 🇨🇴\n`;
-    message += `• *TOTAL A PAGAR:* ${formatPrice(total)}\n\n`;
+    // Sección: Resumen final de costos
+    message += `💵 *RESUMEN DE LA TRANSACCIÓN:*\n`;
+    message += `• *Subtotal Productos:* ${formatPrice(total)}\n`;
+    message += `• *Costo de Envío:* ¡GRATIS! 🇨🇴 (Todo Colombia)\n`;
+    message += `• *VALOR TOTAL A PAGAR:* ${formatPrice(total)} COP\n\n`;
 
-    message += `💬 _Quedo atento(a) a la confirmación de mi pedido para iniciar el despacho. ¡Muchas gracias!_`;
+    message += `💬 _Quedo en espera de tu confirmación para proceder con el pago y envío de mi pedido. ¡Muchas gracias!_`;
 
-    // Target Phone: 573008165725
+    // =========================================================================
+    // ENLACE DE WHATSAPP CON ENCODING SEGURO (encodeURIComponent)
+    // =========================================================================
+    // El navegador no puede enviar emojis, espacios o saltos de línea directo en una URL.
+    // Por eso usamos "encodeURIComponent()", que convierte de forma segura todo nuestro mensaje
+    // de texto en una cadena codificada para internet (por ejemplo, los espacios se vuelven %20).
+    //
+    // Usamos el número de destino configurado: 573008165725 (con código de país 57 de Colombia).
     const waUrl = `https://wa.me/573008165725?text=${encodeURIComponent(message)}`;
 
     setTimeout(() => {
-      // Open in a new tab
+      // "window.open" abre el enlace generado en una pestaña nueva del navegador del cliente,
+      // llevándolo directo a su chat de WhatsApp con el mensaje ya escrito en la caja de texto.
       window.open(waUrl, '_blank', 'noopener,noreferrer');
       setIsSubmitting(false);
       setIsSuccess(true);
     }, 1200);
   };
-
+  
   const handleFinish = () => {
     onOrderSuccess();
     setIsSuccess(false);
@@ -445,7 +480,7 @@ export default function CheckoutModal({
                             🏦 Transferencia Directa
                           </span>
                           <span className="text-[10px] text-slate-500 leading-tight">
-                            Bancolombia, Nequi, Daviplata, Nu o Lulo. Envías el comprobante.
+                            Bancolombia, Nequi, Nu o Lulo. Envías el comprobante.
                           </span>
                         </button>
                       </div>

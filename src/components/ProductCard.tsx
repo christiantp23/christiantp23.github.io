@@ -4,25 +4,48 @@
  */
 
 import { useState } from 'react';
-import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 
+// =========================================================================
+// INTERFAZ DE PROPIEDADES (ProductCardProps)
+// =========================================================================
+// Agregamos dos nuevas propiedades para controlar la interacción con Favoritos:
+// - isFavorite: Indica si este producto en particular ya fue guardado en la lista de deseos.
+// - onToggleFavorite: Función callback que avisa al componente padre (App.tsx)
+//   para que agregue o remueva este producto de la lista en localStorage.
 interface ProductCardProps {
   key?: string | number;
   product: Product;
   onAddToCart: (product: Product, size: number, color: string) => void;
   onOpenSizeGuide?: () => void;
+  isFavorite?: boolean; // Nuevo: si está en la lista de favoritos
+  onToggleFavorite?: (productId: string) => void; // Nuevo: acción para añadir/quitar de favoritos
 }
 
-export default function ProductCard({ product, onAddToCart, onOpenSizeGuide }: ProductCardProps) {
+export default function ProductCard({ 
+  product, 
+  onAddToCart, 
+  onOpenSizeGuide,
+  isFavorite = false, // Por defecto es falso
+  onToggleFavorite
+}: ProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<number>(product.sizes[0]);
-  const [selectedColor, setSelectedColor] = useState<string>(product.colors[0]);
+  
+  // Filtrar colores válidos (evitar strings vacíos como [''])
+  const validColors = product.colors ? product.colors.filter(c => c && c.trim() !== '') : [];
+  const [selectedColor, setSelectedColor] = useState<string>(
+    validColors.length > 0 ? validColors[0] : (product.colors[0] || '')
+  );
+
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [activeImgIndex, setActiveImgIndex] = useState(0);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+
 
   // Fallback images map
   const fallbackImages: Record<string, string> = {
@@ -42,13 +65,25 @@ export default function ProductCard({ product, onAddToCart, onOpenSizeGuide }: P
     'new-balance-9060': 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800'
   };
 
-  const allImages = product.images && product.images.length > 0
-    ? product.images
-    : [product.image];
-
+   // Combinar automáticamente la imagen principal y las imágenes secundarias del carrusel para no perder ninguna
+  const allImages = (() => {
+    const list: string[] = [];
+    if (product.image) {
+      list.push(product.image);
+    }
+    if (product.images && product.images.length > 0) {
+      product.images.forEach((img) => {
+        if (img && img.trim() !== '' && !list.includes(img)) {
+          list.push(img);
+        }
+      });
+    }
+    return list.length > 0 ? list : ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800'];
+  })();
+  
   const currentImage = imageError 
     ? (fallbackImages[product.id] || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800') 
-    : (allImages[activeImgIndex] || product.image);
+    : (allImages[activeImgIndex] || product.image || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800');
 
   const handleAdd = () => {
     if (!isOptionsOpen) {
@@ -111,6 +146,38 @@ export default function ProductCard({ product, onAddToCart, onOpenSizeGuide }: P
           </span>
         )}
       </div>
+
+        {/* =========================================================================
+         BOTÓN DE LISTA DE DESEOS / FAVORITOS (Heart Button)
+         =========================================================================
+         - Usamos un botón absoluto posicionado en la esquina superior derecha (top-4, right-4).
+         - Al hacer clic, detenemos la propagación (stopPropagation) para evitar que se abra
+           el visor de zoom del producto.
+         - Llamamos a "onToggleFavorite" pasando el ID del producto actual.
+         - El ícono Heart cambia de color dinámicamente: rosa con relleno si isFavorite es true,
+           o gris sutil si es false.
+      */}
+      <button
+        id={`wishlist-btn-${product.id}`}
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation(); // Detiene el clic para que no active el modal de zoom de la tarjeta
+          if (onToggleFavorite) {
+            onToggleFavorite(product.id);
+          }
+        }}
+        className="absolute top-4 right-4 z-20 bg-white/90 hover:bg-white text-slate-700 w-9 h-9 rounded-full shadow-md hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer border border-slate-100 flex items-center justify-center group/heart"
+        aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+      >
+        <Heart 
+          className={`w-4.5 h-4.5 transition-colors ${
+            isFavorite 
+              ? 'fill-rose-500 text-rose-500 scale-105' 
+              : 'text-slate-400 group-hover/heart:text-rose-500 group-hover/heart:scale-105'
+          }`} 
+        />
+      </button>
+
 
       {/* Image Gallery Container */}
       <div 
@@ -213,10 +280,29 @@ export default function ProductCard({ product, onAddToCart, onOpenSizeGuide }: P
             {product.name}
           </h3>
 
-          {/* Description */}
-          <p className="text-xs text-slate-500 line-clamp-2 mb-4 leading-relaxed">
-            {product.description}
-          </p>
+           {/* Description */}
+          <div className="relative mb-4">
+            <div className="relative">
+            <p className={`text-xs text-slate-500 leading-relaxed transition-all duration-300 ${
+              isDescExpanded ? 'line-clamp-none' : 'line-clamp-2'
+            }`}>
+              {product.description}
+            </p>
+             {/* Máscara de degradado difuminado */}
+              {!isDescExpanded && product.description && product.description.length > 90 && (
+                <div className="absolute bottom-0 left-0 right-0 h-5 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+              )}
+            </div>
+            {product.description && product.description.length > 90 && (
+              <button
+                type="button"
+                onClick={() => setIsDescExpanded(!isDescExpanded)}
+                className="text-[11px] font-bold text-blue-600 hover:text-blue-800 transition-colors mt-1 cursor-pointer flex items-center gap-0.5"
+              >
+                {isDescExpanded ? 'Ver menos' : 'Leer descripción completa'}
+              </button>
+            )}
+          </div>
         </div>
 
         <div>
@@ -446,7 +532,7 @@ export default function ProductCard({ product, onAddToCart, onOpenSizeGuide }: P
               </div>
 
               {/* Bottom detail card */}
-              <div className="mt-4 text-center bg-white/10 backdrop-blur-md px-6 py-3.5 rounded-2xl border border-white/10 text-white max-w-md shadow-xl">
+              <div className="mt-4 text-center bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/10 text-white max-w-lg shadow-xl w-full">
                 <h4 className="font-display text-base font-bold tracking-tight">
                   {product.name}
                 </h4>
@@ -454,7 +540,12 @@ export default function ProductCard({ product, onAddToCart, onOpenSizeGuide }: P
                   Categoría: <span className="font-semibold text-white">{product.category}</span> &bull; 
                   Tallas: <span className="font-semibold text-white">{product.sizes.join(', ')}</span>
                 </p>
-                <div className="flex items-center justify-center gap-2 mt-2">
+                {product.description && (
+                  <p className="text-xs text-slate-200 mt-3 leading-relaxed max-h-32 overflow-y-auto px-1 text-center md:text-justify scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                    {product.description}
+                  </p>
+                )}
+                <div className="flex items-center justify-center gap-2 mt-3.5 pt-2 border-t border-white/10">
                   <span className="text-sm font-bold text-blue-300">
                     ${product.price.toLocaleString('es-CO')} COP
                   </span>

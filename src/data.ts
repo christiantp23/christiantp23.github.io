@@ -97,6 +97,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     brand: 'Adidas',
     price: 190000,
     rating: 4.9,
+    // 1. Esta es la foto principal que se muestra por defecto:
     image: '/productos/mujer/adidas_superstar_vinotinto.jpg',
     category: 'Urbano',
     description: 'El diseño resalta por sus franjas laterales y talón en tono vinotinto. Las franjas incluyen un patrón de costuras decorativas blancas. Tienen un estampado de un oso en la parte trasera y en la etiqueta de la lengüeta. Traen un llavero metálico redondo con el mismo diseño del oso y cordones color vinotinto.',
@@ -114,7 +115,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: '/productos/hombre/campus_bad_cafe.jpg',
     category: 'Urbano',
     description: 'Este par destaca por su exterior de gamuza el diseño de doble lengüeta el cuello acolchado grueso y la etiqueta con el logo del artista.',
-    colors: [''],
+    colors: ['Café'],
     sizes: [40, 41, 42, 43, 44],
     isNew: true,
     gender: 'Caballero'
@@ -185,9 +186,11 @@ export const SNEAKER_PRODUCTS: Product[] = [
     brand: 'New Balance',
     price: 195000,
     rating: 4.7,
-    image: '/productos/unisex/new_balance_9060_negras.jpg',
+    // 1. Esta es la foto principal que se muestra por defecto:
+    image: '/productos/unisex/new_balance_9060_beige.jpg',
+    // 2. Aquí agregas todas las fotos del carrusel (incluyendo la principal y las secundarias):
     images: [
-      '/productos/unisex/new_balance_9060_beige.jpg',
+      '/productos/unisex/new_balance_9060_negras.jpg',
     ],
     category: 'Urbano',
     description: 'Este calzado resalta por su estructura robusta y su entresuela ondulada con tecnología de amortiguación ABZORB. Tienes dos opciones disponibles. La primera tiene una base de malla transpirable con gamuza beige y detalles grises. La segunda ofrece un diseño oscuro que mezcla malla y gamuza negra con el logo lateral gris.',
@@ -195,8 +198,68 @@ export const SNEAKER_PRODUCTS: Product[] = [
     sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44],
     isNew: true,
     gender: 'Unisex'
+  },
+
+  {
+    id: 'asics-turquesa',
+    name: 'Asics Superblast 2',
+    brand: 'Asics',
+    price: 195000,
+    rating: 4.9,
+    image: '/productos/mujer/asics_dama_azulverde.png',
+    category: 'Deportivo',
+    description: 'Luce el diseño running más codiciado del momento con el máximo confort. Esta versión importada de alta calidad replica fielmente los acabados y el llamativo color Wave Teal. Cuenta con una entresuela de excelente amortiguación ideal para tus caminatas, entrenamientos ligeros o looks urbanos diarios. Estilo de alta gama y comodidad superior en cada paso.',
+    colors: ['Turquesa'],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: 'Dama'
+  },
+
+  {
+    id: 'asics-morado',
+    name: 'Asics Superblast 2',
+    brand: 'Asics',
+    price: 195000,
+    rating: 4.9,
+    image: '/productos/mujer/asics_dama_morado_fuscia.png',
+    category: 'Deportivo',
+    description: 'Atrévete a destacar con el colorway más enérgico e impactante de la temporada. Esta versión importada de alta calidad replica detalladamente el electrizante contraste entre magenta, rosa glo y el acento verde menta de los nuevos Superblast 2. Su entresuela de máximo volumen te brinda una amortiguación ultra suave en tus actividades diarias, entrenamientos o caminatas. El balance perfecto entre estilo urbano atrevido y confort superior.',
+    colors: ['Bold Magenta'],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: 'Dama'
+  },
+
+  {
+    id: 'jordan-hombre-retro',
+    name: 'Jordan 1 Mid "Come Fly With Me"',
+    brand: 'Jordan',
+    price: 180000,
+    rating: 4.9,
+    image: '/productos/hombre/jordan_retro_hombre.png',
+    category: 'Urbano',
+    description: 'Eleva tu estilo urbano con esta edición especial. Destaca por su base negra mate, llamativas costuras rojas en contraste y el icónico Swoosh brillante en relieve.',
+    colors: ['Negros'],
+    sizes: [40, 41, 42, 43, 44],
+    isHot: true,
+    gender: 'Caballero'
+  },
+
+  {
+    id: 'adidas-samba-og',
+    name: 'Asics Samba OG Brown',
+    brand: 'Adidas',
+    price: 180000,
+    rating: 4.9,
+    image: '/productos/mujer/samba_dama_og_cafe.png',
+    category: 'Deportivo',
+    description: 'Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro.',
+    colors: ['Turquesa'],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: 'Dama'
   }
 ];
 
 export const CATEGORIES = ['Todos', 'Urbano', 'Deportivo'];
-export const BRANDS = ['Todas', 'Nike', 'Adidas', 'Jordan', 'OnCloud', 'New Balance', 'Puma'];
+export const BRANDS = ['Todas', 'Nike', 'Adidas', 'Jordan', 'OnCloud', 'New Balance', 'Puma', 'Asics'];

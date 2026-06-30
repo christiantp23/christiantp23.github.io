@@ -3,15 +3,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ShoppingBag, Search, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { ShoppingBag, Search, Sparkles, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 
+// =========================================================================
+// INTERFAZ DE PROPIEDADES DE NAVBAR (NavbarProps)
+// =========================================================================
+// Añadimos dos nuevas propiedades para que el menú de navegación conozca favoritos:
+// - wishlistItemsCount: Indica el número de productos guardados en favoritos.
+// - onWishlistOpen: Función que se ejecuta al hacer clic en el corazón del navbar
+//   para abrir la barra lateral de favoritos.
 interface NavbarProps {
   cartItemsCount: number;
   onCartOpen: () => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onOpenInfo?: (tab: 'tallas' | 'politicas' | 'pagos' | 'transportes') => void;
+  wishlistItemsCount: number; // Nuevo: contador de favoritos
+  onWishlistOpen: () => void; // Nuevo: acción para abrir favoritos
 }
 
 export default function Navbar({
@@ -20,6 +30,8 @@ export default function Navbar({
   searchQuery,
   onSearchChange,
   onOpenInfo,
+  wishlistItemsCount, // Recibimos el contador
+  onWishlistOpen,     // Recibimos la función de apertura
 }: NavbarProps) {
   return (
     <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-slate-100">
@@ -32,7 +44,7 @@ export default function Navbar({
             <img 
               src="/logo.png" 
               alt="TRESPA STORE" 
-              className="h-12 sm:h-24 md:h-42 w-auto object-contain transition-transform group-hover:scale-105"
+              className="h-16 sm:h-32 md:h-48 w-auto object-contain transition-transform group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
           </a>
@@ -88,6 +100,37 @@ export default function Navbar({
                 👥 Nosotros
               </button>
             )}
+
+{/* =========================================================================
+               BOTÓN DISPARADOR DE LISTA DE DESEOS / FAVORITOS (Wishlist Trigger)
+               =========================================================================
+               - Botón con forma de corazón en la barra de navegación.
+               - Al hacer clic abre la barra lateral de favoritos (onWishlistOpen).
+               - Muestra un distintivo circular (Badge) rojo con la cantidad de favoritos
+                 guardados (wishlistItemsCount) si es mayor a cero.
+            */}
+            <motion.button
+              id="wishlist-trigger-btn"
+              type="button"
+              onClick={onWishlistOpen}
+              whileTap={{ scale: 0.95 }}
+              className="relative w-12 h-12 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 hover:text-rose-500 transition-all shadow-xs cursor-pointer"
+              title="Ver favoritos"
+            >
+              <Heart className={`w-5 h-5 ${wishlistItemsCount > 0 ? 'fill-rose-500 text-rose-500' : ''}`} />
+              
+              {/* Distintivo de cantidad de favoritos */}
+              {wishlistItemsCount > 0 && (
+                <motion.span
+                  key={wishlistItemsCount}
+                  initial={{ scale: 0.4, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-black w-5.5 h-5.5 rounded-full flex items-center justify-center border-2 border-white shadow-sm"
+                >
+                  {wishlistItemsCount}
+                </motion.span>
+              )}
+            </motion.button>
 
             {/* Shopping Cart Trigger */}
             <motion.button
