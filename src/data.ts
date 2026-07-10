@@ -269,15 +269,23 @@ export const SNEAKER_PRODUCTS: Product[] = [
     rating: 4.9,
     image: '/productos/mujer/samba_tigre.jpg',
     images: [
-      '/productos/mujer/samba_azulos.jpg',
+      '/productos/mujer/samba_negros.jpg',
       '/productos/mujer/samba_cafee.jpg',
       '/productos/mujer/samba_cafem.jpg',
-      '/productos/mujer/samba_vinojpg',
-      '/productos/mujer/samba_damarojos.jpg',
+      '/productos/mujer/samba_burdeo.jpg',
+      '/productos/mujer/samba_vinotinto.jpg',
     ],
     category: 'Urbano',
     description: 'Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro.',
-    colors: ['Multicolor'],
+    colors: ['Leopardo','Negro','Marrón Claro','Café Chocolate','Burdeos','Vinotinto'],
+    colorImages: {
+      'Leopardo': '/productos/mujer/samba_tigre.jpg',
+      'Negro': '/productos/mujer/samba_negros.jpg',
+      'Marrón Claro': '/productos/mujer/samba_cafee.jpg',
+      'Café Chocolate': '/productos/mujer/samba_cafem.jpg',
+      'Burdeos': '/productos/mujer/samba_burdeo.jpg',
+      'Vinotinto': '/productos/mujer/samba_vinotinto.jpg'
+    },
     sizes: [36, 37, 38, 39],
     isHot: true,
     gender: 'Dama'
@@ -285,11 +293,11 @@ export const SNEAKER_PRODUCTS: Product[] = [
   
   {
     id: 'nike-coleccion-dunk',
-    name: 'Nike SB Dunk',
+    name: 'Nike SB Dunk Low',
     brand: 'Nike',
     price: 200000,
     rating: 4.9,
-    image: '/productos/mujer/dunk cafe.jpg',
+    image: '/productos/mujer/dunk_cafe.jpg',
     images: [
       '/productos/mujer/dunk_rosa.jpg',
       '/productos/mujer/dunk_rosado.jpg',
@@ -297,7 +305,13 @@ export const SNEAKER_PRODUCTS: Product[] = [
     ],
     category: 'Urbano',
     description: 'Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro.',
-    colors: ['Multicolor'],
+    colors: ['Café','Sail/Plum Eclipse/Diffused Taupe','Phantom / Metallic Gold / Sanddrift','Verde Oliva'],
+    colorImages: {
+      'Café': '/productos/mujer/dunk_cafe.jpg',
+      'Sail/Plum Eclipse/Diffused Taupe': '/productos/mujer/dunk_rosa.jpg',
+      'Phantom / Metallic Gold / Sanddrift': '/productos/mujer/dunk_rosado.jpg',
+      'Verde Oliva': '/productos/mujer/dunk_verde.jpg'
+    },
     sizes: [36, 37, 38, 39],
     isHot: true,
     gender: 'Dama'

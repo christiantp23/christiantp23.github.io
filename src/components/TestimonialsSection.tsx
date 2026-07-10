@@ -1,31 +1,217 @@
-﻿import { useState } from 'react';
+﻿/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-    Heart, Star, CheckCheck, Smile, Paperclip, Camera, Mic,
+    Heart, Star, CheckCheck, Smile, Paperclip, Camera, Mic, Play, Pause,
     Phone, Video, MoreVertical, ArrowLeft, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 // =========================================================================
-// 6. SECCIÓN DE TESTIMONIOS INTERACTIVA CON CARRUSEL (TestimonialsSection)
+// 6. SECCIÓN DE TESTIMONIOS INTERACTIVA CON CARRUSEL Y VIDEO (TestimonialsSection)
 // =========================================================================
 // Hemos transformado esta sección en un Carrusel Horizontal Interactivo.
-//
-// Conceptos clave de React & Vite que aprenderás aquí:
-// 1. **Estado del Carrusel (`currentIndex`)**: Usamos un `useState` para recordar qué testimonio
-//    se está mostrando actualmente en la pantalla.
-// 2. **Cálculo de Desplazamiento Dinámico (Translación)**: Calculamos un porcentaje de desplazamiento
-//    (por ejemplo, `currentIndex * -100%` en móvil) y lo aplicamos al contenedor usando CSS.
-//    ¡React reaccionará al instante moviendo las tarjetas de forma súper fluida!
-// 3. **Mapeo de Puntos de Navegación (Pagination Dots)**: Dibujamos pequeños botones circulares
-//    en la parte inferior. Al hacer clic en un punto, actualizamos el `currentIndex` al índice correspondiente.
-// 4. **Framer Motion para Animaciones**: Usamos `motion.div` para animar la transición del carrusel
-//    y hacer que se sienta sumamente profesional, como una app nativa de celular.
+// Ahora soporta tanto capturas de chat reales de WhatsApp como video-testimonios de clientes
+// reproduciéndose interactivamente dentro de los chasis de los teléfonos celulares virtuales.
 
 interface ChatTestimonial {
     id: string;
     clientName: string;
     phoneColor: string; // Color para personalizar los botones físicos del celular mockup
-    chatScreenshot: string; // Captura de pantalla real del chat de WhatsApp
+    chatScreenshot?: string; // Captura de pantalla real del chat de WhatsApp
+    videoUrl?: string; // URL del video testimonial/unboxing
+    isVideo?: boolean; // Booleano para activar el reproductor de video interactivo
+}
+
+// Subcomponente de Celular con reproductor interactivo incorporado
+function TestimonialPhone({ chat, isActive }: { chat: ChatTestimonial; isActive: boolean }) {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
+    const [progress, setProgress] = useState(0);
+
+    // Reproducir/Pausar automáticamente cuando cambia la diapositiva activa
+    useEffect(() => {
+        if (!chat.isVideo) return;
+
+        if (isActive) {
+            // Intentar reproducir el video cuando esta diapositiva se activa
+            const playPromise = videoRef.current?.play();
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        setIsPlaying(true);
+                    })
+                    .catch(() => {
+                        setIsPlaying(false);
+                    });
+            }
+        } else {
+            // Pausar si no está activa
+            videoRef.current?.pause();
+            setIsPlaying(false);
+        }
+    }, [isActive, chat.isVideo]);
+
+    const togglePlay = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!videoRef.current) return;
+
+        if (isPlaying) {
+            videoRef.current.pause();
+            setIsPlaying(false);
+        } else {
+            videoRef.current.play();
+            setIsPlaying(true);
+        }
+    };
+
+    const toggleMute = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!videoRef.current) return;
+        videoRef.current.muted = !isMuted;
+        setIsMuted(!isMuted);
+    };
+
+    const handleTimeUpdate = () => {
+        if (!videoRef.current) return;
+        const current = videoRef.current.currentTime;
+        const duration = videoRef.current.duration;
+        if (duration > 0) {
+            setProgress((current / duration) * 100);
+        }
+    };
+
+    return (
+        <div className="relative w-full max-w-[315px] transition-all duration-300">
+
+            {/* Botones Físicos Izquierdos (Volumen) */}
+            <div className="absolute top-28 -left-2.5 w-1 h-12 bg-slate-800 rounded-l-md z-10" />
+            <div className="absolute top-44 -left-2.5 w-1 h-12 bg-slate-800 rounded-l-md z-10" />
+
+            {/* Botón Físico Derecho (Encendido / Botón de Color Personalizado) */}
+            <div className={`absolute top-32 -right-2.5 w-1 h-16 ${chat.phoneColor} rounded-r-md z-10 shadow-sm transition-colors`} />
+
+            {/* Chasis Exterior del Celular */}
+            <div className="relative rounded-[48px] border-[10px] border-slate-900 bg-slate-950 p-1 shadow-2xl ring-1 ring-slate-900/10 overflow-hidden">
+
+                {/* Cámara Frontal / Notch Dinámico */}
+                <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-5.5 bg-slate-950 rounded-full z-40 flex items-center justify-center">
+                    <div className="w-2 h-2 rounded-full bg-slate-900 border border-slate-800/40 mr-1.5 flex items-center justify-center">
+                        <div className="w-1 h-1 rounded-full bg-blue-900/50" />
+                    </div>
+                    <div className="w-8 h-0.5 bg-slate-800 rounded-full" />
+                </div>
+
+                {/* Pantalla del Celular */}
+                <div className="relative rounded-[38px] overflow-hidden bg-slate-950 h-[520px]">
+
+                    {/* Brillo de Cristal Reflejado */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none z-30" />
+
+                    {chat.isVideo && chat.videoUrl ? (
+                        <div className="relative w-full h-full bg-slate-900 flex flex-col justify-between cursor-pointer" onClick={togglePlay}>
+
+                            {/* Reproductor de Video */}
+                            <video
+                                ref={videoRef}
+                                src={chat.videoUrl}
+                                loop
+                                muted={isMuted}
+                                playsInline
+                                onTimeUpdate={handleTimeUpdate}
+                                className="absolute inset-0 w-full h-full object-cover select-none"
+                            />
+
+                            {/* Header de Video (Apariencia de WhatsApp Status / Instagram Story) */}
+                            <div className="relative z-20 bg-gradient-to-b from-black/90 via-black/40 to-transparent pt-8 pb-4 px-4 flex justify-between items-center text-white shrink-0">
+                                <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                    <div>
+                                        <h4 className="font-bold text-[11px] leading-none">
+                                            {chat.clientName}
+                                        </h4>
+                                        <p className="text-[8px] text-white/80 font-light mt-0.5">
+                                            reproduciendo unboxing...
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Badge de video testimonial */}
+                                <span className="text-[8px] bg-amber-400 text-slate-950 font-black uppercase tracking-widest px-2 py-0.5 rounded-md shadow-xs flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping" />
+                                    VIDEO
+                                </span>
+                            </div>
+
+                            {/* Botón Central de Play/Pause (Visual cuando está pausado) */}
+                            <AnimatePresence>
+                                {!isPlaying && (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
+                                    >
+                                        <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-2xl">
+                                            <Play className="w-6 h-6 text-white fill-white ml-1" />
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {/* Controles de la parte inferior */}
+                            <div className="relative z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent pt-8 pb-5 px-4 mt-auto">
+                                {/* Barra de Progreso */}
+                                <div className="w-full h-1 bg-white/30 rounded-full overflow-hidden mb-3.5">
+                                    <div
+                                        className="h-full bg-brand-yellow transition-all duration-100 ease-out"
+                                        style={{ width: `${progress}%` }}
+                                    />
+                                </div>
+
+                                <div className="flex justify-between items-center text-white">
+                                    <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[9px] font-bold">
+                                        <Heart className="w-3 h-3 text-red-500 fill-red-500 animate-pulse" />
+                                        <span>¡Cliente de Trespa!</span>
+                                    </div>
+
+                                    {/* Botón de Audio Mute/Unmute */}
+                                    <button
+                                        type="button"
+                                        onClick={toggleMute}
+                                        className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xs transition-colors border border-white/10 flex items-center justify-center cursor-pointer"
+                                        title={isMuted ? "Activar sonido" : "Silenciar"}
+                                    >
+                                        {isMuted ? (
+                                            <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                                            </svg>
+                                        ) : (
+                                            <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                            </svg>
+                                        )}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <img
+                            src={chat.chatScreenshot}
+                            alt={`Chat de ${chat.clientName}`}
+                            className="w-full h-full object-cover select-none"
+                            referrerPolicy="no-referrer"
+                        />
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default function TestimonialsSection() {
@@ -37,21 +223,28 @@ export default function TestimonialsSection() {
     const testimonials: ChatTestimonial[] = [
         {
             id: 'testimonial-1',
-            clientName: 'Daniela Torres',
+            clientName: 'Santiago Cadavid',
             phoneColor: 'bg-amber-400', // Botón amarillo
-            chatScreenshot: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=600',
+            chatScreenshot: '/testimonios/santiago_medellin.png',
+        },
+        {
+            id: 'testimonial-video-1',
+            clientName: 'Maria Camila',
+            phoneColor: 'bg-emerald-500', // Botón verde
+            videoUrl: '/testimonios/mc_medellin.mp4',
+            isVideo: true
         },
         {
             id: 'testimonial-2',
-            clientName: 'Andrés Felipe (Bogotá)',
+            clientName: 'Bibiana (Dabeiba)',
             phoneColor: 'bg-rose-500', // Botón rojo metálico
-            chatScreenshot: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600',
+            chatScreenshot: '/testimonios/dabeiba.png',
         },
         {
             id: 'testimonial-3',
-            clientName: 'Camilo Castrillón',
+            clientName: 'Dahiana',
             phoneColor: 'bg-sky-500', // Botón azul metálico
-            chatScreenshot: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&q=80&w=600',
+            chatScreenshot: '/testimonios/dahiana_medellin.png',
         }
     ];
 
@@ -84,8 +277,8 @@ export default function TestimonialsSection() {
                         ESTILO EN CADA PASO
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-500 mt-3 leading-relaxed max-w-2xl mx-auto">
-                        ¡La prueba reina! Así se ven los chats de nuestros clientes cuando reciben sus zapatillas.
-                        Desliza hacia la izquierda o derecha para ver las capturas de pantalla reales de WhatsApp.
+                        ¡La prueba reina! Así se ven los chats y videos de unboxing de nuestros clientes cuando reciben sus zapatillas.
+                        Desliza hacia la izquierda o derecha para ver las capturas de pantalla reales de WhatsApp y los videos interactivos.
                     </p>
                 </div>
 
@@ -131,50 +324,12 @@ export default function TestimonialsSection() {
                             transition={{ type: 'spring', damping: 25, stiffness: 180 }}
                             className="flex w-full"
                         >
-                            {testimonials.map((chat) => (
+                            {testimonials.map((chat, index) => (
                                 <div
                                     key={chat.id}
                                     className="w-full shrink-0 flex justify-center px-2"
                                 >
-                                    {/* =========================================================================
-                     MOCKUP DE CELULAR REALISTA (Para el Carrusel)
-                     ========================================================================= */}
-                                    <div className="relative w-full max-w-[315px] transition-all duration-300">
-
-                                        {/* Botones Físicos Izquierdos (Volumen) */}
-                                        <div className="absolute top-28 -left-2.5 w-1 h-12 bg-slate-800 rounded-l-md z-10" />
-                                        <div className="absolute top-44 -left-2.5 w-1 h-12 bg-slate-800 rounded-l-md z-10" />
-
-                                        {/* Botón Físico Derecho (Encendido / Botón Amarillo Personalizado) */}
-                                        <div className={`absolute top-32 -right-2.5 w-1 h-16 ${chat.phoneColor} rounded-r-md z-10 shadow-sm transition-colors`} />
-
-                                        {/* Chasis Exterior del Celular */}
-                                        <div className="relative rounded-[48px] border-[10px] border-slate-900 bg-slate-950 p-1 shadow-2xl ring-1 ring-slate-900/10 overflow-hidden">
-
-                                            {/* Cámara Frontal / Notch Dinámico */}
-                                            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-5.5 bg-slate-950 rounded-full z-40 flex items-center justify-center">
-                                                <div className="w-2 h-2 rounded-full bg-slate-900 border border-slate-800/40 mr-1.5 flex items-center justify-center">
-                                                    <div className="w-1 h-1 rounded-full bg-blue-900/50" />
-                                                </div>
-                                                <div className="w-8 h-0.5 bg-slate-800 rounded-full" />
-                                            </div>
-
-                                            {/* Pantalla del Celular */}
-                                            <div className="relative rounded-[38px] overflow-hidden bg-slate-950 h-[520px]">
-
-                                                {/* Brillo de Cristal Reflejado */}
-                                                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none z-30" />
-
-                                                {/* Imagen del Chat Real */}
-                                                <img
-                                                    src={chat.chatScreenshot}
-                                                    alt={`Chat de ${chat.clientName}`}
-                                                    className="w-full h-full object-cover select-none"
-                                                    referrerPolicy="no-referrer"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <TestimonialPhone chat={chat} isActive={currentIndex === index} />
                                 </div>
                             ))}
                         </motion.div>
@@ -204,7 +359,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* Letras gigantes decorativas en la parte inferior */}
-                <div className="text-center mt-12 select-none pointer-events-none opacity-15">
+                <div className="text-center mt-12 select-none pointer-events-none opacity-50">
                     <h3 className="font-display font-black text-4xl sm:text-6xl uppercase tracking-widest text-brand-yellow">
                         TRESPA STORE
                     </h3>
@@ -213,9 +368,9 @@ export default function TestimonialsSection() {
                 {/* Footer interior de testimonios */}
                 <div className="text-center mt-8">
                     <p className="text-[11px] text-slate-400 font-semibold flex items-center justify-center gap-1.5">
-                        <span>Únete a los más de</span>
-                        <span className="text-slate-900 bg-white border border-slate-150 py-0.5 px-2 rounded-md shadow-xs font-bold">1,500+ clientes</span>
-                        <span>satisfechos en toda Colombia 🇨🇴</span>
+                        <span>Únete a </span>
+                        <span className="text-slate-900 bg-white border border-slate-150 py-0.5 px-2 rounded-md shadow-xs font-bold">la familia Trespa Store</span>
+                        <span>en toda Colombia 🇨🇴</span>
                     </p>
                 </div>
             </div>

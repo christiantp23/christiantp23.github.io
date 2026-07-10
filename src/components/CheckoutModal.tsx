@@ -48,12 +48,26 @@ export default function CheckoutModal({
         if (!/^\d+$/.test(value.trim())) return 'La cédula debe contener solo números';
         if (value.trim().length < 5) return 'La cédula debe tener al menos 5 dígitos';
         break;
-      case 'phone':
-        if (!value.trim()) return 'El número de celular es obligatorio';
-        if (!/^\d+$/.test(value.trim())) return 'El celular debe contener solo números';
-        if (value.trim().length !== 10) return 'El celular debe tener exactamente 10 dígitos';
-        if (!value.trim().startsWith('3')) return 'El celular debe iniciar con 3 (Ej: 3001234567)';
+       case 'phone': {
+        const phoneTrimmed = value.trim();
+        if (!phoneTrimmed) return 'El número de celular es obligatorio';
+        
+        // Regex para validar formato de celular colombiano: inicia con 3 y tiene exactamente 10 dígitos
+        const phoneRegex = /^3\d{9}$/;
+        if (!phoneRegex.test(phoneTrimmed)) {
+          if (!/^\d+$/.test(phoneTrimmed)) {
+            return 'El celular debe contener solo números';
+          }
+          if (!phoneTrimmed.startsWith('3')) {
+            return 'El celular debe iniciar con 3 (Ej: 3012345678)';
+          }
+          if (phoneTrimmed.length !== 10) {
+            return 'El celular debe tener exactamente 10 dígitos';
+          }
+          return 'Por favor ingresa un número de celular colombiano válido de 10 dígitos';
+        }
         break;
+      }
       case 'city':
         if (!value.trim()) return 'La ciudad es obligatoria';
         if (value.trim().length < 3) return 'Ingresa una ciudad válida';
@@ -194,6 +208,15 @@ export default function CheckoutModal({
     message += `📦 *DETALLES DEL PRODUCTO(S):*\n`;
     cartItems.forEach((item, index) => {
       const itemSubtotal = item.product.price * item.quantity;
+
+      const getAbsoluteImgUrl = (path: string) => {
+        if (!path) return '';
+        if (path.startsWith('http://') || path.startsWith('https://')) {
+          return path;
+        }
+        return `${window.location.origin}${path}`;
+      };
+      const imgUrl = getAbsoluteImgUrl(item.selectedColorImage || item.product.image);
       
       message += `*Item #${index + 1}: ${item.product.name.toUpperCase()}*\n`;
       message += `   - *Marca:* ${item.product.brand}\n`;
@@ -202,7 +225,7 @@ export default function CheckoutModal({
       message += `   - *Color elegido:* ${item.selectedColor}\n`;
       message += `   - *Cantidad:* ${item.quantity} par(es)\n`;
       message += `   - *Precio unitario:* ${formatPrice(item.product.price)}\n`;
-      message += `   - *Enlace de referencia visual (Foto):* ${item.product.image}\n`;
+      message += `   - *Enlace de referencia visual (Foto):* ${imgUrl}\n`;
       message += `   - *Subtotal de este calzado:* ${formatPrice(itemSubtotal)}\n`;
       message += `   ----------------------------------\n`;
     });

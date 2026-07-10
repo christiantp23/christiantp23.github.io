@@ -119,7 +119,7 @@ export default function CartSidebar({
                     {/* Thumbnail */}
                     <div className="w-20 h-20 rounded-xl overflow-hidden bg-white border border-slate-100 shrink-0 relative">
                       <img
-                        src={item.product.image}
+                        src={item.selectedColorImage || item.product.image}
                         alt={item.product.name}
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"

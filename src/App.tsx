@@ -131,6 +131,9 @@ export default function App() {
         updated[existingIndex].quantity += 1;
         return updated;
       } else {
+        const colorImage = product.colorImages && product.colorImages[color]
+          ? product.colorImages[color]
+          : product.image;
         return [
           ...prev,
           {
@@ -138,6 +141,7 @@ export default function App() {
             quantity: 1,
             selectedSize: size,
             selectedColor: color,
+            selectedColorImage: colorImage,
           },
         ];
       }

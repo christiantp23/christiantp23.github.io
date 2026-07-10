@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
@@ -57,6 +57,11 @@ export default function ProductCard({
     setZoomPosition({ x, y });
   };
 
+  // Resetear el índice de imagen activa al primer plano cuando el usuario cambie el color seleccionado
+  useEffect(() => {
+    setActiveImgIndex(0);
+  }, [selectedColor]);
+
   // Fallback images map
   const fallbackImages: Record<string, string> = {
     'adidas-forum-low-strap-white': 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=800',
@@ -78,9 +83,13 @@ export default function ProductCard({
    // Combinar automáticamente la imagen principal y las imágenes secundarias del carrusel para no perder ninguna
   const allImages = (() => {
     const list: string[] = [];
-    if (product.image) {
+    // 1. Si hay una foto específica para el color elegido, la ponemos de primera
+    if (product.colorImages && product.colorImages[selectedColor]) {
+      list.push(product.colorImages[selectedColor]);
+    } else if (product.image) {
       list.push(product.image);
     }
+    // 2. Agregamos las imágenes secundarias de product.images
     if (product.images && product.images.length > 0) {
       product.images.forEach((img) => {
         if (img && img.trim() !== '' && !list.includes(img)) {
@@ -88,6 +97,20 @@ export default function ProductCard({
         }
       });
     }
+      // 3. Agregamos la imagen por defecto si no ha sido incluida
+    if (product.image && !list.includes(product.image)) {
+      list.push(product.image);
+    }
+
+    // 4. Agregamos las imágenes de otros colores al final por si el usuario explora la galería
+    if (product.colorImages) {
+      Object.entries(product.colorImages).forEach(([color, img]) => {
+        if (img && color !== selectedColor && !list.includes(img)) {
+          list.push(img);
+        }
+      });
+    }
+    
     return list.length > 0 ? list : ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800'];
   })();
   

@@ -19,6 +19,7 @@ export interface Product {
   isHot?: boolean;
   gender?: 'Dama' | 'Caballero' | 'Unisex';
   images?: string[];
+  colorImages?: Record<string, string>;
 }
 
 export interface CartItem {
@@ -26,6 +27,7 @@ export interface CartItem {
   quantity: number;
   selectedSize: number;
   selectedColor: string;
+  selectedColorImage?: string;
 }
 
 export interface CheckoutData {
