@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { X, ShieldCheck, CreditCard, Scale, Check, Info, Truck, Landmark } from 'lucide-react';
+import { X, ShieldCheck, CreditCard, Ruler, Check, Info, Truck, Landmark } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface InfoModalProps {
@@ -105,20 +105,20 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
               <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-brand-blue to-brand-blue/95 text-white">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-white">
-                    {activeTab === 'tallas' && <Scale className="w-5 h-5" />}
+                    {activeTab === 'tallas' && <Ruler className="w-5 h-5" />}
                     {activeTab === 'politicas' && <ShieldCheck className="w-5 h-5" />}
                     {activeTab === 'pagos' && <CreditCard className="w-5 h-5" />}
                     {activeTab === 'transportes' && <Truck className="w-5 h-5" />}
                   </div>
                   <div>
                     <h3 className="font-display font-black text-lg uppercase tracking-wider">
-                      {activeTab === 'tallas' && 'Guía Oficial de Tallas'}
+                      {activeTab === 'tallas' && 'Guía de Tallas'}
                       {activeTab === 'politicas' && 'Políticas de Compra'}
                       {activeTab === 'pagos' && 'Medios de Pago Autorizados'}
                       {activeTab === 'transportes' && 'Empresas de Transporte'}
                     </h3>
                     <p className="text-[10px] uppercase font-bold tracking-widest text-brand-sky">
-                      Información & Soporte Trespa
+                      Información 
                     </p>
                   </div>
                 </div>
@@ -272,7 +272,7 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
                       <div className="absolute top-0 right-0 w-32 h-32 bg-brand-yellow/10 rounded-full blur-2xl pointer-events-none" />
                       <div>
                         <span className="text-[10px] font-bold uppercase tracking-widest text-brand-yellow block mb-0.5 font-mono">
-                          Marco Legal & Garantías
+                          Marco de la Garantías
                         </span>
                         <h4 className="font-display font-black text-base uppercase">Políticas Trespa Store</h4>
                       </div>
@@ -330,7 +330,12 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
                           <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mt-1">Mastercard</span>
                         </div>
                         <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center justify-center gap-0.5">
-                          <span className="text-[10px] font-extrabold text-indigo-900 bg-amber-100/60 border border-amber-200 px-1.5 py-0.5 rounded-full">pse</span>
+                          <img
+                            src="/public/pse.png"
+                            alt="Logo PSE"
+                            referrerPolicy="no-referrer"
+                            className="h-10 w-10 object-contain shadow-sm rounded-full bg-white"
+                          />
                           <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Cuentas Débito</span>
                         </div>
                       </div>
@@ -359,7 +364,7 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
                         <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 space-y-1">
                           <div className="flex items-center gap-2">
                             <div className="w-2.5 h-2.5 rounded bg-pink-500" />
-                            <h6 className="text-xs font-bold text-slate-900">Nequi / Daviplata</h6>
+                            <h6 className="text-xs font-bold text-slate-900">Nequi</h6>
                           </div>
                           <p className="text-[10px] text-slate-500 leading-relaxed font-light">
                             Transfiere al instante usando nuestro número celular asignado. Método ágil, seguro, sin cargos adicionales de consignación nacional.
@@ -390,66 +395,66 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
                   </div>
                 )}
 
-                {/* 4. SHIPPING / TRANSPORT LOGISTICS TAB */}
-                {activeTab === 'transportes' && (
-                  <div className="space-y-6">
-                    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex gap-3 text-blue-950">
-                      <Truck className="w-5 h-5 shrink-0 text-brand-blue mt-0.5" />
-                      <p className="text-xs font-medium leading-relaxed">
-                        <strong className="font-black">¡ENVÍO 100% GRATIS A TODA COLOMBIA!</strong> En Trespa Store el despacho corre por nuestra cuenta. Garantizamos el envío a cualquier ciudad o municipio de Colombia a través de las transportadoras líderes del país.
-                      </p>
-                    </div>
+{/* 4. SHIPPING / TRANSPORT LOGISTICS TAB */}
+{activeTab === 'transportes' && (
+  <div className="space-y-6">
+    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex gap-3 text-blue-950">
+      <Truck className="w-5 h-5 shrink-0 text-brand-blue mt-0.5" />
+      <p className="text-xs font-medium leading-relaxed">
+        <strong className="font-black">ENVÍO GRATIS A NIVEL NACIONAL.</strong> En Trespa Store cubrimos el costo del envío a la mayor parte del país. Para municipios de difícil acceso se cobra el valor del trayecto.
+      </p>
+    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Interrapidisimo Card */}
-                      <div className="bg-white border border-slate-100 rounded-2xl p-5 space-y-4 hover:border-blue-200 transition-all flex flex-col justify-between">
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md font-mono">
-                              Interrapidísimo
-                            </span>
-                            <span className="text-emerald-500 text-[10px] font-bold">Cobertura Total</span>
-                          </div>
-                          <h4 className="text-sm font-extrabold text-slate-900 font-display">Líder en Envíos Nacionales</h4>
-                          <p className="text-[11px] text-slate-500 leading-relaxed font-light">
-                            Interrapidísimo es nuestro aliado estratégico para entregas ultra rápidas en zonas difíciles y municipios distantes. Cuentan con una flota terrestre y aérea moderna que garantiza que tus tenis lleguen en perfectas condiciones.
-                          </p>
-                        </div>
-                        <div className="pt-2 border-t border-slate-100 space-y-1 text-[10px] text-slate-400 font-medium">
-                          <p>• Tiempo estimado: 2 a 5 días hábiles.</p>
-                          <p>• Guía de rastreo digital al instante.</p>
-                        </div>
-                      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* Interrapidisimo Card */}
+      <div className="bg-white border border-slate-100 rounded-2xl p-5 space-y-4 hover:border-blue-200 transition-all flex flex-col justify-between">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md font-mono">
+              Interrapidísimo
+            </span>
+            <span className="text-emerald-500 text-[10px] font-bold">Cobertura Total</span>
+          </div>
+          <h4 className="text-sm font-extrabold text-slate-900 font-display">Líder en Envíos Nacionales</h4>
+          <div className="flex justify-center items-center py-4 bg-slate-50 rounded-xl">
+            <img src="/logo-inter.png" alt="Logo Interrapidísimo" className="h-10 w-auto object-contain" />
+          </div>
+        </div>
+        <div className="pt-2 border-t border-slate-100 space-y-1 text-[10px] text-slate-400 font-medium">
+          <p>• Tiempo estimado: 2 a 5 días hábiles</p>
+          <p>• Guía de Rastreo</p>
+        </div>
+      </div>
 
-                      {/* Coordinadora Card */}
-                      <div className="bg-white border border-slate-100 rounded-2xl p-5 space-y-4 hover:border-slate-300 transition-all flex flex-col justify-between">
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md font-mono">
-                              Coordinadora
-                            </span>
-                            <span className="text-emerald-500 text-[10px] font-bold">Seguridad Premium</span>
-                          </div>
-                          <h4 className="text-sm font-extrabold text-slate-900 font-display">Logística y Cuidado Extra</h4>
-                          <p className="text-[11px] text-slate-500 leading-relaxed font-light">
-                            Coordinadora es ideal para las principales ciudades metropolitanas (Bogotá, Medellín, Cali, Barranquilla, Bucaramanga, etc.). Destacan por su impecable cuidado de paquetes, garantizando cajas impecables de tus marcas preferidas.
-                          </p>
-                        </div>
-                        <div className="pt-2 border-t border-slate-100 space-y-1 text-[10px] text-slate-400 font-medium">
-                          <p>• Tiempo estimado: 1 a 3 días hábiles.</p>
-                          <p>• Monitoreo en vivo vía App o Web.</p>
-                        </div>
-                      </div>
-                    </div>
+      {/* Coordinadora Card */}
+      <div className="bg-white border border-slate-100 rounded-2xl p-5 space-y-4 hover:border-slate-300 transition-all flex flex-col justify-between">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md font-mono">
+              Coordinadora
+            </span>
+            <span className="text-emerald-500 text-[10px] font-bold">Cobertura Total</span>
+          </div>
+          <h4 className="text-sm font-extrabold text-slate-900 font-display">Logística y Cuidado Extra</h4>
+          <div className="flex justify-center items-center py-4 bg-slate-50 rounded-xl">
+            <img src="/logo-coordi.png" alt="Logo Coordinadora" className="h-10 w-auto object-contain" />
+          </div>
+        </div>
+        <div className="pt-2 border-t border-slate-100 space-y-1 text-[10px] text-slate-400 font-medium">
+          <p>• Tiempo estimado: 2 a 5 días hábiles</p>
+          <p>• Rastreo de guía</p>
+        </div>
+      </div>
+    </div>
 
-                    <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4 flex items-center gap-3">
-                      <Check className="w-5 h-5 text-emerald-600 shrink-0" />
-                      <p className="text-[11px] text-emerald-800 leading-relaxed font-medium">
-                        <strong>¿Cómo rastrear tu pedido?</strong> Tan pronto la transportadora recoja tus tenis en nuestra bodega, te enviaremos el número de guía de Coordinadora o Interrapidísimo a tu WhatsApp para que hagas el rastreo en tiempo real.
-                      </p>
-                    </div>
-                  </div>
-                )}
+    <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4 flex items-center gap-3">
+      <Check className="w-5 h-5 text-emerald-600 shrink-0" />
+      <p className="text-[11px] text-emerald-800 leading-relaxed font-medium">
+        <strong>¿Cómo rastrear tu pedido?</strong> Tan pronto despachemos te enviaremos el número de guía a tu WhatsApp. Aunque enviamos por lo general con Interrapidísimo y Coordinadora en ocasiones usamos Envía o Servientrega para asegurar la mejor ruta de entrega.
+      </p>
+    </div>
+  </div>
+)}
 
               </div>
 
@@ -463,7 +468,7 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
                 </div>
                 <span className="text-xs font-bold text-brand-blue bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-lg flex items-center gap-1">
                   <Check className="w-3.5 h-3.5 text-blue-600" />
-                  Trespa Store Oficial
+                  Trespa Store
                 </span>
               </div>
             </motion.div>

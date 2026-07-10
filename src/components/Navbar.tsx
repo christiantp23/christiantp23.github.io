@@ -71,7 +71,7 @@ export default function Navbar({
                 onClick={() => onOpenInfo('politicas')}
                 className="hover:text-brand-blue hover:scale-105 transition-all cursor-pointer flex items-center gap-1.5 text-slate-800 font-extrabold bg-slate-50 hover:bg-slate-100/80 px-4 py-2 rounded-xl border border-slate-100"
               >
-                👥 Nosotros y Soporte
+                👥 Nosotros
               </button>
             </div>
           )}

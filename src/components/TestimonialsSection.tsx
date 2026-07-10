@@ -337,11 +337,11 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* =========================================================================
-           PUNTOS INDICADORES DE NAVEGACIÓN (Pagination Dots)
-           =========================================================================
-           - Mostramos un círculo por cada testimonio.
-           - El punto correspondiente al currentIndex activo se verá más ancho y azul
-             para dar feedback visual inmediato al usuario de en qué página se encuentra.
+PUNTOS INDICADORES DE NAVEGACIÓN (Pagination Dots)
+=========================================================================
+        - Mostramos un círculo por cada testimonio.
+        - El punto correspondiente al currentIndex activo se verá más ancho y azul
+            para dar feedback visual inmediato al usuario de en qué página se encuentra.
         */}
                 <div className="flex justify-center items-center gap-2.5 mt-8">
                     {testimonials.map((_, index) => (
@@ -350,8 +350,8 @@ export default function TestimonialsSection() {
                             type="button"
                             onClick={() => setCurrentIndex(index)}
                             className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${currentIndex === index
-                                    ? 'w-7 bg-brand-blue shadow-xs shadow-blue-500/20'
-                                    : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                                ? 'w-7 bg-brand-blue shadow-xs shadow-blue-500/20'
+                                : 'w-2.5 bg-slate-300 hover:bg-slate-400'
                                 }`}
                             aria-label={`Ir al testimonio ${index + 1}`}
                         />

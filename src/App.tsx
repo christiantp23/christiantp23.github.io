@@ -575,7 +575,7 @@ export default function App() {
                 <img
                   src="/logo.png"
                   alt="TRESPA STORE"
-                  className="h-12 sm:h-14 md:h-48 w-auto object-contain"
+                  className="h-16 sm:h-14 md:h-48 w-auto object-contain"
                   referrerPolicy="no-referrer"
                 />
               </div>
