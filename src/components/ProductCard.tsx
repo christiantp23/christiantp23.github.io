@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
@@ -46,6 +46,16 @@ export default function ProductCard({
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
 
+// States for interactive magnifier zoom inside the lightbox
+  const [isInnerZoomed, setIsInnerZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
+
+  const handleInnerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomPosition({ x, y });
+  };
 
   // Fallback images map
   const fallbackImages: Record<string, string> = {
@@ -182,16 +192,16 @@ export default function ProductCard({
       {/* Image Gallery Container */}
       <div 
         onClick={() => setIsZoomOpen(true)}
-        className="relative overflow-hidden bg-slate-50 pt-[100%] cursor-zoom-in group/img"
+        className="relative overflow-hidden bg-slate-50 pt-[100%] cursor-zoom-in group/img border-b border-slate-100"
       >
         <img
           src={currentImage}
           alt={product.name}
           onError={() => setImageError(true)}
           referrerPolicy="no-referrer"
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+          className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-[1.03] transition-transform duration-500 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/5 via-transparent to-transparent pointer-events-none" />
         
         {/* Hover zoom overlay indicator */}
         <div className="absolute inset-0 bg-black/15 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -455,26 +465,60 @@ export default function ProductCard({
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 15 }}
               transition={{ type: "spring", damping: 25, stiffness: 350 }}
-              className="relative max-w-4xl w-full max-h-[85vh] flex flex-col items-center justify-center cursor-default"
+             className="relative max-w-lg md:max-w-xl w-full max-h-[85vh] flex flex-col items-center justify-center cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Product Image Panel with nice soft glow */}
-              <div className="relative overflow-hidden rounded-3xl bg-white shadow-2xl border border-slate-100 max-h-[70vh] flex items-center justify-center p-2">
+              <div 
+                className={`relative overflow-hidden rounded-3xl bg-white shadow-2xl border border-slate-100 max-h-[70vh] flex items-center justify-center p-2 select-none w-full ${
+                  isInnerZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsInnerZoomed(!isInnerZoomed);
+                }}
+                onMouseMove={handleInnerMouseMove}
+                onMouseLeave={() => {
+                  if (isInnerZoomed) {
+                    setIsInnerZoomed(false);
+                  }
+                }}
+              >
                 <img
                   src={currentImage}
                   alt={product.name}
                   referrerPolicy="no-referrer"
-                  className="max-h-[66vh] max-w-full rounded-2xl object-contain select-none transition-transform duration-300 hover:scale-[1.02]"
-                  style={{ minWidth: '280px' }}
+                  className="max-h-[66vh] max-w-full rounded-2xl object-contain select-none transition-transform duration-200 ease-out"
+                  style={{ 
+                    minWidth: '280px',
+                    transform: isInnerZoomed ? 'scale(2.2)' : 'scale(1)',
+                    transformOrigin: isInnerZoomed ? `${zoomPosition.x}% ${zoomPosition.y}%` : 'center',
+                  }}
                 />
 
-                {/* Left/Right Zoom Navigation Controls */}
-                {allImages.length > 1 && (
+                {/* Floating zoom status indicator */}
+                {isInnerZoomed ? (
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-blue-600/95 backdrop-blur-md text-white text-[11px] font-bold px-4 py-2 rounded-full shadow-lg border border-white/15 z-40 flex items-center gap-1.5 pointer-events-none transition-all duration-300">
+                    <ZoomIn className="w-4 h-4 animate-pulse text-amber-300" />
+                    <span>Zoom x2.2 activo &bull; Mueve el mouse para explorar</span>
+                  </div>
+                ) : (
+                  <div className={`absolute left-1/2 -translate-x-1/2 bg-slate-900/80 backdrop-blur-md text-white/95 text-[10px] font-medium px-4 py-2 rounded-full shadow-md border border-white/5 z-20 flex items-center gap-1.5 pointer-events-none transition-all duration-300 ${
+                    allImages.length > 1 ? 'bottom-20' : 'bottom-4'
+                  }`}>
+                    <ZoomIn className="w-3.5 h-3.5 text-blue-400" />
+                    <span>Haz clic en la foto para ver detalles</span>
+                  </div>
+                )}
+
+                {/* Left/Right Zoom Navigation Controls - Hidden during active zoom for immersion */}
+                {!isInnerZoomed && allImages.length > 1 && (
                   <>
                     <button
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
+                        setIsInnerZoomed(false);
                         setActiveImgIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
                       }}
                       className="absolute left-4 top-1/2 -translate-y-1/2 bg-slate-900/80 hover:bg-slate-900 text-white p-2.5 rounded-full shadow-xl transition-all duration-200 cursor-pointer z-30 border border-white/10 flex items-center justify-center hover:scale-110 active:scale-95"
@@ -486,6 +530,7 @@ export default function ProductCard({
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
+                        setIsInnerZoomed(false);
                         setActiveImgIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
                       }}
                       className="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-900/80 hover:bg-slate-900 text-white p-2.5 rounded-full shadow-xl transition-all duration-200 cursor-pointer z-30 border border-white/10 flex items-center justify-center hover:scale-110 active:scale-95"
@@ -502,6 +547,7 @@ export default function ProductCard({
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsInnerZoomed(false);
                             setActiveImgIndex(idx);
                           }}
                           className={`w-10 h-10 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
@@ -515,12 +561,14 @@ export default function ProductCard({
                   </>
                 )}
                 
-                {/* Brand Logo floating element inside image */}
-                <span className="absolute top-4 left-4 bg-slate-900/90 backdrop-blur-xs text-white text-xs font-black uppercase tracking-widest px-3.5 py-1.5 rounded-xl border border-white/10 z-20">
-                  {product.brand}
-                </span>
+                {/* Brand Logo floating element inside image - Hidden during zoom for clarity */}
+                {!isInnerZoomed && (
+                  <span className="absolute top-4 left-4 bg-slate-900/90 backdrop-blur-xs text-white text-xs font-black uppercase tracking-widest px-3.5 py-1.5 rounded-xl border border-white/10 z-20">
+                    {product.brand}
+                  </span>
+                )}
 
-                {product.gender && (
+                {!isInnerZoomed && product.gender && (
                   <span className={`absolute top-4 right-4 px-3.5 py-1.5 text-xs font-black uppercase tracking-widest text-white rounded-xl shadow-md border border-white/10 flex items-center gap-1 z-20 ${
                     product.gender === 'Dama' ? 'bg-pink-500' :
                     product.gender === 'Caballero' ? 'bg-slate-800' :

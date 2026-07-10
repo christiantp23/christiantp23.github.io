@@ -258,8 +258,145 @@ export const SNEAKER_PRODUCTS: Product[] = [
     sizes: [36, 37, 38, 39],
     isHot: true,
     gender: 'Dama'
-  }
+  },
+
+  // Productos DAMA NUEVOS
+{
+    id: 'adidas-samba-coleccion',
+    name: 'Adidas Sambas OG',
+    brand: 'Adidas',
+    price: 180000,
+    rating: 4.9,
+    image: '/productos/mujer/samba_tigre.jpg',
+    images: [
+      '/productos/mujer/samba_azulos.jpg',
+      '/productos/mujer/samba_cafee.jpg',
+      '/productos/mujer/samba_cafem.jpg',
+      '/productos/mujer/samba_vinojpg',
+      '/productos/mujer/samba_damarojos.jpg',
+    ],
+    category: 'Urbano',
+    description: 'Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro.',
+    colors: ['Multicolor'],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: 'Dama'
+  },
+  
+  {
+    id: 'nike-coleccion-dunk',
+    name: 'Nike SB Dunk',
+    brand: 'Nike',
+    price: 200000,
+    rating: 4.9,
+    image: '/productos/mujer/dunk cafe.jpg',
+    images: [
+      '/productos/mujer/dunk_rosa.jpg',
+      '/productos/mujer/dunk_rosado.jpg',
+      '/productos/mujer/dunk_verde.jpg',
+    ],
+    category: 'Urbano',
+    description: 'Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro.',
+    colors: ['Multicolor'],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: 'Dama'
+  },
+
+  {
+    id: 'adidas-forum',
+    name: 'Adidas Forum',
+    brand: 'Adidas',
+    price: 180000,
+    rating: 4.9,
+    image: '/productos/mujer/forum_dama.jpg',
+    category: 'Urbano',
+    description: 'Eleva tu estilo urbano con esta edición especial.',
+    colors: ['Beige'],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: 'Dama'
+  },
+
+  {
+    id: 'adidas-samba-og-verde',
+    name: 'Adidas Samba OG',
+    brand: 'Adidas',
+    price: 190000,
+    rating: 4.9,
+    image: '/productos/mujer/samba_verde.jpg',
+    category: 'Urbano',
+    description: 'Estas zapatillas son las Adidas Samba OG en la combinación de colores verde y blanco con suela de goma (Collegiate Green)',
+    colors: ['Verde'],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: 'Dama'
+  },
+
+  // Productos Unisex
+  {
+    id: 'gazelle-azul-blanco',
+    name: 'Adidas Gazelle',
+    brand: 'Adidas',
+    price: 180000,
+    rating: 4.7,
+    // 1. Esta es la foto principal que se muestra por defecto:
+    image: '/productos/unisex/gazelle_hom_muj.jpg',
+    category: 'Urbano',
+    description:'Estos tenis Adidas Gazelle destacan por su diseño clásico en blanco con icónicas franjas azul marino',
+    colors: ['Mezcla Azul con Blanco'],
+    sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44],
+    isNew: true,
+    gender: 'Unisex'
+  },
+  {
+    id: 'tiger-onituska',
+    name: 'Tiger Onituska',
+    brand: 'Onitsuka Tiger',
+    price: 200000,
+    rating: 4.7,
+    // 1. Esta es la foto principal que se muestra por defecto:
+    image: '/productos/unisex/tiger_hom_mujer.jpg',
+    category: 'Urbano',
+    description:'Son unos tenis Onitsuka Tiger modelo Mexico 66 en color amarillo con rayas negras.',
+    colors: ['Amarillo'],
+    sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44],
+    isNew: true,
+    gender: 'Unisex'
+  },
+    {
+    id: 'vision-unisex',
+    name: 'Vision Street Wear',
+    brand: 'Vision Street Wear',
+    price: 195000,
+    rating: 4.7,
+    // 1. Esta es la foto principal que se muestra por defecto:
+    image: '/productos/unisex/vision_hombre_mujer.jpg',
+    category: 'Urbano',
+    description:'Estos tenis son del modelo Vision Street Wear, reconocidos por su diseño clásico en blanco y negro.',
+    colors: ['Negra'],
+    sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44],
+    isNew: true,
+    gender: 'Unisex'
+  },
+
+  // Productos Nuevos Hombres
+    {
+    id: 'mind-001',
+    name: 'Sandalias Mind 001"',
+    brand: 'Nike',
+    price: 180000,
+    rating: 4.9,
+    image: '/productos/hombre/mind_hombre.jpg',
+    images: ['/productos/hombre/mind_hombre1.jpg'],
+    category: 'Urbano',
+    description: 'Estas son sandalias tipo mule Nike Mind 001, reconocibles por sus 22 nodos de espuma articulados en la suela para estimulación sensorial.',
+    colors: ['Varios'],
+    sizes: [40, 41, 42, 43, 44],
+    isHot: true,
+    gender: 'Caballero'
+  },
 ];
 
 export const CATEGORIES = ['Todos', 'Urbano', 'Deportivo'];
-export const BRANDS = ['Todas', 'Nike', 'Adidas', 'Jordan', 'OnCloud', 'New Balance', 'Puma', 'Asics'];
+export const BRANDS = ['Todas', 'Nike', 'Adidas', 'Jordan', 'OnCloud', 'New Balance', 'Puma', 'Asics','Onitsuka Tiger','Vision Street Wear'];

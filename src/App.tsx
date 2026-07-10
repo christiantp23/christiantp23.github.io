@@ -14,7 +14,10 @@ import CartSidebar from './components/CartSidebar';
 import WishlistSidebar from './components/WishlistSidebar';
 import CheckoutModal from './components/CheckoutModal';
 import FloatingWhatsapp from './components/FloatingWhatsapp';
+import FloatingTelegram from './components/FloatingTelegram';
 import InfoModals from './components/InfoModals';
+import TestimonialsSection from './components/TestimonialsSection'; // Nuevo: Importamos la sección de testimonios de clientes (WhatsApp chats)
+
 
 export default function App() {
   // ==========================================
@@ -550,6 +553,14 @@ export default function App() {
         </div>
       </section>
 
+      {/* =========================================================================
+        SECCIÓN DE TESTIMONIOS REALES (WhatsApp style)
+        =========================================================================
+        - Añadimos la sección de testimonios de clientes que imita la captura de pantalla de chats
+          de WhatsApp, justo debajo de la sección de beneficios corporativos (Feature Value Props).
+      */}
+      <TestimonialsSection />
+
       {/* Footer */}
       <footer className="bg-slate-950 text-white pt-16 pb-8 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -557,9 +568,9 @@ export default function App() {
             {/* Col 1 */}
             <div className="md:col-span-5 space-y-4">
               <div className="flex items-center gap-2">
-                <img 
-                  src="/logo.png" 
-                  alt="TRESPA STORE" 
+                <img
+                  src="/logo.png"
+                  alt="TRESPA STORE"
                   className="h-12 sm:h-14 md:h-48 w-auto object-contain"
                   referrerPolicy="no-referrer"
                 />
@@ -705,6 +716,15 @@ export default function App() {
 
       {/* Floating breathing WhatsApp Support button */}
       <FloatingWhatsapp />
+
+      {/* =========================================================================
+        BOTÓN FLOTANTE DEL CATÁLOGO DE TELEGRAM (FloatingTelegram)
+        =========================================================================
+        - Añadimos la llamada al componente "FloatingTelegram" que acabamos de crear.
+        - Gracias a su posicionamiento fijo ("bottom-24" en lugar de "bottom-6"),
+          este botón se apilará ordenadamente justo por encima del botón de WhatsApp.
+      */}
+      <FloatingTelegram />
     </div>
   );
 }
