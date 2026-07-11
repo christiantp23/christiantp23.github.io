@@ -132,7 +132,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     id: "nike-zoom",
     name: "Nike Zoom Vomero Plus",
     brand: "Nike",
-    price: 180000,
+    price: 185000,
     rating: 4.9,
     image: "/productos/mujer/nike_zoom.jpg",
     category: "Deportivo",
@@ -309,6 +309,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     },
     sizes: [36, 37, 38, 39],
     isHot: true,
+    isNew:true,
     gender: "Dama",
   },
 
@@ -334,7 +335,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
       "Verde Oliva",
     ],
     colorImages: {
-      Café: "/productos/mujer/dunk_cafe.jpg",
+      "Café": "/productos/mujer/dunk_cafe.jpg",
       "Sail/Plum Eclipse/Diffused Taupe": "/productos/mujer/dunk_rosa.jpg",
       "Phantom / Metallic Gold / Sanddrift": "/productos/mujer/dunk_rosado.jpg",
       "Verde Oliva": "/productos/mujer/dunk_verde.jpg",
@@ -372,6 +373,146 @@ export const SNEAKER_PRODUCTS: Product[] = [
     colors: ["Verde"],
     sizes: [36, 37, 38, 39],
     isHot: true,
+    gender: "Dama",
+  },
+
+    {
+    id: "nike-vomero-plus",
+    name: "Nike Vomero Plus 'ZoomX' ",
+    brand: "Nike",
+    price: 185000,
+    rating: 4.9,
+    image: "/productos/mujer/nike-vomero-azul.jpg",
+    images: [
+      "/productos/mujer/nike-vomero-lila.jpg",
+      "/productos/mujer/nike-vomero-rosarojo.jpg"
+    ],
+    category: "Deportivo",
+    description:
+      "El equilibrio perfecto entre velocidad y estilo urbano. Diseñadas con una malla ligera de alto rendimiento y la revolucionaria amortiguación ZoomX de entresuela gruesa, que te ofrece el máximo retorno de energía y una pisada ultra suave en cada kilómetro.",
+    colors: ["Azul/Aguamarina","Lila/Rosa","Blanco/Rosa/Rojo"],
+    colorImages: {
+      "Azul/Aguamarina": "/productos/mujer/nike-vomero-azul.jpg",
+      "Lila/Rosa": "/productos/mujer/nike-vomero-lila.jpg",
+      "Blanco/Rosa/Rojo": "/productos/mujer/nike-vomero-rosarojo.jpg",
+    },
+    sizes: [36, 37, 38, 39],
+    isNew: true,
+    gender: "Dama",
+  },
+
+  {
+    id: "new-balance-530-plataforma",
+    name: "New Balance 530 Plataforma ",
+    brand: "New Balance",
+    price: 185000,
+    originalPrice: 195000,
+    rating: 4.9,
+    image: "/productos/mujer/nb-530-azulmarino.jpg",
+    images: [
+      "/productos/mujer/nb-530-lila.jpg",
+      "/productos/mujer/nb-530-celeste.jpg",
+      "/productos/mujer/nb-530-rosapastel.jpg",
+      "/productos/mujer/nb-530-negro.jpg",
+    ],
+    category: "Deportivo",
+    description:
+      "Calzado de estilo retro inspirado en los años 2000. Esta versión destaca por combinar su clásica base de malla con superposiciones metalizadas y una suela de plataforma robusta que eleva tu silueta, ofreciendo un look urbano, moderno y extra cómodo.",
+    colors: ["Azul Oscuro","Lila","Celeste","Plateado y Rosado Pastel","Negro"],
+    colorImages: {
+      "Azul Oscuro": "/productos/mujer/nb-530-azulmarino.jpg",
+      "Lila": "/productos/mujer/nb-530-lila.jpg",
+      "Celeste": "/productos/mujer/nb-530-celeste.jpg",
+      "Plateado y Rosado Pastel": "/productos/mujer/nb-530-rosapastel.jpg",
+      "Negro": "/productos/mujer/nb-530-negro.jpg",
+    },
+    sizes: [36, 37, 38, 39],
+    isNew: true,
+    gender: "Dama",
+  },
+
+  {
+    id: "adidas-samba-mary-jane-cafe",
+    name: "Adidas Samba Mary Jane",
+    brand: "Adidas",
+    price: 180000,
+    originalPrice: 195000,
+    rating: 4.8,
+    image: "/productos/mujer/samba-jane.jpg",
+    category: "Urbano",
+    description:
+      "Esta innovadora silueta transforma las icónicas Samba en un elegante diseño Mary Jane. Presenta un exterior café chocolate con correa ajustable, finas perforaciones y sutiles detalles dorados. Su suela de goma plana aporta versatilidad y confort para looks casuales y muy femeninos.",
+    colors: ["Café"],
+    sizes: [36, 37, 38, 39],
+    isNew: true,
+    gender: "Dama",
+  },
+
+  {
+    id: "adidas-campus-mule-plataforma",
+    name: "Adidas Campus Mule",
+    brand: "Adidas",
+    price: 195000,
+    rating: 4.8,
+    image: "/productos/mujer/campus-pantufla-negro.jpg",
+    images: [
+      "/productos/mujer/campus-pantufla-cafe.jpg",
+      "/productos/mujer/campus-pantufla-beife.jpg",
+    ],
+    category: "Urbano",
+    description:
+      "Esta versión destalonada transforma los clásicos Adidas Campus en un cómodo diseño tipo mule o pantufla. Presenta un exterior en gamuza con cordones gruesos y forro suave. Su suela de plataforma eleva tu silueta, ofreciendo un estilo relajado, versátil y de máximo confort.",
+    colors: ["Negro", "Café", "Beige"],
+    colorImages: {
+      "Negro": "/productos/mujer/campus-pantufla-negro.jpg",
+      "Café": "/productos/mujer/campus-pantufla-cafe.jpg",
+      "Beige": "/productos/mujer/campus-pantufla-beife.jpg",
+    },
+    sizes: [36, 37, 38, 39],
+    isNew: true,
+    gender: "Dama",
+  },
+
+  {
+    id: "on-running-cloud-dama",
+    name: "On Running CloudTec",
+    brand: "On Running",
+    price: 195000, 
+    rating: 4.8,
+    image: "/productos/mujer/on-gris-lila.jpg", 
+    images: [
+      "/productos/mujer/on-beige.jpg",
+      "/productos/mujer/on-cafe-amarillo.jpg",
+      "/productos/mujer/on-blanco-naranja.jpg",
+    ],
+    category: "Deportivo",
+    description:
+      "Zapatillas deportivas que redefinen la comodidad. Destacan por su innovadora suela con tecnología CloudTec (perforaciones) que absorbe impactos y brinda una pisada ultra suave. Su diseño de malla transpirable y estética moderna las hace perfectas para running o uso diario prolongado.",
+    colors: ["Gris y Lila", "Beige", "Café y Amarillo", "Blanco y Naranja"],
+    colorImages: {
+      "Gris y Lila": "/productos/mujer/on-gris-lila.jpg",
+      "Beige": "/productos/mujer/on-beige.jpg",
+      "Café y Amarillo": "/productos/mujer/on-cafe-amarillo.jpg",
+      "Blanco y Naranja": "/productos/mujer/on-blanco-naranja.jpg",
+    },
+    sizes: [36, 37, 38, 39],
+    isNew: true,
+    gender: "Dama",
+  },
+
+  {
+    id: "adidas-adizero-blanco-dama",
+    name: "Adidas Adizero",
+    brand: "Adidas",
+    price: 195000,
+    rating: 4.9,
+    image: "/productos/mujer/adizero-blancob.jpg",
+    category: "Deportivo",
+    description:
+      "Zapatillas de alto rendimiento diseñadas para la velocidad. Presentan un exterior en malla ligera semi-translúcida y una robusta suela aerodinámica con amortiguación avanzada. Su diseño deportivo y dinámico ofrece máxima comodidad, ideal para entrenamientos o looks casuales.",
+    colors: ["Blanco y Plateado"],
+    sizes: [36, 37, 38, 39],
+    isNew: true,
     gender: "Dama",
   },
 

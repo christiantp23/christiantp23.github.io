@@ -565,24 +565,24 @@ export default function App() {
       */}
       <TestimonialsSection />
 
-      {/* Footer */}
+    {/* Footer */}
       <footer className="bg-slate-950 text-white pt-16 pb-8 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            {/* Col 1 */}
-            <div className="md:col-span-5 space-y-4">
-              <div className="flex items-center gap-2">
-                <img
-                  src="/logo.png"
-                  alt="TRESPA STORE"
-                  className="h-16 sm:h-14 md:h-48 w-auto object-contain"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+            
+            {/* Col 1 - Centrada y alineada visualmente hacia arriba */}
+            <div className="md:col-span-5 flex flex-col items-center text-center space-y-4 md:-mt-4">
+              <img
+                src="/logo-foot.png"
+                alt="TRESPA STORE"
+                className="h-24 sm:h-14 md:h-48 w-auto object-contain"
+                referrerPolicy="no-referrer"
+              />
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm font-light">
                 En Trespa Store creemos que unas buenas zapatillas hablan por ti. Por eso ofrecemos referencias importadas con gran nivel de detalle, pensadas para quienes valoran el estilo.
               </p>
-              <div className="flex items-center gap-2.5 pt-2">
+              {/* Redes sociales centradas */}
+              <div className="flex items-center justify-center gap-2.5 pt-2">
                 <a
                   href="https://instagram.com/trespastore"
                   target="_blank"
@@ -617,14 +617,31 @@ export default function App() {
 
             {/* Col 2 */}
             <div className="md:col-span-3 space-y-4">
-              <h4 className="font-display font-bold text-xs uppercase tracking-widest text-brand-sky">Colecciones & Guías</h4>
+              <h4 className="font-display font-bold text-xs uppercase tracking-widest text-brand-sky">Colecciones</h4>
               <ul className="space-y-2 text-xs text-slate-400">
-                <li><button type="button" onClick={() => { setSelectedCategory('Urbano'); document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Tenis Urbanos</button></li>
-                <li><button type="button" onClick={() => { setSelectedCategory('Deportivo'); document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Deportivos / Running</button></li>
+                <li><button type="button" onClick={() => { setSelectedCategory('Urbano'); document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Urbanos</button></li>
+                <li><button type="button" onClick={() => { setSelectedCategory('Deportivo'); document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Deportivos</button></li>
                 <li><button type="button" onClick={() => { setSelectedCategory('Colección'); document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }); }} className="hover:text-white transition-colors cursor-pointer">Ediciones Especiales</button></li>
-                <li className="pt-2 border-t border-slate-900"><button type="button" onClick={() => openInfoModal('tallas')} className="text-brand-sky hover:text-white transition-colors cursor-pointer flex items-center gap-1">📏 Guía de Tallas</button></li>
-                <li><button type="button" onClick={() => openInfoModal('politicas')} className="text-brand-sky hover:text-white transition-colors cursor-pointer flex items-center gap-1">🛡️ Políticas 2026</button></li>
-                <li><button type="button" onClick={() => openInfoModal('pagos')} className="text-brand-sky hover:text-white transition-colors cursor-pointer flex items-center gap-1">💳 Medios de Pago</button></li>
+                
+                {/* Íconos alineados uniformemente */}
+                <li className="pt-2 border-t border-slate-900/60">
+                  <button type="button" onClick={() => openInfoModal('tallas')} className="text-brand-sky hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+                    <span className="w-4 text-center text-sm">📏</span>
+                    <span>Guía de Tallas</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => openInfoModal('politicas')} className="text-brand-sky hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+                    <span className="w-4 text-center text-sm">🛡️</span>
+                    <span>Políticas 2026</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => openInfoModal('pagos')} className="text-brand-sky hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+                    <span className="w-4 text-center text-sm">💳</span>
+                    <span>Medios de Pago</span>
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -660,7 +677,7 @@ export default function App() {
           <div className="h-px bg-slate-900" />
 
           {/* Copyright, terms */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-light">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-light text-center sm:text-left">
             <p>© 2026 Trespa Store. Todos los derechos reservados. Desarrollado por Christian</p>
             <div className="flex gap-4">
               <a href="#" className="hover:text-slate-300">Términos y condiciones</a>
