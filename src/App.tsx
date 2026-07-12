@@ -367,7 +367,6 @@ export default function App() {
                 <img
                   src="/lema.png"
                   alt="Como el 23"
-                  loading="lazy" // Carga diferida para optimizar el rendimiento inicial de la página
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover scale-105"
                 />

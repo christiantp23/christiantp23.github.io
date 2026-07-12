@@ -44,7 +44,6 @@ export default function Navbar({
             <img 
               src="/logo.png" 
               alt="TRESPA STORE"
-              loading="lazy" // Carga diferida para optimizar la lista del carrito 
               className="h-16 sm:h-32 md:h-48 w-auto object-contain transition-transform group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
