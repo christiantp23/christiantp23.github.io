@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { X, User, Phone, MapPin, CreditCard, Sparkles, CheckCircle, Building, FileText, MessageSquare } from 'lucide-react';
+import { X, User, Phone, MapPin, CreditCard, Sparkles, CheckCircle, Building, FileText, MessageSquare, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CartItem, CheckoutData } from '../types';
 
@@ -23,6 +23,7 @@ export default function CheckoutModal({
 }: CheckoutModalProps) {
   const [formData, setFormData] = useState<CheckoutData>({
     fullName: '',
+    email: '',
     phone: '',
     address: '',
     city: '',
@@ -43,12 +44,21 @@ export default function CheckoutModal({
         if (!value.trim()) return 'El nombre completo es obligatorio';
         if (value.trim().length < 3) return 'El nombre debe tener al menos 3 caracteres';
         break;
+      case 'email': {
+        const emailTrimmed = value.trim();
+        if (!emailTrimmed) return 'El correo electrónico es obligatorio';
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(emailTrimmed)) {
+          return 'Por favor ingresa un correo electrónico válido (Ej: usuario@correo.com)';
+        }
+        break;
+      }  
       case 'cedula':
         if (!value.trim()) return 'La cédula es obligatoria';
         if (!/^\d+$/.test(value.trim())) return 'La cédula debe contener solo números';
         if (value.trim().length < 5) return 'La cédula debe tener al menos 5 dígitos';
         break;
-       case 'phone': {
+      case 'phone': {
         const phoneTrimmed = value.trim();
         if (!phoneTrimmed) return 'El número de celular es obligatorio';
         
@@ -133,7 +143,7 @@ export default function CheckoutModal({
     e.preventDefault();
     // Validate all fields on submit
     const newErrors: Record<string, string> = {};
-    const fieldsToValidate = ['fullName', 'cedula', 'phone', 'city', 'address'];
+    const fieldsToValidate = ['fullName','email', 'cedula', 'phone', 'city', 'address'];
 
     fieldsToValidate.forEach((field) => {
       const error = validateField(field, formData[field as keyof CheckoutData] as string || '');
@@ -192,6 +202,7 @@ export default function CheckoutModal({
     // Sección: Información de entrega y contacto del cliente
     message += `👤 *DATOS DE FACTURACIÓN Y ENVÍO:*\n`;
     message += `• *Cliente:* ${formData.fullName.trim()}\n`;
+    message += `• *Correo:* ${formData.email.trim()}\n`;
     message += `• *Cédula:* ${formData.cedula.trim()}\n`;
     message += `• *Celular:* ${formData.phone.trim()}\n`;
     message += `• *Ciudad:* ${formData.city.trim()}\n`;
@@ -333,6 +344,34 @@ export default function CheckoutModal({
                         <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
                           <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
                           {errors.fullName}
+                        </p>
+                      )}
+                    </div>
+
+                      {/* Correo Electrónico */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-slate-700 flex items-center gap-1">
+                        <Mail className="w-3.5 h-3.5 text-slate-400" />
+                        Correo Electrónico <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        required
+                        placeholder="Ej: camilo@correo.com"
+                        className={`w-full text-sm px-4 py-3 rounded-xl border outline-none transition-all placeholder:text-slate-400 ${
+                          errors.email && touched.email
+                            ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50/10'
+                            : 'border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 bg-white'
+                        }`}
+                      />
+                      {errors.email && touched.email && (
+                        <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
+                          <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
+                          {errors.email}
                         </p>
                       )}
                     </div>

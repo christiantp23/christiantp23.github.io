@@ -46,3 +46,12 @@
   background-color: #2563eb;
   border-radius: 9999px;
 }
+/* Animaciones y utilidades personalizadas para las notificaciones (Toasts) */
+@keyframes toast-progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@utility animate-toast-timer {
+  animation: toast-progress 4000ms linear forwards;
+}

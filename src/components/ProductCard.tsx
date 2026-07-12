@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
@@ -49,6 +49,66 @@ export default function ProductCard({
 // States for interactive magnifier zoom inside the lightbox
   const [isInnerZoomed, setIsInnerZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
+
+    // Estados y referencias de toque y deslizamiento para compatibilidad con dispositivos móviles
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const isSwipedRef = useRef(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartX.current = touch.clientX;
+    touchStartY.current = touch.clientY;
+    isSwipedRef.current = false;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touch = e.touches[0];
+    const diffX = touch.clientX - touchStartX.current;
+    if (Math.abs(diffX) > 15) {
+      isSwipedRef.current = true;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    
+    const touch = e.changedTouches[0];
+    const diffX = touch.clientX - touchStartX.current;
+    const diffY = touch.clientY - touchStartY.current;
+
+    // Solo deslizamos si es un movimiento horizontal, no un desplazamiento (scroll) vertical
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      if (Math.abs(diffX) > 40) { // Umbral mínimo de 40px
+        if (diffX > 0) {
+          // Deslizar a la derecha -> Imagen anterior
+          setActiveImgIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
+        } else {
+          // Deslizar a la izquierda -> Siguiente imagen
+          setActiveImgIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
+        }
+        isSwipedRef.current = true;
+      }
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  const handleInnerTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isInnerZoomed) return;
+    // Evitar el comportamiento de scroll predeterminado al arrastrar dentro de la vista con zoom para mantenerlo suave
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+    const touch = e.touches[0];
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    // Restringir el toque dentro del contenedor
+    const x = Math.max(0, Math.min(100, ((touch.clientX - left) / width) * 100));
+    const y = Math.max(0, Math.min(100, ((touch.clientY - top) / height) * 100));
+    setZoomPosition({ x, y });
+  };
 
   const handleInnerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
@@ -212,14 +272,22 @@ export default function ProductCard({
       </button>
 
 
-      {/* Image Gallery Container */}
+      {/* Contenedor de la galería de imágenes */}
       <div 
-        onClick={() => setIsZoomOpen(true)}
-        className="relative overflow-hidden bg-slate-50 pt-[100%] cursor-zoom-in group/img border-b border-slate-100"
+        onClick={() => {
+          if (!isSwipedRef.current) {
+            setIsZoomOpen(true);
+          }
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="relative overflow-hidden bg-slate-50 pt-[100%] cursor-zoom-in group/img border-b border-slate-100 touch-pan-y"
       >
         <img
           src={currentImage}
           alt={product.name}
+          loading="lazy" // Carga diferida para optimizar el rendimiento inicial de la página
           onError={() => setImageError(true)}
           referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-[1.03] transition-transform duration-500 ease-out"
@@ -488,19 +556,38 @@ export default function ProductCard({
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 15 }}
               transition={{ type: "spring", damping: 25, stiffness: 350 }}
-             className="relative max-w-lg md:max-w-xl w-full max-h-[85vh] flex flex-col items-center justify-center cursor-default"
+              className="relative max-w-lg md:max-w-xl w-full max-h-[85vh] flex flex-col items-center justify-center cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Product Image Panel with nice soft glow */}
               <div 
                 className={`relative overflow-hidden rounded-3xl bg-white shadow-2xl border border-slate-100 max-h-[70vh] flex items-center justify-center p-2 select-none w-full ${
-                  isInnerZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'
+                  isInnerZoomed ? 'cursor-zoom-out touch-none' : 'cursor-zoom-in'
                 }`}
                 onClick={(e) => {
                   e.stopPropagation();
+                  if (!isSwipedRef.current) {
+                  }
                   setIsInnerZoomed(!isInnerZoomed);
                 }}
                 onMouseMove={handleInnerMouseMove}
+                 onTouchStart={(e) => {
+                  if (!isInnerZoomed) {
+                    handleTouchStart(e);
+                  }
+                }}
+                onTouchMove={(e) => {
+                  if (isInnerZoomed) {
+                    handleInnerTouchMove(e);
+                  } else {
+                    handleTouchMove(e);
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  if (!isInnerZoomed) {
+                    handleTouchEnd(e);
+                  }
+                }}
                 onMouseLeave={() => {
                   if (isInnerZoomed) {
                     setIsInnerZoomed(false);
@@ -510,6 +597,7 @@ export default function ProductCard({
                 <img
                   src={currentImage}
                   alt={product.name}
+                  loading="lazy" // Carga diferida para optimizar el rendimiento inicial de la página
                   referrerPolicy="no-referrer"
                   className="max-h-[66vh] max-w-full rounded-2xl object-contain select-none transition-transform duration-200 ease-out"
                   style={{ 
@@ -523,14 +611,14 @@ export default function ProductCard({
                 {isInnerZoomed ? (
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-blue-600/95 backdrop-blur-md text-white text-[11px] font-bold px-4 py-2 rounded-full shadow-lg border border-white/15 z-40 flex items-center gap-1.5 pointer-events-none transition-all duration-300">
                     <ZoomIn className="w-4 h-4 animate-pulse text-amber-300" />
-                    <span>Zoom x2.2 activo &bull; Mueve el mouse para explorar</span>
+                    <span>Zoom x2.2 activo &bull; Mueve el mouse o arrastra tu dedo para explorar</span>
                   </div>
                 ) : (
                   <div className={`absolute left-1/2 -translate-x-1/2 bg-slate-900/80 backdrop-blur-md text-white/95 text-[10px] font-medium px-4 py-2 rounded-full shadow-md border border-white/5 z-20 flex items-center gap-1.5 pointer-events-none transition-all duration-300 ${
                     allImages.length > 1 ? 'bottom-20' : 'bottom-4'
                   }`}>
                     <ZoomIn className="w-3.5 h-3.5 text-blue-400" />
-                    <span>Haz clic en la foto para ver detalles</span>
+                    <span>Toca o haz clic en la foto para ver detalles</span>
                   </div>
                 )}
 
@@ -577,7 +665,7 @@ export default function ProductCard({
                             idx === activeImgIndex ? 'border-blue-500 scale-105' : 'border-transparent opacity-60 hover:opacity-100'
                           }`}
                         >
-                          <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                          <img src={imgUrl} alt="" loading="lazy" className="w-full h-full object-cover" />
                         </button>
                       ))}
                     </div>

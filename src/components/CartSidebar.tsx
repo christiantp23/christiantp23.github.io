@@ -15,6 +15,7 @@ interface CartSidebarProps {
   onDecrement: (index: number) => void;
   onRemove: (index: number) => void;
   onCheckout: () => void;
+  onClearAll: () => void;
 }
 
 export default function CartSidebar({
@@ -25,6 +26,7 @@ export default function CartSidebar({
   onDecrement,
   onRemove,
   onCheckout,
+  onClearAll,
 }: CartSidebarProps) {
   
   // Format currency helper
@@ -107,7 +109,18 @@ export default function CartSidebar({
                   </button>
                 </div>
               ) : (
-                cartItems.map((item, index) => (
+                <div className="space-y-4">
+                  <div className="flex justify-end pb-1 border-b border-slate-100/50">
+                    <button
+                      type="button"
+                      onClick={onClearAll}
+                      className="text-xs font-bold text-red-500 hover:text-red-600 hover:bg-red-50/70 transition-all duration-200 flex items-center gap-1.5 py-1.5 px-3 rounded-xl border border-transparent hover:border-red-100"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      Vaciar Carrito
+                    </button>
+                  </div>
+                  {cartItems.map((item, index) => (
                   <motion.div
                     key={`${item.product.id}-${item.selectedSize}-${item.selectedColor}`}
                     layout
@@ -121,6 +134,7 @@ export default function CartSidebar({
                       <img
                         src={item.selectedColorImage || item.product.image}
                         alt={item.product.name}
+                        loading="lazy" // Carga diferida para optimizar la lista del carrito
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
                       />
@@ -176,7 +190,8 @@ export default function CartSidebar({
                       </div>
                     </div>
                   </motion.div>
-                ))
+                ))}
+                </div>
               )}
             </div>
 

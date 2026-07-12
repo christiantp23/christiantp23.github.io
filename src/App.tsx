@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { Truck, TrendingUp, Filter, Heart, ArrowUpRight, CheckCircle, Percent, ChevronDown, Instagram, Facebook } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Product, CartItem } from './types';
+import { Product, CartItem, ToastNotification} from './types';
 import { SNEAKER_PRODUCTS, CATEGORIES, BRANDS } from './data';
 import Navbar from './components/Navbar';
 import ProductCard from './components/ProductCard';
@@ -17,7 +17,7 @@ import FloatingWhatsapp from './components/FloatingWhatsapp';
 import FloatingTelegram from './components/FloatingTelegram';
 import InfoModals from './components/InfoModals';
 import TestimonialsSection from './components/TestimonialsSection'; // Nuevo: Importamos la sección de testimonios de clientes (WhatsApp chats)
-
+import ToastContainer from './components/ToastContainer';
 
 export default function App() {
   // ==========================================
@@ -78,6 +78,30 @@ export default function App() {
   const [selectedGender, setSelectedGender] = useState<'Todos' | 'Dama' | 'Caballero' | 'Unisex'>('Todos');
   const [sortBy, setSortBy] = useState<'default' | 'price_asc' | 'price_desc' | 'rating'>('default');
 
+
+  // ==========================================
+  // ESTADO Y LÓGICA DE NOTIFICACIONES (Toasts)
+  // ==========================================
+  const [toasts, setToasts] = useState<ToastNotification[]>([]);
+
+  // Función para agregar una nueva notificación flotante con eliminación automática
+  const showToast = (message: string, type: 'cart' | 'favorite_add' | 'favorite_remove', productName: string) => {
+    const id = Date.now().toString() + Math.random().toString(36).substring(2, 9);
+    const newToast: ToastNotification = { id, message, type, productName };
+    setToasts((prev) => [...prev, newToast]);
+
+    // Eliminar automáticamente el toast después de 4 segundos
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4000);
+  };
+
+  // Función para cerrar un toast de manera manual
+  const handleCloseToast = (id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  };
+
+
   // ==========================================
   // SINCROIZACIÓN DEL CARRITO (useEffect)
   // ==========================================
@@ -102,22 +126,51 @@ export default function App() {
   }, [favoriteIds]); // <-- Dependencia: se ejecuta cada vez que el usuario agregue/quite un favorito
 
   // ==========================================
+  // ALERTA DE SALIDA SI HAY CARRITO (useEffect)
+  // ==========================================
+  // Muestra una advertencia al intentar cerrar la pestaña del navegador
+  // si el usuario tiene productos en el carrito, recordándole que su selección podría perderse.
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (cartItems.length > 0) {
+        e.preventDefault();
+        // Los navegadores modernos no muestran texto personalizado, pero requieren establecer e.returnValue
+        e.returnValue = 'Tienes productos en tu carrito. Si cierras la pestaña, tu selección podría perderse.';
+        return e.returnValue;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [cartItems]);
+
+  // ==========================================
   // ACCIÓN DE AGREGAR/QUITAR FAVORITO (handleToggleFavorite)
   // ==========================================
   // Esta función se pasa como propiedad (prop) a las tarjetas de producto.
   // - Si el ID del producto ya existe en la lista, lo filtramos para removerlo (quitar de favoritos).
   // - Si no está, creamos un nuevo arreglo añadiendo el nuevo ID al final de los anteriores.
   const handleToggleFavorite = (productId: string) => {
+    const product = SNEAKER_PRODUCTS.find((p) => p.id === productId);
+    const productName = product ? product.name : 'Producto';
+
     setFavoriteIds((prev) => {
       if (prev.includes(productId)) {
+        showToast('Se eliminó de tus favoritos correctamente.', 'favorite_remove', productName);
         return prev.filter((id) => id !== productId);
       } else {
+        showToast('Se guardó en tus favoritos correctamente.', 'favorite_add', productName);
         return [...prev, productId];
       }
     });
   };
   // Cart operations
   const handleAddToCart = (product: Product, size: number, color: string) => {
+    // Mostrar retroalimentación visual al agregar un producto
+    showToast(`Agregado en talla ${size} y color ${color}.`, 'cart', product.name);
+
     setCartItems((prev) => {
       const existingIndex = prev.findIndex(
         (item) =>
@@ -201,6 +254,21 @@ export default function App() {
     if (sortBy === 'rating') return b.rating - a.rating;
     return 0; // Default sorting
   });
+
+    // ==========================================
+  // ESTADO DE PAGINACIÓN / CARGAR MÁS
+  // ==========================================
+  // Cantidad inicial y lote de carga para los productos del catálogo
+  const PRODUCTS_PER_PAGE = 8;
+  const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE);
+
+  // Reiniciar la cantidad visible cada vez que el usuario aplique algún filtro
+  useEffect(() => {
+    setVisibleCount(PRODUCTS_PER_PAGE);
+  }, [searchQuery, selectedCategory, selectedBrand, selectedGender, sortBy]);
+
+  // Lista de productos limitada para mostrar en la vista actual
+  const displayedProducts = sortedProducts.slice(0, visibleCount);
 
   // Calculate total items in cart
   const cartItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -299,6 +367,7 @@ export default function App() {
                 <img
                   src="/lema.png"
                   alt="Como el 23"
+                  loading="lazy" // Carga diferida para optimizar el rendimiento inicial de la página
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover scale-105"
                 />
@@ -479,11 +548,12 @@ export default function App() {
               </button>
             </motion.div>
           ) : (
+            <div className="space-y-12">
             <motion.div
               layout
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             >
-              {sortedProducts.map((product) => (
+            {displayedProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
@@ -494,6 +564,25 @@ export default function App() {
                 />
               ))}
             </motion.div>
+            {/* Botón de Cargar Más para limitar la visualización y mejorar la velocidad de carga inicial */}
+              {visibleCount < sortedProducts.length && (
+                <div className="flex flex-col items-center justify-center pt-4">
+                  <p className="text-xs text-slate-400 mb-3.5 font-medium">
+                    Mostrando <span className="font-bold text-slate-800">{displayedProducts.length}</span> de <span className="font-bold text-slate-800">{sortedProducts.length}</span> referencias de tenis
+                  </p>
+                  <motion.button
+                    whileHover={{ scale: 1.02, translateY: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="button"
+                    onClick={() => setVisibleCount((prev) => prev + PRODUCTS_PER_PAGE)}
+                    className="py-3.5 px-8 rounded-2xl bg-slate-900 hover:bg-brand-blue text-white text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-md shadow-slate-200/80 hover:shadow-brand-blue/15 flex items-center gap-2 cursor-pointer select-none"
+                  >
+                    <span>Cargar más referencias</span>
+                    <ChevronDown className="w-4 h-4 animate-bounce" />
+                  </motion.button>
+                </div>
+              )}
+            </div>
           )}
         </AnimatePresence>
       </main>
@@ -575,6 +664,7 @@ export default function App() {
               <img
                 src="/logo-foot.png"
                 alt="TRESPA STORE"
+                loading="lazy" // Carga diferida para optimizar el rendimiento inicial de la página
                 className="h-24 sm:h-14 md:h-48 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -696,6 +786,7 @@ export default function App() {
         onIncrement={handleIncrement}
         onDecrement={handleDecrement}
         onRemove={handleRemove}
+        onClearAll={() => setCartItems([])}
         onCheckout={() => {
           setIsCartOpen(false);
           setIsCheckoutOpen(true);
@@ -746,6 +837,8 @@ export default function App() {
           este botón se apilará ordenadamente justo por encima del botón de WhatsApp.
       */}
       <FloatingTelegram />
+       {/* SISTEMA DE NOTIFICACIONES TOAST */}
+      <ToastContainer toasts={toasts} onClose={handleCloseToast} />
     </div>
   );
 }

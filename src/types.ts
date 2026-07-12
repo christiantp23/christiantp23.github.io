@@ -32,10 +32,19 @@ export interface CartItem {
 
 export interface CheckoutData {
   fullName: string;
+  email: string;
   phone: string;
   address: string;
   city: string;
   cedula: string;
   observaciones?: string;
   paymentMethod: 'bold_tarjeta' | 'transferencia';
+}
+
+// Interfaz para el sistema de notificaciones flotantes (Toast)
+export interface ToastNotification {
+  id: string;
+  message: string;
+  type: 'cart' | 'favorite_add' | 'favorite_remove';
+  productName: string;
 }

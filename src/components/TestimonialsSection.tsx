@@ -204,6 +204,7 @@ function TestimonialPhone({ chat, isActive }: { chat: ChatTestimonial; isActive:
                         <img
                             src={chat.chatScreenshot}
                             alt={`Chat de ${chat.clientName}`}
+                            loading="lazy" // Carga diferida para optimizar la lista del carrito
                             className="w-full h-full object-cover select-none"
                             referrerPolicy="no-referrer"
                         />

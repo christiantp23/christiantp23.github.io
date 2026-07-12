@@ -144,6 +144,7 @@ export default function WishlistSidebar({
                                             <img
                                                 src={product.image}
                                                 alt={product.name}
+                                                loading="lazy" // Carga diferida para optimizar la lista del carrito
                                                 referrerPolicy="no-referrer"
                                                 className="w-full h-full object-cover"
                                             />

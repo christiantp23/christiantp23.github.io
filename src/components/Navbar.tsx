@@ -43,7 +43,8 @@ export default function Navbar({
           <a href="/" className="flex items-baseline gap-1.5 group">
             <img 
               src="/logo.png" 
-              alt="TRESPA STORE" 
+              alt="TRESPA STORE"
+              loading="lazy" // Carga diferida para optimizar la lista del carrito 
               className="h-16 sm:h-32 md:h-48 w-auto object-contain transition-transform group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
