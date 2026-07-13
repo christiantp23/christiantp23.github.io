@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { useState, useEffect } from 'react';
 import { Truck, TrendingUp, Filter, Heart, ArrowUpRight, CheckCircle, Percent, ChevronDown, Instagram, Facebook } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -168,6 +163,10 @@ export default function App() {
   };
   // Cart operations
   const handleAddToCart = (product: Product, size: number, color: string) => {
+    if (product.isOutOfStock) {
+      showToast('Este producto no se encuentra disponible.', 'favorite_remove', product.name);
+      return;
+    }
     // Mostrar retroalimentación visual al agregar un producto
     showToast(`Agregado en talla ${size} y color ${color}.`, 'cart', product.name);
 
@@ -230,6 +229,9 @@ export default function App() {
 
   // Filter products based on search, category, brand and gender
   const filteredProducts = SNEAKER_PRODUCTS.filter((product) => {
+// Si el producto está marcado como agotado desde el código (catálogo), simplemente se oculta
+    if (product.isOutOfStock) return false;
+
     const matchesSearch =
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||

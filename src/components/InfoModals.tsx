@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect } from 'react';
 import { X, ShieldCheck, CreditCard, Ruler, Check, Info, Truck, Landmark } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';

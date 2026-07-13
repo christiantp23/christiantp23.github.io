@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -518,7 +513,7 @@ export default function ProductCard({
               ) : (
                 <>
                   <ShoppingBag className="w-4 h-4" />
-                  {isOptionsOpen ? 'Confirmar Talla' : 'Comprar / Tallas'}
+                  {isOptionsOpen ? 'Confirmar Talla' : 'Solicitar Pedido'}
                 </>
               )}
             </button>

@@ -1,10 +1,5 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
-import { X, User, Phone, MapPin, CreditCard, Sparkles, CheckCircle, Building, FileText, MessageSquare, Mail } from 'lucide-react';
+import { X, User, Phone, MapPin, CreditCard, Sparkles, CheckCircle, Building, FileText, MessageSquare, Mail, ClipboardList, MessageCircle, Truck } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CartItem, CheckoutData } from '../types';
 
@@ -33,6 +28,8 @@ export default function CheckoutModal({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState('');
+
 
   // Real-time validation states
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -259,6 +256,8 @@ export default function CheckoutModal({
     //
     // Usamos el número de destino configurado: 573008165725 (con código de país 57 de Colombia).
     const waUrl = `https://wa.me/573008165725?text=${encodeURIComponent(message)}`;
+        setWhatsappUrl(waUrl);
+
 
     setTimeout(() => {
       // "window.open" abre el enlace generado en una pestaña nueva del navegador del cliente,
@@ -304,10 +303,10 @@ export default function CheckoutModal({
                   <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-lg bg-brand-sky/10 flex items-center justify-center text-brand-blue">
-                        <Sparkles className="w-4 h-4 animate-pulse" />
+                        <ClipboardList className="w-4 h-4 animate-pulse" />
                       </div>
                       <h3 className="font-display font-bold text-lg text-slate-900">
-                        Finalizar Pedido
+                        Enviar Solicitud
                       </h3>
                     </div>
                     <button
@@ -563,6 +562,34 @@ export default function CheckoutModal({
                       </span>
                     </div>
 
+                    {/* Proceso de compra banner */}
+                    <div className="bg-slate-50/50 border border-slate-100/80 rounded-2xl p-4 text-left space-y-2.5">
+                      <h4 className="text-[10px] font-bold uppercase text-slate-400 tracking-wider flex items-center gap-1.5">
+                        <ClipboardList className="w-3.5 h-3.5 text-brand-blue" />
+                        ¿Qué pasa al hacer clic abajo?
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <div className="bg-white p-2.5 rounded-xl border border-slate-100">
+                          <div className="text-[10px] font-bold text-slate-800 mb-0.5">1. Chat de WhatsApp</div>
+                          <p className="text-[10px] text-slate-500 leading-normal">
+                            Se abrirá un chat con tu mensaje de pedido pre-listo.
+                          </p>
+                        </div>
+                        <div className="bg-white p-2.5 rounded-xl border border-slate-100">
+                          <div className="text-[10px] font-bold text-slate-800 mb-0.5">2. Pago Seguro</div>
+                          <p className="text-[10px] text-slate-500 leading-normal">
+                            Confirmamos disponibilidad y te enviamos link de Bold o Cuenta.
+                          </p>
+                        </div>
+                        <div className="bg-white p-2.5 rounded-xl border border-slate-100">
+                          <div className="text-[10px] font-bold text-slate-800 mb-0.5">3. Despacho Gratis</div>
+                          <p className="text-[10px] text-slate-500 leading-normal">
+                            Empacamos tu calzado y te compartimos la guía de envío por medio de WhatsApp.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Submit Button */}
                     <button
                       type="submit"
@@ -578,27 +605,91 @@ export default function CheckoutModal({
                   </form>
                 </>
               ) : (
-                /* Success View */
-                <div className="p-8 text-center flex flex-col items-center">
+                /* Vista de éxito con hoja de ruta de próximos pasos*/
+                <div className="p-8 flex flex-col items-center">
                   <motion.div
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', damping: 10 }}
-                    className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mb-6"
+                    className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mb-5"
                   >
                     <CheckCircle className="w-10 h-10" />
                   </motion.div>
-                  <h3 className="font-display font-bold text-xl text-slate-900 mb-2">
-                    ¡Orden Enviada Exitosamente!
+                <h3 className="font-display font-bold text-xl text-slate-900 mb-2 text-center">
+                    ¡Solicitud Enviada con Éxito!
                   </h3>
-                  <p className="text-xs text-slate-500 max-w-sm mb-6 leading-relaxed">
-                    Hemos abierto tu chat de WhatsApp con los detalles del pedido pre-cargados para que termines tu compra con nuestro agente. Si no abrió automáticamente, por favor revisa las pestañas de tu navegador.
+                  <p className="text-xs text-slate-500 max-w-sm mb-6 text-center leading-relaxed">
+                    Hemos abierto tu chat de WhatsApp con los detalles del pedido pre-cargados. Si tu navegador bloqueó la ventana, puedes usar el botón de abajo.
                   </p>
 
+                  {whatsappUrl && (
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 px-5 py-3 rounded-xl mb-8 transition-all shadow-md shadow-emerald-600/10 hover:shadow-emerald-600/20"
+                    >
+                      <MessageCircle className="w-4 h-4 fill-white" />
+                      Enviar Solicitud por WhatsApp
+                    </a>
+                  )}
+
+                  {/* Beautiful visual next steps timeline */}
+                  <div className="w-full bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-6 text-left space-y-4">
+                    <h4 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">
+                      ¿Qué pasa a continuación?
+                    </h4>
+                    
+                    <div className="flex gap-3 items-start">
+                      <div className="w-6 h-6 rounded-full bg-brand-sky/10 flex items-center justify-center text-[10px] font-bold text-brand-blue flex-shrink-0 mt-0.5">
+                        1
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                          <MessageCircle className="w-3.5 h-3.5 text-slate-500" />
+                          Envías el Mensaje en WhatsApp
+                        </h5>
+                        <p className="text-[11px] text-slate-500 leading-normal mt-0.5">
+                          En el chat que se abrió, presiona "Enviar". Ese mensaje contiene todas tus tallas y datos listos.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 items-start border-t border-slate-100/80 pt-3">
+                      <div className="w-6 h-6 rounded-full bg-brand-sky/10 flex items-center justify-center text-[10px] font-bold text-brand-blue flex-shrink-0 mt-0.5">
+                        2
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                          <ClipboardList className="w-3.5 h-3.5 text-slate-500" />
+                          Confirmamos Disponibilidad y Pago
+                        </h5>
+                        <p className="text-[11px] text-slate-500 leading-normal mt-0.5">
+                          Un asesor validará tu inventario en segundos y te enviará el link de pago seguro de Bold (tarjetas) o datos de transferencia.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 items-start border-t border-slate-100/80 pt-3">
+                      <div className="w-6 h-6 rounded-full bg-brand-sky/10 flex items-center justify-center text-[10px] font-bold text-brand-blue flex-shrink-0 mt-0.5">
+                        3
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                          <Truck className="w-3.5 h-3.5 text-slate-500" />
+                          Envío Gratis y Rastreo Nacional
+                        </h5>
+                        <p className="text-[11px] text-slate-500 leading-normal mt-0.5">
+                          Una vez verificado, empacamos tus zapatos y te enviamos la guía para que rastrees tu pedido sin costo adicional.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <button
                     type="button"
                     onClick={handleFinish}
-                    className="w-full max-w-xs py-3 rounded-2xl bg-slate-900 hover:bg-brand-blue text-white font-bold text-xs tracking-wider uppercase transition-all shadow-md"
+                    className="w-full max-w-xs py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs tracking-wider uppercase transition-all shadow-md cursor-pointer"
                   >
                     Entendido, Volver a la Tienda
                   </button>

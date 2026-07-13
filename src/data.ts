@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Product } from './types';
 
 export const SNEAKER_PRODUCTS: Product[] = [
@@ -199,7 +194,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     // 1. Esta es la foto principal que se muestra por defecto:
     image: "/productos/unisex/new_balance_9060_beige.jpg",
     // 2. Aquí agregas todas las fotos del carrusel (incluyendo la principal y las secundarias):
-    images: ["/productos/unisex/new_balance_9060_negras.jpg"],
+    images: ["/productos/unisex/new_balance_9060_negras.webp"],
     category: "Urbano",
     description:
       "Este calzado resalta por su estructura robusta y su entresuela ondulada con tecnología de amortiguación ABZORB. Tienes dos opciones disponibles. La primera tiene una base de malla transpirable con gamuza beige y detalles grises. La segunda ofrece un diseño oscuro que mezcla malla y gamuza negra con el logo lateral gris.",
@@ -524,7 +519,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     price: 180000,
     rating: 4.7,
     // 1. Esta es la foto principal que se muestra por defecto:
-    image: "/productos/unisex/gazelle_hom_muj.jpg",
+    image: "/productos/unisex/gazelle_hom_muj.webp",
     category: "Urbano",
     description:
       "Estos tenis Adidas Gazelle destacan por su diseño clásico en blanco con icónicas franjas azul marino",
@@ -540,7 +535,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     price: 200000,
     rating: 4.7,
     // 1. Esta es la foto principal que se muestra por defecto:
-    image: "/productos/unisex/tiger_hom_mujer.jpg",
+    image: "/productos/unisex/tiger_hom_mujer.webp",
     category: "Urbano",
     description:
       "Son unos tenis Onitsuka Tiger modelo Mexico 66 en color amarillo con rayas negras.",
@@ -556,7 +551,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     price: 195000,
     rating: 4.7,
     // 1. Esta es la foto principal que se muestra por defecto:
-    image: "/productos/unisex/vision_hombre_mujer.jpg",
+    image: "/productos/unisex/vision_hombre_mujer.webp",
     category: "Urbano",
     description:
       "Estos tenis son del modelo Vision Street Wear, reconocidos por su diseño clásico en blanco y negro.",
@@ -573,10 +568,28 @@ export const SNEAKER_PRODUCTS: Product[] = [
     price: 170000,
     rating: 4.7,
     // 1. Esta es la foto principal que se muestra por defecto:
-    image: "/productos/unisex/nike-zoom-x.jpg",
+    image: "/productos/unisex/nike-zoom-x.webp",
     category: "Urbano",
     description:
       "Zapatillas para correr de alto rendimiento con amortiguación ZoomX reactiva y un diseño urbano con detalles divertidos.",
+    colors: ["Negra"],
+    sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44],
+    isNew: true,
+    gender: "Unisex",
+  },
+
+  {
+    id: "nb-530-unisex",
+    name: "New Balance 530",
+    brand: "New Balance",
+    price: 175000,
+    rating: 4.7,
+    // 1. Esta es la foto principal que se muestra por defecto:
+    image: "/productos/unisex/nb-530-azul-blanco.webp",
+    images: ['/productos/unisex/nb-530-blue-white.webp'],
+    category: "Urbano",
+    description:
+      "Zapatillas deportivas New Balance 530.",
     colors: ["Negra"],
     sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44],
     isNew: true,

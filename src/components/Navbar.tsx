@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { useState } from 'react';
 import { ShoppingBag, Search, Sparkles, Heart } from 'lucide-react';
 import { motion } from 'motion/react';

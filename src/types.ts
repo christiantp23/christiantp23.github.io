@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 export interface Product {
   id: string;
   name: string;
@@ -20,6 +15,7 @@ export interface Product {
   gender?: 'Dama' | 'Caballero' | 'Unisex';
   images?: string[];
   colorImages?: Record<string, string>;
+  isOutOfStock?: boolean;
 }
 
 export interface CartItem {

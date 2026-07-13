@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CartItem } from '../types';
@@ -220,7 +215,7 @@ export default function CartSidebar({
                   onClick={onCheckout}
                   className="w-full py-4 px-6 rounded-2xl bg-brand-blue hover:bg-brand-blue/95 text-white text-xs font-bold tracking-widest uppercase shadow-lg shadow-brand-blue/10 hover:shadow-brand-blue/20 transition-all duration-200 flex items-center justify-center gap-2 group/btn"
                 >
-                  Proceder al Checkout
+                  Solicitar Pedido
                   <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                 </button>
                 <p className="text-[10px] text-center text-slate-400">
