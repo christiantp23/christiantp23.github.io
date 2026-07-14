@@ -73,6 +73,19 @@ export default function App() {
   const [selectedGender, setSelectedGender] = useState<'Todos' | 'Dama' | 'Caballero' | 'Unisex'>('Todos');
   const [sortBy, setSortBy] = useState<'default' | 'price_asc' | 'price_desc' | 'rating'>('default');
 
+  
+  // Cargar búsqueda desde la URL al iniciar la aplicación (para compartir productos desde WhatsApp)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const searchParam = params.get('search');
+      if (searchParam) {
+        setSearchQuery(decodeURIComponent(searchParam));
+      }
+    } catch (e) {
+      console.error('Error al parsear parámetros URL:', e);
+    }
+  }, []);
 
   // ==========================================
   // ESTADO Y LÓGICA DE NOTIFICACIONES (Toasts)

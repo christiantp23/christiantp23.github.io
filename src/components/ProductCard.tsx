@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
+import { Star, ShoppingBag, Check, ZoomIn, X, ChevronLeft, ChevronRight, Heart, Share2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 
@@ -196,6 +196,21 @@ export default function ProductCard({
       maximumFractionDigits: 0,
     }).format(value);
   };
+
+  // URL y mensaje para compartir en WhatsApp
+  const shareWhatsAppUrl = (() => {
+    const productName = product.name;
+    const productPrice = formatPrice(product.price);
+    const productBrand = product.brand;
+    
+    // Construir la URL del catálogo filtrado por el nombre del producto
+    const shareUrl = `${window.location.origin}${window.location.pathname}?search=${encodeURIComponent(productName)}`;
+    
+    // Mensaje predefinido elegante y bien redactado
+    const message = `¡Hola! Mira este espectacular producto en el catálogo:\n\n*${productName}*\n👟 Marca: ${productBrand}\n💵 Precio: ${productPrice}\n\n👉 Ver detalles del producto en el catálogo aquí:\n${shareUrl}`;
+    
+    return `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+  })();
 
   return (
     <motion.div
@@ -402,7 +417,7 @@ export default function ProductCard({
         </div>
 
         <div>
-          {/* Prices & Purchase button */}
+          {/*  Precios y botón de compra */}
           <div className="flex items-baseline gap-2 mb-4">
             <span className="text-xl font-bold text-slate-950 font-display">
               {formatPrice(product.price)}
@@ -414,7 +429,7 @@ export default function ProductCard({
             )}
           </div>
 
-          {/* Expandable Options Selector */}
+          {/*  Selector de opciones expandible */}
           <AnimatePresence initial={false}>
             {isOptionsOpen && (
               <motion.div
@@ -424,7 +439,7 @@ export default function ProductCard({
                 transition={{ duration: 0.25 }}
                 className="overflow-hidden border-t border-slate-100 pt-3 mb-3"
               >
-                {/* Colors Choice */}
+                {/* Elegir Color */}
                 <div className="mb-3">
                   <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1.5">
                     Color: {selectedColor}
@@ -447,7 +462,7 @@ export default function ProductCard({
                   </div>
                 </div>
 
-                {/* Sizes Choice */}
+                {/* Elegir talla */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
@@ -518,6 +533,19 @@ export default function ProductCard({
               )}
             </button>
           </div>
+          <a
+            id={`share-whatsapp-link-${product.id}`}
+            href={shareWhatsAppUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="mt-2 w-full py-2.5 px-4 rounded-xl border border-emerald-100 bg-emerald-50/50 hover:bg-emerald-50 text-emerald-700 hover:text-emerald-800 transition-all text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer text-center"
+          >
+            <Share2 className="w-4 h-4 text-emerald-600" />
+            Compartir por WhatsApp
+          </a>
         </div>
       </div>
 
@@ -545,6 +573,7 @@ export default function ProductCard({
               <X className="w-6 h-6" />
             </button>
 
+
             {/* Inner Content Frame */}
             <motion.div
               initial={{ scale: 0.95, y: 15 }}
@@ -566,7 +595,7 @@ export default function ProductCard({
                   setIsInnerZoomed(!isInnerZoomed);
                 }}
                 onMouseMove={handleInnerMouseMove}
-                 onTouchStart={(e) => {
+                onTouchStart={(e) => {
                   if (!isInnerZoomed) {
                     handleTouchStart(e);
                   }

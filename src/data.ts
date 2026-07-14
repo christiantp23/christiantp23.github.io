@@ -471,7 +471,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
   {
     id: "on-running-cloud-dama",
     name: "On Running CloudTec",
-    brand: "On Running",
+    brand: "OnCloud",
     price: 195000, 
     rating: 4.8,
     image: "/productos/mujer/on-gris-lila.jpg", 
@@ -511,6 +511,52 @@ export const SNEAKER_PRODUCTS: Product[] = [
     gender: "Dama",
   },
 
+{
+  id: "adidas-spezial-red",
+  name: "Adidas Handball Spezial",
+  brand: "Adidas",
+  price: 190000,
+  rating: 4.9,
+  image: "/productos/mujer/adidas-spezial-rojo.webp",
+  category: "Urbano",
+  description: "Estas zapatillas son las Adidas Handball Spezial en la icónica combinación de gamuza color rojo vibrante con las tres rayas blancas y suela de goma retro",
+  colors: ["Rojo"],
+  sizes:[36, 37, 38, 39],
+  isNew: true,
+  gender: "Dama"
+},
+
+{
+    id: "on-cloudmonster-negro-menta",
+    name: "On Running Cloudmonster",
+    brand: "OnCloud",
+    price: 200000,
+    rating: 4.9,
+    image: "/productos/mujer/on-cloudmonster-negro-menta.webp",
+    category: "Deportivo",
+    description:
+      "Zapatillas On Running Cloudmonster en color negro con detalles en verde menta. Cuentan con suela de máxima amortiguación y tecnología CloudTec.",
+    colors: ["Negro/Menta"],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: "Dama",
+  },
+
+  
+{
+    id: "nike-blazer-mid-77-blanco-negro",
+    name: "Nike Blazer Mid '77 Vintage",
+    brand: "Nike",
+    price: 180000,
+    rating: 4.8,
+    image: "/productos/mujer/nike-blazer-mid-blanco-negro.webp",
+    category: "Urbano",
+    description: "Zapatillas clásicas Nike Blazer Mid '77 en estilo bota. Diseño en cuero blanco con el logo Swoosh en negro, lengüeta de espuma expuesta y detalles en gamuza gris en la punta frontal.",
+    colors: ["Blanco", "Negro"],
+    sizes: [36, 37, 38, 39],
+    isHot: true,
+    gender: "Dama"
+  },
   // Productos Unisex
   {
     id: "gazelle-azul-blanco",
