@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CartItem } from '../types';
@@ -23,8 +24,17 @@ export default function CartSidebar({
   onCheckout,
   onClearAll,
 }: CartSidebarProps) {
+
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  // Resetear la confirmación al abrir/cerrar el panel
+  useEffect(() => {
+    if (!isOpen) {
+      setShowConfirm(false);
+    }
+  }, [isOpen]);
   
-  // Format currency helper
+  // Helper para formatear moneda
   const formatPrice = (value: number) => {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',
@@ -106,14 +116,51 @@ export default function CartSidebar({
               ) : (
                 <div className="space-y-4">
                   <div className="flex justify-end pb-1 border-b border-slate-100/50">
-                    <button
+                    <AnimatePresence mode="wait">
+                      {!showConfirm ? (
+                        <motion.button
+                          key="clear-btn"
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
                       type="button"
-                      onClick={onClearAll}
+                      onClick={() => setShowConfirm(true)}
                       className="text-xs font-bold text-red-500 hover:text-red-600 hover:bg-red-50/70 transition-all duration-200 flex items-center gap-1.5 py-1.5 px-3 rounded-xl border border-transparent hover:border-red-100"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       Vaciar Carrito
+                      </motion.button>
+                      ) : (
+                        <motion.div
+                          key="confirm-box"
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          transition={{ duration: 0.15 }}
+                          className="flex items-center gap-2 py-1 px-2.5 bg-red-50 border border-red-100/80 rounded-xl"
+                        >
+                          <span className="text-[10px] font-bold text-red-700">¿Estás seguro?</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              onClearAll();
+                              setShowConfirm(false);
+                            }}
+                            className="text-[10px] font-extrabold text-white bg-red-600 hover:bg-red-700 py-1 px-2.5 rounded-lg transition-colors shadow-xs"
+                          >
+                            Sí, vaciar
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setShowConfirm(false)}
+                            className="text-[10px] font-bold text-slate-500 hover:text-slate-700 py-1 px-2 rounded-lg hover:bg-slate-200/50 transition-all"
+                          >
+                            Cancelar
                     </button>
+                    </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                   {cartItems.map((item, index) => (
                   <motion.div

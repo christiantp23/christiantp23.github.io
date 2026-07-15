@@ -187,7 +187,7 @@ export default function ProductCard({
     }, 1500);
   };
 
-  // Format currency helper
+  // Helper para formatear moneda
   const formatPrice = (value: number) => {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',
@@ -196,6 +196,11 @@ export default function ProductCard({
       maximumFractionDigits: 0,
     }).format(value);
   };
+
+    // Calcular el porcentaje de descuento si existe originalPrice
+  const discountPercentage = product.originalPrice && product.originalPrice > product.price
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0;
 
   // URL y mensaje para compartir en WhatsApp
   const shareWhatsAppUrl = (() => {
@@ -222,43 +227,51 @@ export default function ProductCard({
       transition={{ duration: 0.3 }}
       className="group relative bg-white rounded-3xl overflow-hidden border border-slate-100 hover:border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
     >
-      {/* Badges */}
-      <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 pointer-events-none">
+      {/* Distintivos (Badges) */}
+      <div className="absolute top-4 left-4 z-10 flex flex-col items-start gap-1.5 pointer-events-none">
+        {product.isOutOfStock && (
+          <span className="px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-white bg-rose-700/90 backdrop-blur-xs rounded-[9px] shadow-xs">
+            Agotado 🚫
+          </span>
+        )}
         {product.gender && (
-          <span className={`px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-white rounded-full shadow-sm flex items-center gap-1 ${
-            product.gender === 'Dama' ? 'bg-pink-500' :
-            product.gender === 'Caballero' ? 'bg-slate-800' :
-            'bg-indigo-600'
+          <span className={`px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-widest backdrop-blur-xs rounded-[9px] shadow-xs flex items-center gap-1 ${
+            product.gender === 'Dama'
+              ? 'bg-purple-950/90 text-purple-200 border border-purple-500/10'
+              : product.gender === 'Caballero'
+              ? 'bg-slate-900/90 text-slate-200 border border-slate-700/10'
+              : 'bg-blue-950/90 text-blue-200 border border-blue-500/10'
           }`}>
-            {product.gender} {product.gender === 'Dama' ? '🌸' : product.gender === 'Caballero' ? '⚡' : '👥'}
+            {product.gender === 'Dama' ? '🌸 Dama' : product.gender === 'Caballero' ? '⚡ Caballero' : '👥 Unisex'}
           </span>
         )}
         {product.isNew && (
-          <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white bg-blue-600 rounded-full shadow-sm">
+          <span className="px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-widest text-white bg-blue-600/90 backdrop-blur-xs rounded-[9px] shadow-xs border border-blue-500/10">
             Nuevo
           </span>
         )}
         {product.isHot && (
-          <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white bg-amber-500 rounded-full shadow-sm">
+          <span className="px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-widest text-white bg-emerald-600/90 backdrop-blur-xs rounded-[9px] shadow-xs border border-emerald-500/10">
             Top Ventas
           </span>
         )}
-        {product.originalPrice && (
-          <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white bg-emerald-500 rounded-full shadow-sm">
-            Oferta
+        {product.originalPrice && discountPercentage > 0 && (
+          <span className="px-2.5 py-0.5 text-[11px] font-black text-white bg-gradient-to-r from-red-600/95 to-orange-500/95 backdrop-blur-xs rounded-[9px] shadow-md shadow-red-500/30 border border-red-500/20 flex items-center gap-1">
+            <span>🔥 -{discountPercentage}%</span>
+            <span className="text-[8px] font-bold text-white/90 tracking-wider uppercase ml-1">OFERTA</span>
           </span>
         )}
       </div>
 
         {/* =========================================================================
-         BOTÓN DE LISTA DE DESEOS / FAVORITOS (Heart Button)
-         =========================================================================
-         - Usamos un botón absoluto posicionado en la esquina superior derecha (top-4, right-4).
-         - Al hacer clic, detenemos la propagación (stopPropagation) para evitar que se abra
-           el visor de zoom del producto.
-         - Llamamos a "onToggleFavorite" pasando el ID del producto actual.
-         - El ícono Heart cambia de color dinámicamente: rosa con relleno si isFavorite es true,
-           o gris sutil si es false.
+        BOTÓN DE LISTA DE DESEOS / FAVORITOS (Heart Button)
+        =========================================================================
+        - Usamos un botón absoluto posicionado en la esquina superior derecha (top-4, right-4).
+        - Al hacer clic, detenemos la propagación (stopPropagation) para evitar que se abra
+        el visor de zoom del producto.
+        - Llamamos a "onToggleFavorite" pasando el ID del producto actual.
+        - El ícono Heart cambia de color dinámicamente: rosa con relleno si isFavorite es true,
+        o gris sutil si es false.
       */}
       <button
         id={`wishlist-btn-${product.id}`}
@@ -304,7 +317,7 @@ export default function ProductCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/5 via-transparent to-transparent pointer-events-none" />
         
-        {/* Hover zoom overlay indicator */}
+        {/* Indicador de superposición de zoom al pasar el cursor */}
         <div className="absolute inset-0 bg-black/15 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <div className="bg-white/90 backdrop-blur-md text-slate-900 text-xs font-bold px-3.5 py-2 rounded-xl shadow-lg flex items-center gap-1.5 transform scale-95 group-hover/img:scale-100 transition-all duration-300">
             <ZoomIn className="w-4 h-4 text-blue-600" />
@@ -312,7 +325,7 @@ export default function ProductCard({
           </div>
         </div>
 
-        {/* Gallery Navigation Controls */}
+        {/* Controles de navegación de la galería */}
         {allImages.length > 1 && (
           <>
             <button
@@ -338,7 +351,7 @@ export default function ProductCard({
               <ChevronRight className="w-4 h-4 text-slate-700 stroke-[2.5]" />
             </button>
 
-            {/* Gallery Indicator Dots */}
+            {/* Puntos indicadores de la galería */}
             <div className="absolute bottom-3 right-4 flex items-center gap-1.5 z-20 bg-black/25 backdrop-blur-xs px-2 py-1 rounded-full">
               {allImages.map((_, i) => (
                 <button
@@ -358,16 +371,16 @@ export default function ProductCard({
           </>
         )}
 
-        {/* Quick Brand tag */}
+        {/* Etiqueta rápida de la marca */}
         <span className="absolute bottom-3 left-4 text-xs font-semibold uppercase tracking-wider text-slate-500 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-md z-20">
           {product.brand}
         </span>
       </div>
 
-      {/* Product Information */}
+      {/* Información del producto */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          {/* Rating */}
+          {/* Calificacion */}
           <div className="flex items-center gap-1 mb-2">
             <div className="flex text-amber-400">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -386,12 +399,12 @@ export default function ProductCard({
             </span>
           </div>
 
-          {/* Title */}
+          {/* Titulo */}
           <h3 className="font-display text-lg font-bold text-slate-900 leading-tight mb-2 group-hover:text-blue-600 transition-colors">
             {product.name}
           </h3>
 
-           {/* Description */}
+           {/* Descripción */}
           <div className="relative mb-4">
             <div className="relative">
             <p className={`text-xs text-slate-500 leading-relaxed transition-all duration-300 ${
@@ -417,17 +430,30 @@ export default function ProductCard({
         </div>
 
         <div>
-          {/*  Precios y botón de compra */}
-          <div className="flex items-baseline gap-2 mb-4">
-            <span className="text-xl font-bold text-slate-950 font-display">
-              {formatPrice(product.price)}
-            </span>
-            {product.originalPrice && (
-              <span className="text-sm text-slate-400 line-through">
-                {formatPrice(product.originalPrice)}
+          {/* Precios y botón de compra con resaltado de descuento */}
+          <div className="flex flex-col gap-1 mb-4">
+            <div className="flex items-baseline gap-2">
+              <span className={`text-xl font-black font-display ${product.originalPrice ? 'text-rose-600' : 'text-slate-950'}`}>
+                {formatPrice(product.price)}
               </span>
+              {product.originalPrice && (
+                <span className="text-xs text-slate-400 line-through font-medium">
+                  {formatPrice(product.originalPrice)}
+                </span>
+              )}
+            </div>
+            {product.originalPrice && discountPercentage > 0 && (
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="text-[9px] font-black bg-rose-50 text-rose-600 px-2 py-0.5 rounded-md uppercase tracking-wide">
+                  -{discountPercentage}% DTO
+                </span>
+                <span className="text-[10px] font-bold text-slate-500">
+                  Ahorras {formatPrice(product.originalPrice - product.price)}
+                </span>
+              </div>
             )}
           </div>
+
 
           {/*  Selector de opciones expandible */}
           <AnimatePresence initial={false}>
@@ -466,7 +492,7 @@ export default function ProductCard({
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
-                      Talla COP (EUR): {selectedSize}
+                      Talla (EUR): {selectedSize}
                     </span>
                     {onOpenSizeGuide && (
                       <button
@@ -509,18 +535,25 @@ export default function ProductCard({
                 Atrás
               </button>
             )}
-            <button
+ <button
               id={`add-to-cart-btn-${product.id}`}
               type="button"
               onClick={handleAdd}
-              disabled={isAdded}
+              disabled={isAdded || product.isOutOfStock}
               className={`flex-1 py-3 px-4 rounded-xl font-bold text-xs tracking-wider uppercase transition-all duration-200 flex items-center justify-center gap-2 ${
-                isAdded
+                product.isOutOfStock
+                  ? 'bg-slate-200 border border-slate-300 text-slate-400 cursor-not-allowed shadow-none'
+                  : isAdded
                   ? 'bg-emerald-500 text-white'
                   : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-blue-200'
               }`}
             >
-              {isAdded ? (
+              {product.isOutOfStock ? (
+                <>
+                  <X className="w-4 h-4 text-slate-400" />
+                  Agotado
+                </>
+              ) : isAdded ? (
                 <>
                   <Check className="w-4 h-4" />
                   ¡Agregado!
@@ -549,7 +582,7 @@ export default function ProductCard({
         </div>
       </div>
 
-      {/* Full-screen Lightbox Modal */}
+      {/* Modal de caja de luz (Lightbox) de pantalla completa */}
       <AnimatePresence>
         {isZoomOpen && (
           <motion.div
@@ -560,7 +593,7 @@ export default function ProductCard({
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-slate-950/90 backdrop-blur-md cursor-zoom-out"
             onClick={() => setIsZoomOpen(false)}
           >
-            {/* Close button in top-right */}
+            {/* Botón de cierre en la parte superior derecha */}
             <button
               type="button"
               onClick={(e) => {
@@ -574,7 +607,7 @@ export default function ProductCard({
             </button>
 
 
-            {/* Inner Content Frame */}
+            {/* Marco de contenido interno */}
             <motion.div
               initial={{ scale: 0.95, y: 15 }}
               animate={{ scale: 1, y: 0 }}
@@ -583,7 +616,7 @@ export default function ProductCard({
               className="relative max-w-lg md:max-w-xl w-full max-h-[85vh] flex flex-col items-center justify-center cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Product Image Panel with nice soft glow */}
+              {/* Panel de imagen del producto con un brillo suave y agradable */}
               <div 
                 className={`relative overflow-hidden rounded-3xl bg-white shadow-2xl border border-slate-100 max-h-[70vh] flex items-center justify-center p-2 select-none w-full ${
                   isInnerZoomed ? 'cursor-zoom-out touch-none' : 'cursor-zoom-in'
@@ -631,7 +664,7 @@ export default function ProductCard({
                   }}
                 />
 
-                {/* Floating zoom status indicator */}
+                {/*  Indicador flotante del estado de zoom */}
                 {isInnerZoomed ? (
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-blue-600/95 backdrop-blur-md text-white text-[11px] font-bold px-4 py-2 rounded-full shadow-lg border border-white/15 z-40 flex items-center gap-1.5 pointer-events-none transition-all duration-300">
                     <ZoomIn className="w-4 h-4 animate-pulse text-amber-300" />
@@ -696,7 +729,7 @@ export default function ProductCard({
                   </>
                 )}
                 
-                {/* Brand Logo floating element inside image - Hidden during zoom for clarity */}
+                {/* Elemento flotante del logotipo de la marca dentro de la imagen - Oculto durante el zoom para mayor claridad */}
                 {!isInnerZoomed && (
                   <span className="absolute top-4 left-4 bg-slate-900/90 backdrop-blur-xs text-white text-xs font-black uppercase tracking-widest px-3.5 py-1.5 rounded-xl border border-white/10 z-20">
                     {product.brand}
@@ -714,7 +747,7 @@ export default function ProductCard({
                 )}
               </div>
 
-              {/* Bottom detail card */}
+              {/* Tarjeta de detalles inferior */}
               <div className="mt-4 text-center bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl border border-white/10 text-white max-w-lg shadow-xl w-full">
                 <h4 className="font-display text-base font-bold tracking-tight">
                   {product.name}
@@ -728,13 +761,20 @@ export default function ProductCard({
                     {product.description}
                   </p>
                 )}
-                <div className="flex items-center justify-center gap-2 mt-3.5 pt-2 border-t border-white/10">
-                  <span className="text-sm font-bold text-blue-300">
-                    ${product.price.toLocaleString('es-CO')} COP
-                  </span>
-                  {product.originalPrice && (
-                    <span className="text-xs text-slate-400 line-through">
-                      ${product.originalPrice.toLocaleString('es-CO')}
+                <div className="flex flex-col items-center gap-1 mt-3.5 pt-2 border-t border-white/10">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className={`text-sm font-bold ${product.originalPrice ? 'text-rose-400 font-black' : 'text-blue-300'}`}>
+                      ${product.price.toLocaleString('es-CO')} COP
+                    </span>
+                    {product.originalPrice && (
+                      <span className="text-xs text-slate-400 line-through">
+                        ${product.originalPrice.toLocaleString('es-CO')}
+                      </span>
+                    )}
+                  </div>
+                  {product.originalPrice && discountPercentage > 0 && (
+                    <span className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded-md mt-1 animate-pulse">
+                      🔥 ¡Ahorras ${(product.originalPrice - product.price).toLocaleString('es-CO')} COP ({discountPercentage}% Dto)!
                     </span>
                   )}
                 </div>
