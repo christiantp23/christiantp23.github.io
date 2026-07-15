@@ -108,12 +108,30 @@ export default function CheckoutModal({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    // Saneamiento en tiempo real para el número de celular/WhatsApp
+    let cleanedValue = value;
+    if (name === 'phone') {
+      // Permitir solo dígitos numéricos y un máximo de 10 caracteres
+      cleanedValue = value.replace(/\D/g, '').slice(0, 10);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: cleanedValue,
     }));
 
-    if (touched[name]) {
+    // Validación inmediata en tiempo real para el celular/WhatsApp, y para los demás campos después de ser "touched"
+    if (name === 'phone') {
+      const error = validateField(name, cleanedValue);
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+      setTouched((prev) => ({
+        ...prev,
+        [name]: true,
+      }));
+    } else if (touched[name]) {
       const error = validateField(name, value);
       setErrors((prev) => ({
         ...prev,
@@ -408,7 +426,7 @@ export default function CheckoutModal({
                       <div className="space-y-1.5">
                         <label className="text-xs font-semibold text-slate-700 flex items-center gap-1">
                           <Phone className="w-3.5 h-3.5 text-slate-400" />
-                          Número de Celular <span className="text-red-500">*</span>
+                          Número de Celular (WhatsApp) <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="tel"
@@ -420,15 +438,27 @@ export default function CheckoutModal({
                           placeholder="Ej: 3001234567"
                           className={`w-full text-sm px-4 py-3 rounded-xl border outline-none transition-all placeholder:text-slate-400 ${errors.phone && touched.phone
                               ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50/10'
+                              : formData.phone.length === 10 && !errors.phone
+                              ? 'border-emerald-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 bg-emerald-50/10'
                               : 'border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-sky/20 bg-white'
                             }`}
                         />
-                        {errors.phone && touched.phone && (
+                        {errors.phone && touched.phone ? (
                           <p className="text-[11px] text-rose-500 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
                             <span className="w-1 h-1 rounded-full bg-rose-500 animate-pulse" />
                             {errors.phone}
                           </p>
-                        )}
+                        ) : formData.phone.length === 10 && !errors.phone ? (
+                          <p className="text-[11px] text-emerald-600 font-medium mt-1 flex items-center gap-1.5 animate-fadeIn">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                            <span>✓ Formato de WhatsApp válido para recibir tu pedido</span>
+                          </p>
+                        ) : formData.phone.length > 0 ? (
+                          <p className="text-[11px] text-amber-600 font-medium mt-1 flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-amber-500 shrink-0" />
+                            <span>Escribe los 10 dígitos (Faltan {10 - formData.phone.length})</span>
+                          </p>
+                        ) : null}
                       </div>
                     </div>
 

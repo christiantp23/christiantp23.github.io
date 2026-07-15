@@ -202,6 +202,9 @@ export default function ProductCard({
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
+    // Lógica de oferta dinámica para precios que terminan en 5000
+  const esOferta = product.price % 10000 === 5000;
+
   // URL y mensaje para compartir en WhatsApp
   const shareWhatsAppUrl = (() => {
     const productName = product.name;
@@ -255,11 +258,18 @@ export default function ProductCard({
             Top Ventas
           </span>
         )}
-        {product.originalPrice && discountPercentage > 0 && (
+      {esOferta ? (
+          <span className="px-2.5 py-0.5 text-[11px] font-black text-white bg-red-600 rounded-[9px] shadow-md shadow-red-500/30 border border-red-500/20">
+            -8% OFERTA
+          </span>
+        ) : (
+          product.originalPrice && discountPercentage > 0 && (
+
           <span className="px-2.5 py-0.5 text-[11px] font-black text-white bg-gradient-to-r from-red-600/95 to-orange-500/95 backdrop-blur-xs rounded-[9px] shadow-md shadow-red-500/30 border border-red-500/20 flex items-center gap-1">
             <span>🔥 -{discountPercentage}%</span>
             <span className="text-[8px] font-bold text-white/90 tracking-wider uppercase ml-1">OFERTA</span>
           </span>
+        )
         )}
       </div>
 
@@ -432,6 +442,24 @@ export default function ProductCard({
         <div>
           {/* Precios y botón de compra con resaltado de descuento */}
           <div className="flex flex-col gap-1 mb-4">
+            {esOferta ? (
+              <>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xl font-black font-display text-red-600">
+                    {formatPrice(product.price)}
+                  </span>
+                  <span className="text-xs text-slate-400 line-through font-medium">
+                    {formatPrice(product.price + 15000)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="text-[10px] font-bold text-slate-500">
+                    -8% DTO Ahorras $ 15.000
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
             <div className="flex items-baseline gap-2">
               <span className={`text-xl font-black font-display ${product.originalPrice ? 'text-rose-600' : 'text-slate-950'}`}>
                 {formatPrice(product.price)}
@@ -451,6 +479,8 @@ export default function ProductCard({
                   Ahorras {formatPrice(product.originalPrice - product.price)}
                 </span>
               </div>
+              )}
+              </>
             )}
           </div>
 
@@ -535,7 +565,7 @@ export default function ProductCard({
                 Atrás
               </button>
             )}
- <button
+  <button
               id={`add-to-cart-btn-${product.id}`}
               type="button"
               onClick={handleAdd}
@@ -762,6 +792,22 @@ export default function ProductCard({
                   </p>
                 )}
                 <div className="flex flex-col items-center gap-1 mt-3.5 pt-2 border-t border-white/10">
+                  {esOferta ? (
+                    <>
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-sm font-bold text-red-400 font-black">
+                          ${product.price.toLocaleString('es-CO')} COP
+                        </span>
+                        <span className="text-xs text-slate-400 line-through">
+                          ${(product.price + 15000).toLocaleString('es-CO')} COP
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded-md mt-1 animate-pulse">
+                        🔥 ¡-8% DTO Ahorras $ 15.000 COP!
+                      </span>
+                    </>
+                  ) : (
+                    <>
                   <div className="flex items-center justify-center gap-2">
                     <span className={`text-sm font-bold ${product.originalPrice ? 'text-rose-400 font-black' : 'text-blue-300'}`}>
                       ${product.price.toLocaleString('es-CO')} COP
@@ -776,6 +822,8 @@ export default function ProductCard({
                     <span className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded-md mt-1 animate-pulse">
                       🔥 ¡Ahorras ${(product.originalPrice - product.price).toLocaleString('es-CO')} COP ({discountPercentage}% Dto)!
                     </span>
+                    )}
+                    </>
                   )}
                 </div>
               </div>

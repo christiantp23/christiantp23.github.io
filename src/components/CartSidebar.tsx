@@ -44,11 +44,23 @@ export default function CartSidebar({
     }).format(value);
   };
 
-  // Calculate Subtotal
+   // Calcular subtotal (precio final con descuentos)
   const subtotal = cartItems.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
   );
+
+  // Calcular total original (sin descuentos) para calcular el ahorro
+  const totalOriginal = cartItems.reduce((total, item) => {
+    const isDynamicOffer = item.product.price % 10000 === 5000;
+    const itemOriginalPrice = isDynamicOffer
+      ? item.product.price + 15000
+      : (item.product.originalPrice || item.product.price);
+    return total + itemOriginalPrice * item.quantity;
+  }, 0);
+
+  // Ahorro total
+  const totalSavings = totalOriginal - subtotal;
 
   return (
     <AnimatePresence>
@@ -225,10 +237,23 @@ export default function CartSidebar({
                           </button>
                         </div>
 
-                        {/* Precio total */}
-                        <span className="text-sm font-bold text-slate-900 font-display">
-                          {formatPrice(item.product.price * item.quantity)}
-                        </span>
+                         {/* Precio total */}
+                          <div className="flex flex-col items-end">
+                            {(item.product.price % 10000 === 5000) ? (
+                              <span className="text-[11px] text-slate-400 line-through font-display">
+                                {formatPrice((item.product.price + 15000) * item.quantity)}
+                              </span>
+                            ) : (
+                              item.product.originalPrice && item.product.originalPrice > item.product.price && (
+                                <span className="text-[11px] text-slate-400 line-through font-display">
+                                  {formatPrice(item.product.originalPrice * item.quantity)}
+                                </span>
+                              )
+                            )}
+                            <span className="text-sm font-bold text-slate-900 font-display">
+                              {formatPrice(item.product.price * item.quantity)}
+                            </span>
+                          </div>
                       </div>
                     </div>
                   </motion.div>
@@ -237,14 +262,20 @@ export default function CartSidebar({
               )}
             </div>
 
-            {/* Footer Summary & Checkout button */}
+             {/* Resumen final y botón de finalizar compra */}
             {cartItems.length > 0 && (
               <div className="p-6 border-t border-slate-100 bg-slate-50/50 space-y-4">
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>Subtotal</span>
-                    <span>{formatPrice(subtotal)}</span>
+                    <span>{formatPrice(totalOriginal)}</span>
                   </div>
+                  {totalSavings > 0 && (
+                    <div className="flex justify-between text-xs text-emerald-600 font-semibold">
+                      <span>Descuento / Ahorro</span>
+                      <span>-{formatPrice(totalSavings)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>Envío</span>
                     <span className="text-emerald-600 font-medium">¡Gratis a nivel nacional!</span>
@@ -255,6 +286,24 @@ export default function CartSidebar({
                     <span className="text-brand-blue">{formatPrice(subtotal)}</span>
                   </div>
                 </div>
+
+                {totalSavings > 0 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-emerald-50 border border-emerald-100/80 rounded-2xl p-4 flex items-center gap-3"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 shrink-0">
+                      <span className="font-bold text-lg font-display">%</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold text-emerald-800">¡Felicidades! Ahorro exclusivo</p>
+                      <p className="text-[11px] text-emerald-600">
+                        Estás ahorrando <span className="font-bold">{formatPrice(totalSavings)}</span> en esta orden por los precios rebajados de tu selección.
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
 
                 <button
                   id="checkout-trigger-btn"

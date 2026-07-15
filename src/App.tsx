@@ -281,7 +281,9 @@ export default function App() {
       selectedGender === 'Todos' || product.gender === selectedGender;
 
       const matchesDiscounts =
-      !onlyDiscounts || (!!product.originalPrice && product.originalPrice > product.price);
+      !onlyDiscounts || 
+      (!!product.originalPrice && product.originalPrice > product.price) ||
+      (product.price % 10000 === 5000);
 
     return matchesSearch && matchesCategory && matchesBrand && matchesGender && matchesDiscounts;
   });
