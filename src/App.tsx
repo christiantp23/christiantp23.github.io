@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Truck, TrendingUp, Filter, Heart, ArrowUpRight, CheckCircle, Percent, ChevronDown, Instagram, Facebook, BookImage } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product, CartItem, ToastNotification} from './types';
@@ -73,6 +73,15 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [selectedBrand, setSelectedBrand] = useState('Todas');
   const [selectedGender, setSelectedGender] = useState<'Todos' | 'Dama' | 'Caballero' | 'Unisex'>('Todos');
+  // Generar puntuaciones aleatorias estables para cada producto al montar el componente.
+  // Esto evita que los productos salten o cambien de posición al agregarlos al carrito o interactuar.
+  const randomScores = useMemo(() => {
+    const scores: Record<string, number> = {};
+    SNEAKER_PRODUCTS.forEach((product) => {
+      scores[product.id] = Math.random();
+    });
+    return scores;
+  }, []);
   const [sortBy, setSortBy] = useState<'default' | 'price_asc' | 'price_desc' | 'rating'>('default');
   const [onlyDiscounts, setOnlyDiscounts] = useState(false);
   const [isCatalogLoading, setIsCatalogLoading] = useState(false);
@@ -293,7 +302,9 @@ export default function App() {
     if (sortBy === 'price_asc') return a.price - b.price;
     if (sortBy === 'price_desc') return b.price - a.price;
     if (sortBy === 'rating') return b.rating - a.rating;
-    return 0; // Default sorting
+
+   // El orden por defecto ('default' / Recomendados) será de manera aleatoria estable por sesión
+    return (randomScores[a.id] || 0) - (randomScores[b.id] || 0);
   });
 
     // ==========================================
