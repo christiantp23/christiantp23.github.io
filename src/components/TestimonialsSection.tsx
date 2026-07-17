@@ -221,7 +221,7 @@ export default function TestimonialsSection() {
             id: 'testimonial-1',
             clientName: 'Santiago Cadavid',
             phoneColor: 'bg-amber-400', // Botón amarillo
-            chatScreenshot: '/testimonios/santiago_medellin.png',
+            chatScreenshot: '/testimonios/santiago_medellin.webp',
         },
         {
             id: 'testimonial-video-1',
@@ -234,13 +234,13 @@ export default function TestimonialsSection() {
             id: 'testimonial-2',
             clientName: 'Bibiana (Dabeiba)',
             phoneColor: 'bg-rose-500', // Botón rojo metálico
-            chatScreenshot: '/testimonios/dabeiba.png',
+            chatScreenshot: '/testimonios/dabeiba.webp',
         },
         {
             id: 'testimonial-3',
             clientName: 'Dahiana',
             phoneColor: 'bg-sky-500', // Botón azul metálico
-            chatScreenshot: '/testimonios/dahiana_medellin.png',
+            chatScreenshot: '/testimonios/dahiana_medellin.webp',
         }
     ];
 
@@ -273,8 +273,7 @@ export default function TestimonialsSection() {
                         ESTILO EN CADA PASO
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-500 mt-3 leading-relaxed max-w-2xl mx-auto">
-                        ¡La prueba reina! Así se ven los chats y videos de unboxing de nuestros clientes cuando reciben sus zapatillas.
-                        Desliza hacia la izquierda o derecha para ver las capturas de pantalla reales de WhatsApp y los videos interactivos.
+                        Mira las reacciones de quienes ya compraron. Desliza para explorar capturas de pantalla de WhatsApp y videos de las zapatillas al llegar a su destino.
                     </p>
                 </div>
 
@@ -361,12 +360,19 @@ PUNTOS INDICADORES DE NAVEGACIÓN (Pagination Dots)
                     </h3>
                 </div>
 
-                {/* Footer interior de testimonios */}
+                {/* Pie de página interior de testimonios */}
                 <div className="text-center mt-8">
-                    <p className="text-[11px] text-slate-400 font-semibold flex items-center justify-center gap-1.5">
-                        <span>Únete a </span>
-                        <span className="text-slate-900 bg-white border border-slate-150 py-0.5 px-2 rounded-md shadow-xs font-bold">la familia Trespa Store</span>
-                        <span>en toda Colombia 🇨🇴</span>
+                    <p className="text-[11px] text-slate-400 font-semibold flex items-center justify-center gap-1.5 flex-wrap">
+                        <span>Únete a los más de</span>
+                        <span className="text-slate-900 bg-white border border-slate-150 py-0.5 px-2 rounded-md shadow-xs font-bold">1,500+ clientes</span>
+                        <span className="flex items-center gap-1.5">
+                            <span>satisfechos en toda Colombia</span>
+                            <span className="inline-flex flex-col w-5 h-3.5 rounded-xs overflow-hidden shadow-xs border border-slate-200/50 shrink-0 select-none" title="Colombia">
+                                <span className="bg-[#FCD116] h-1/2 w-full" />
+                                <span className="bg-[#003893] h-1/4 w-full" />
+                                <span className="bg-[#CE1126] h-1/4 w-full" />
+                            </span>
+                        </span>
                     </p>
                 </div>
             </div>

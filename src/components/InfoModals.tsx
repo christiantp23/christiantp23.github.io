@@ -326,7 +326,7 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
                         </div>
                         <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex flex-col items-center justify-center gap-0.5">
                           <img
-                            src="/public/pse.png"
+                            src="/public/pse.webp"
                             alt="Logo PSE"
                             loading="lazy" // Carga diferida para optimizar la lista del carrito
                             referrerPolicy="no-referrer"
@@ -413,7 +413,7 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
           </div>
           <h4 className="text-sm font-extrabold text-slate-900 font-display">Líder en Envíos Nacionales</h4>
           <div className="flex justify-center items-center py-4 bg-slate-50 rounded-xl">
-            <img src="/logo-inter.png" alt="Logo Interrapidísimo" loading="lazy" className="h-10 w-auto object-contain" />
+            <img src="/logo-inter.webp" alt="Logo Interrapidísimo" loading="lazy" className="h-10 w-auto object-contain" />
           </div>
         </div>
         <div className="pt-2 border-t border-slate-100 space-y-1 text-[10px] text-slate-400 font-medium">
@@ -433,7 +433,7 @@ export default function InfoModals({ isOpen, onClose, initialTab = 'tallas' }: I
           </div>
           <h4 className="text-sm font-extrabold text-slate-900 font-display">Logística y Cuidado Extra</h4>
           <div className="flex justify-center items-center py-4 bg-slate-50 rounded-xl">
-            <img src="/logo-coordi.png" alt="Logo Coordinadora" loading="lazy" className="h-10 w-auto object-contain" />
+            <img src="/logo-coordi.webp" alt="Logo Coordinadora" loading="lazy" className="h-10 w-auto object-contain" />
           </div>
         </div>
         <div className="pt-2 border-t border-slate-100 space-y-1 text-[10px] text-slate-400 font-medium">

@@ -15,7 +15,7 @@ import InfoModals from './components/InfoModals';
 import TestimonialsSection from './components/TestimonialsSection'; // Nuevo: Importamos la sección de testimonios de clientes (WhatsApp chats)
 import ToastContainer from './components/ToastContainer';
 import SplashScreen from './components/SplashScreen';
-import FloatingCatalogStats from './components/FloatingCatalogStats';
+//import FloatingCatalogStats from './components/FloatingCatalogStats';
 
 
 export default function App() {
@@ -373,7 +373,12 @@ export default function App() {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-sky/10 border border-brand-sky/20 text-brand-sky text-xs font-semibold tracking-wider uppercase"
               >
                 <Truck className="w-3.5 h-3.5" />
-                ENVÍO GRATIS A TODA COLOMBIA 🇨🇴
+                <span>ENVÍO GRATIS A TODA COLOMBIA</span>
+                <span className="inline-flex flex-col w-5 h-3.5 rounded-xs overflow-hidden shadow-xs border border-brand-sky/20 shrink-0 select-none" title="Colombia">
+                  <span className="bg-[#FCD116] h-1/2 w-full" />
+                  <span className="bg-[#003893] h-1/4 w-full" />
+                  <span className="bg-[#CE1126] h-1/4 w-full" />
+                </span>
               </motion.div>
 
               <motion.h1
@@ -404,7 +409,7 @@ export default function App() {
                 className="relative z-10 w-full aspect-square max-w-[360px] mx-auto rounded-[32px] overflow-hidden border-4 border-white/10 shadow-2xl"
               >
                 <img
-                  src="/lema.png"
+                  src="/lema.webp"
                   alt="Como el 23"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover scale-105"
@@ -790,7 +795,7 @@ className="w-full sm:w-auto text-center px-5 py-2.5 bg-emerald-500/10 hover:bg-e
             {/* Col 1 - Centrada y alineada visualmente hacia arriba */}
             <div className="md:col-span-5 flex flex-col items-center text-center space-y-4 md:-mt-4">
               <img
-                src="/logo-foot.png"
+                src="/logo-foot.webp"
                 alt="TRESPA STORE"
                 loading="lazy" // Carga diferida para optimizar el rendimiento inicial de la página
                 className="h-24 sm:h-14 md:h-48 w-auto object-contain"
@@ -958,7 +963,7 @@ className="w-full sm:w-auto text-center px-5 py-2.5 bg-emerald-500/10 hover:bg-e
       <FloatingWhatsapp />
 
        {/* Control y balance de inventario del catálogo (Estadísticas Temporales) */}
-      <FloatingCatalogStats />
+      {/* <FloatingCatalogStats /> */}
 
       {/* =========================================================================
         BOTÓN FLOTANTE DEL CATÁLOGO DE TELEGRAM (FloatingTelegram)
