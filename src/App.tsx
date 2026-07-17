@@ -15,6 +15,8 @@ import InfoModals from './components/InfoModals';
 import TestimonialsSection from './components/TestimonialsSection'; // Nuevo: Importamos la sección de testimonios de clientes (WhatsApp chats)
 import ToastContainer from './components/ToastContainer';
 import SplashScreen from './components/SplashScreen';
+import FloatingCatalogStats from './components/FloatingCatalogStats';
+
 
 export default function App() {
   // ==========================================
@@ -183,6 +185,7 @@ export default function App() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [cartItems]);
+  
 
   // ==========================================
   // ACCIÓN DE AGREGAR/QUITAR FAVORITO (handleToggleFavorite)
@@ -953,6 +956,9 @@ className="w-full sm:w-auto text-center px-5 py-2.5 bg-emerald-500/10 hover:bg-e
 
       {/* Floating breathing WhatsApp Support button */}
       <FloatingWhatsapp />
+
+       {/* Control y balance de inventario del catálogo (Estadísticas Temporales) */}
+      <FloatingCatalogStats />
 
       {/* =========================================================================
         BOTÓN FLOTANTE DEL CATÁLOGO DE TELEGRAM (FloatingTelegram)

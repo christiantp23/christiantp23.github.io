@@ -1,4 +1,4 @@
-import { Product } from './types';
+import { Product } from "./types";
 
 export const SNEAKER_PRODUCTS: Product[] = [
   // ---------------------------------------------------------
@@ -11,288 +11,30 @@ export const SNEAKER_PRODUCTS: Product[] = [
     category: "Urbano",
     gender: "Dama",
     price: 200000,
-    sizes: [35, 36, 37, 38, 39],
+    sizes: [36, 37, 38, 39],
     colors: ["Café Cacao"],
     image: "/productos/mujer/nike_sb_dunk_cocoa.jpg",
     rating: 4.9,
     isHot: true,
-    description: "El colorway más codiciado de la temporada. Cuero premium café chocolate sobre una base color crema (Sail), perfecto para combinar con tonos tierra de manera espectacular."
+    description:
+      "El colorway más codiciado de la temporada. Cuero premium café chocolate sobre una base color crema (Sail), perfecto para combinar con tonos tierra de manera espectacular.",
   },
   {
-    id: "on-cloudrunner-lavender-storm",
-    name: "On Cloud",
-    brand: "OnCloud",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 190000,
-    sizes: [35, 36, 37, 38, 39],
-    colors: ["Gris"],
-    image: "/productos/mujer/oncloud_gris.jpg",
-    rating: 4.8,
-    isHot: true,
-    description: "Zapatillas On Cloudrunner para mujer. Tienen suela con sistema CloudTec y espuma Helion que amortiguan tus pasos. Gris claro con detalles blancos."
-  },
-  {
-    id: "on-cloudrunner-beige-sunset",
-    name: "On Cloudrunner Sand Beige & Pink",
-    brand: "OnCloud",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 190000,
-    sizes: [35, 36, 37, 38, 39],
-    colors: ["Arena/Rosa Vibrante"],
-    image: "/productos/mujer/oncloud_cafe.jpg",
-    rating: 4.8,
-    isNew: true,
-    description: "Tonos arena combinados con unos cordones rosa vibrante que destacan en cualquier trote o caminata. Ligereza, ventilación y amortiguación excepcionales."
-  },
-  {
-    id: "adidas-superstar-maroon-teddy",
-    name: "Adidas Superstar",
-    brand: "Adidas",
-    category: "Urbano",
-    gender: "Dama",
-    price: 190000,
-    sizes: [35, 36, 37, 38, 39],
-    colors: ["Blanco/Vino Tinto"],
-    image: "/productos/mujer/adidas_superstar_vinotinto.jpg",
-    rating: 4.9,
-    isNew: true,
-    description: "El diseño resalta por sus franjas laterales y talón en tono vinotinto. Las franjas incluyen un patrón de costuras decorativas blancas. Tienen un estampado de un oso en la parte trasera y en la etiqueta de la lengüeta. Traen un llavero metálico redondo con el mismo diseño del oso y cordones color vinotinto."
-  },
-  {
-    id: "nike-zoom",
-    name: "Nike Zoom Vomero Plus",
-    brand: "Nike",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 185000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Blanco con Rosa"],
-    image: "/productos/mujer/nike_zoom.jpg",
-    rating: 4.9,
-    isHot: true,
-    description: "Estas zapatillas para mujer tienen una cubierta textil tejida en color blanco con el logo lateral magenta. Destacan por una entresuela muy gruesa de espuma ZoomX con un borde exterior rosado y translúcido."
-  },
-  {
-    id: "adidas-samba",
-    name: "Adidas Samba OG",
-    brand: "Adidas",
-    category: "Urbano",
-    gender: "Dama",
-    price: 180000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Café"],
-    image: "/productos/mujer/adidas_sambas_cafe.jpg",
-    rating: 4.7,
-    isHot: true,
-    description: "Esta variante presenta un exterior café con el nombre del modelo impreso y las tres franjas laterales en blanco Trae la suela de goma plana que identifica a esta referencia."
-  },
-  {
-    id: "puma-fenty",
-    name: "Puma Fenty",
-    brand: "Puma",
-    category: "Urbano",
-    gender: "Dama",
-    price: 180000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Rojo Chicago", "Azul Royal", "Negro/Oro Premium"],
-    image: "/productos/mujer/puma_fenty.jpg",
-    rating: 4.9,
-    isHot: true,
-    description: "Calzado urbano que resalta por su diseño clásico en gamuza negra con la franja lateral blanca en contraste. Su principal característica es la suela gruesa de plataforma en goma estriada que eleva tu silueta. Es una opción versátil para tus looks casuales."
-  },
-  {
-    id: "asics-turquesa",
-    name: "Asics Superblast 2",
-    brand: "Asics",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 195000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Turquesa"],
-    image: "/productos/mujer/asics_dama_azulverde.png",
-    rating: 4.9,
-    isHot: true,
-    description: "Luce el diseño running más codiciado del momento con el máximo confort. Esta versión importada de alta calidad replica fielmente los acabados y el llamativo color Wave Teal. Cuenta con una entresuela de excelente amortiguación ideal para tus caminatas, entrenamientos ligeros o looks urbanos diarios. Estilo de alta gama y comodidad superior en cada paso."
-  },
-  {
-    id: "asics-morado",
-    name: "Asics Superblast 2",
-    brand: "Asics",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 195000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Bold Magenta"],
-    image: "/productos/mujer/asics_dama_morado_fuscia.png",
-    rating: 4.9,
-    isHot: true,
-    description: "Atrévete a destacar con el colorway más enérgico e impactante de la temporada. Esta versión importada de alta calidad replica detalladamente el electrizante contraste entre magenta, rosa glo y el acento verde menta de los nuevos Superblast 2. Su entresuela de máximo volumen te brinda una amortiguación ultra suave en tus actividades diarias, entrenamientos o caminatas. El balance perfecto entre estilo urbano atrevido y confort superior."
-  },
-  {
-    id: "adidas-samba-og",
-    name: "Adidas Samba OG Brown", 
-    brand: "Adidas",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 180000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Turquesa"],
-    image: "/productos/mujer/samba_dama_og_cafe.png",
-    rating: 4.9,
-    isHot: true,
-    description: "Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro."
-  },
-  {
-    id: "adidas-samba-coleccion",
-    name: "Adidas Sambas OG",
-    brand: "Adidas",
-    category: "Urbano",
-    gender: "Dama",
-    price: 180000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Leopardo", "Negro", "Marrón Claro", "Café Chocolate", "Burdeos", "Vinotinto"],
-    image: "/productos/mujer/samba_tigre.jpg",
-    images: [
-      "/productos/mujer/samba_negros.jpg",
-      "/productos/mujer/samba_cafee.jpg",
-      "/productos/mujer/samba_cafem.jpg",
-      "/productos/mujer/samba_burdeo.jpg",
-      "/productos/mujer/samba_vinotinto.jpg",
-    ],
-    colorImages: {
-      Leopardo: "/productos/mujer/samba_tigre.jpg",
-      Negro: "/productos/mujer/samba_negros.jpg",
-      "Marrón Claro": "/productos/mujer/samba_cafee.jpg",
-      "Café Chocolate": "/productos/mujer/samba_cafem.jpg",
-      Burdeos: "/productos/mujer/samba_burdeo.jpg",
-      Vinotinto: "/productos/mujer/samba_vinotinto.jpg",
-    },
-    rating: 4.9,
-    isHot: true,
-    isNew: true,
-    description: "Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro."
-  },
-  {
-    id: "nike-coleccion-dunk",
-    name: "Nike SB Dunk Low",
+    id: "nike-blazer-mid-77-blanco-negro",
+    name: "Nike Blazer Mid '77 Vintage",
     brand: "Nike",
     category: "Urbano",
     gender: "Dama",
-    price: 200000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Café", "Sail/Plum Eclipse/Diffused Taupe", "Phantom / Metallic Gold / Sanddrift", "Verde Oliva"],
-    image: "/productos/mujer/dunk_cafe.jpg",
-    images: [
-      "/productos/mujer/dunk_rosa.jpg",
-      "/productos/mujer/dunk_rosado.jpg",
-      "/productos/mujer/dunk_verde.jpg",
-    ],
-    colorImages: {
-      Café: "/productos/mujer/dunk_cafe.jpg",
-      "Sail/Plum Eclipse/Diffused Taupe": "/productos/mujer/dunk_rosa.jpg",
-      "Phantom / Metallic Gold / Sanddrift": "/productos/mujer/dunk_rosado.jpg",
-      "Verde Oliva": "/productos/mujer/dunk_verde.jpg",
-    },
-    rating: 4.9,
-    isHot: true,
-    description: "Eleva tu estilo urbano con esta edición especial. Destaca por su base en tono crema suave, llamativas tres franjas en contraste marrón moca y su icónica suela de goma retro."
-  },
-  {
-    id: "adidas-forum",
-    name: "Adidas Forum",
-    brand: "Adidas",
-    category: "Urbano",
-    gender: "Dama",
     price: 180000,
     sizes: [36, 37, 38, 39],
-    colors: ["Beige"],
-    image: "/productos/mujer/forum_dama.jpg",
-    rating: 4.9,
-    isHot: true,
-    description: "Eleva tu estilo urbano con esta edición especial."
-  },
-  {
-    id: "adidas-samba-og-verde",
-    name: "Adidas Samba OG",
-    brand: "Adidas",
-    category: "Urbano",
-    gender: "Dama",
-    price: 190000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Verde"],
-    image: "/productos/mujer/samba_verde.jpg",
-    rating: 4.9,
-    isHot: true,
-    description: "Estas zapatillas son las Adidas Samba OG en la combinación de colores verde y blanco con suela de goma (Collegiate Green)"
-  },
-  {
-    id: "nike-vomero-plus",
-    name: "Nike Vomero Plus 'ZoomX'",
-    brand: "Nike",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 185000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Azul/Aguamarina", "Lila/Rosa", "Blanco/Rosa/Rojo"],
-    image: "/productos/mujer/nike-vomero-azul.jpg",
-    images: [
-      "/productos/mujer/nike-vomero-lila.jpg",
-      "/productos/mujer/nike-vomero-rosarojo.jpg"
-    ],
-    colorImages: {
-      "Azul/Aguamarina": "/productos/mujer/nike-vomero-azul.jpg",
-      "Lila/Rosa": "/productos/mujer/nike-vomero-lila.jpg",
-      "Blanco/Rosa/Rojo": "/productos/mujer/nike-vomero-rosarojo.jpg",
-    },
-    rating: 4.9,
-    isNew: true,
-    description: "El equilibrio perfecto entre velocidad y estilo urbano. Diseñadas con una malla ligera de alto rendimiento y la revolucionaria amortiguación ZoomX de entresuela gruesa, que te ofrece el máximo retorno de energía y una pisada ultra suave en cada kilómetro."
-  },
-  {
-    id: "new-balance-530-plataforma",
-    name: "New Balance 530 Plataforma",
-    brand: "New Balance",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 185000,
-    originalPrice: 195000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Azul Oscuro", "Lila", "Celeste", "Plateado y Rosado Pastel", "Negro"],
-    image: "/productos/mujer/nb-530-azulmarino.jpg",
-    images: [
-      "/productos/mujer/nb-530-lila.jpg",
-      "/productos/mujer/nb-530-celeste.jpg",
-      "/productos/mujer/nb-530-rosapastel.jpg",
-      "/productos/mujer/nb-530-negro.jpg",
-    ],
-    colorImages: {
-      "Azul Oscuro": "/productos/mujer/nb-530-azulmarino.jpg",
-      "Lila": "/productos/mujer/nb-530-lila.jpg",
-      "Celeste": "/productos/mujer/nb-530-celeste.jpg",
-      "Plateado y Rosado Pastel": "/productos/mujer/nb-530-rosapastel.jpg",
-      "Negro": "/productos/mujer/nb-530-negro.jpg",
-    },
-    rating: 4.9,
-    isNew: true,
-    description: "Calzado de estilo retro inspirado en los años 2000. Esta versión destaca por combinar su clásica base de malla con superposiciones metalizadas y una suela de plataforma robusta que eleva tu silueta, ofreciendo un look urbano, moderno y extra cómodo."
-  },
-  {
-    id: "adidas-samba-mary-jane-cafe",
-    name: "Adidas Samba Mary Jane",
-    brand: "Adidas",
-    category: "Urbano",
-    gender: "Dama",
-    price: 180000,
-    originalPrice: 195000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Café"],
-    image: "/productos/mujer/samba-jane.jpg",
+    colors: ["Blanco"],
+    image: "/productos/mujer/nike-blazer-mid-blanco-negro.webp",
     rating: 4.8,
-    isNew: true,
-    description: "Esta innovadora silueta transforma las icónicas Samba en un elegante diseño Mary Jane. Presenta un exterior café chocolate con correa ajustable, finas perforaciones y sutiles detalles dorados. Su suela de goma plana aporta versatilidad y confort para looks casuales y muy femeninos."
+    isHot: true,
+    description:
+      "Zapatillas clásicas Nike Blazer Mid '77 en estilo bota. Diseño en cuero blanco con el logo Swoosh en negro, lengüeta de espuma expuesta y detalles en gamuza gris en la punta frontal.",
   },
+
   {
     id: "adidas-campus-mule-plataforma",
     name: "Adidas Campus Mule",
@@ -314,90 +56,498 @@ export const SNEAKER_PRODUCTS: Product[] = [
     },
     rating: 4.8,
     isNew: true,
-    description: "Esta versión destalonada transforma los clásicos Adidas Campus en un cómodo diseño tipo mule o pantufla. Presenta un exterior en gamuza con cordones gruesos y forro suave. Su suela de plataforma eleva tu silueta, ofreciendo un estilo relajado, versátil y de máximo confort."
+    description:
+      "Esta versión destalonada transforma los clásicos Adidas Campus en un cómodo diseño tipo mule o pantufla. Presenta un exterior en gamuza con cordones gruesos y forro suave. Su suela de plataforma eleva tu silueta, ofreciendo un estilo relajado, versátil y de máximo confort.",
   },
+
   {
-    id: "on-running-cloud-dama",
-    name: "On Running CloudTec",
-    brand: "OnCloud",
+    id: "adidas-supernova-dama-cafe-coral",
+    name: "Adidas Supernova Dama",
+    brand: "Adidas",
     category: "Deportivo",
     gender: "Dama",
-    price: 195000,
+    price: 185000, // PRECIO PENDIENTE DE ACTUALIZAR
     sizes: [36, 37, 38, 39],
-    colors: ["Gris y Lila", "Beige", "Café y Amarillo", "Blanco y Naranja"],
-    image: "/productos/mujer/on-gris-lila.jpg",
-    images: [
-      "/productos/mujer/on-beige.jpg",
-      "/productos/mujer/on-cafe-amarillo.jpg",
-      "/productos/mujer/on-blanco-naranja.jpg",
-    ],
-    colorImages: {
-      "Gris y Lila": "/productos/mujer/on-gris-lila.jpg",
-      "Beige": "/productos/mujer/on-beige.jpg",
-      "Café y Amarillo": "/productos/mujer/on-cafe-amarillo.jpg",
-      "Blanco y Naranja": "/productos/mujer/on-blanco-naranja.jpg",
-    },
+    colors: ["Café/Coral"],
+    image: "/productos/mujer/adidas-supernova-dama-cafe.webp",
     rating: 4.8,
     isNew: true,
-    description: "Zapatillas deportivas que redefinen la comodidad. Destacan por su innovadora suela con tecnología CloudTec (perforaciones) que absorbe impactos y brinda una pisada ultra suave. Su diseño de malla transpirable y estética moderna las hace perfectas para running o uso diario prolongado."
+    description:
+      "Zapatillas Adidas Supernova para dama en tono café con detalles en coral. Diseñadas para el running diario, cuentan con una parte superior de malla transpirable y mediasuela de espuma para una amortiguación cómoda y duradera.",
+  },
+
+  {
+    id: "converse-plataforma-bota",
+    name: "Converse Plataforma Bota",
+    brand: "Converse",
+    category: "Urbano",
+    gender: "Dama",
+    price: 180000, // PRECIO PENDIENTE DE ACTUALIZAR
+    sizes: [36, 37, 38, 39],
+    colors: ["Blanco", "Negro"],
+    image: "/productos/mujer/converse-est-dam-bla.webp",
+    images: ["/productos/mujer/converse-est-dam-neg.webp"],
+    colorImages: {
+      Blanco: "/productos/mujer/converse-est-dam-bla.webp",
+      Negro: "/productos/mujer/converse-est-dam-neg.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Clásicas zapatillas Converse de bota con plataforma. Un diseño urbano e icónico que eleva tu estilo, ofreciendo versatilidad para combinar con cualquier outfit diario y brindando altura extra con total comodidad. Elige entre los infaltables tonos blanco o negro.",
+  },
+
+  {
+    id: "new-balance-foam-fresh",
+    name: "New Balance Fresh Foam",
+    brand: "New Balance",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 195000, // PRECIO PENDIENTE DE ACTUALIZAR
+    sizes: [36, 37, 38, 39],
+    colors: ["Blanco", "Gris", "Gris Rosa"],
+    image: "/productos/mujer/new-balance-foam-blanco.webp",
+    images: [
+      "/productos/mujer/new-balance-foam-blanco.webp",
+      "/productos/mujer/new-balance-foam-gris.webp",
+      "/productos/mujer/new-balance-foam-grisrosa.webp",
+    ],
+    colorImages: {
+      Blanco: "/productos/mujer/new-balance-foam-blanco.webp",
+      Gris: "/productos/mujer/new-balance-foam-gris.webp",
+      "Gris Rosa": "/productos/mujer/new-balance-foam-grisrosa.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las New Balance Fresh Foam brindan comodidad superior con una entresuela de máxima amortiguación y diseño de suela gruesa. Su exterior transpirable permite usarlas en entrenamientos o en el día a día.",
   },
   {
-    id: "adidas-adizero-blanco-dama",
-    name: "Adidas Adizero",
-    brand: "Adidas",
+    id: "new-balance-9060",
+    name: "New Balance 9060",
+    brand: "New Balance",
     category: "Deportivo",
     gender: "Dama",
     price: 195000,
     sizes: [36, 37, 38, 39],
-    colors: ["Blanco y Plateado"],
-    image: "/productos/mujer/adizero-blancob.jpg",
+    colors: ["Café", "Blanco"],
+    image: "/productos/mujer/new-balance-9060-cafe.webp",
+    images: [
+      "/productos/mujer/new-balance-9060-cafe.webp",
+      "/productos/mujer/new-balance-9060-blanco.webp",
+    ],
+    colorImages: {
+      Café: "/productos/mujer/new-balance-9060-cafe.webp",
+      Blanco: "/productos/mujer/new-balance-9060-blanco.webp",
+    },
     rating: 4.9,
     isNew: true,
-    description: "Zapatillas de alto rendimiento diseñadas para la velocidad. Presentan un exterior en malla ligera semi-translúcida y una robusta suela aerodinámica con amortiguación avanzada. Su diseño deportivo y dinámico ofrece máxima comodidad, ideal para entrenamientos o looks casuales."
+    description:
+      "Las New Balance 9060 ofrecen un diseño moderno y suela gruesa ondulada. Cuentan con tecnología ABZORB para absorber impactos y brindar confort constante.",
   },
+
   {
-    id: "adidas-spezial-red",
-    name: "Adidas Handball Spezial",
+    id: "adidas-samba-og",
+    name: "Adidas Samba OG",
     brand: "Adidas",
-    category: "Urbano",
+    category: "Casual",
     gender: "Dama",
-    price: 190000,
+    price: 180000,
     sizes: [36, 37, 38, 39],
-    colors: ["Rojo"],
-    image: "/productos/mujer/adidas-spezial-rojo.webp",
-    rating: 4.9,
+    colors: ["Blanco"],
+    image: "/productos/mujer/samba-dama-og-c.webp",
+    images: [
+      "/productos/mujer/samba-dama-og-c.webp",
+      "/productos/mujer/samba-og-dama-c.webp",
+    ],
+    colorImages: {
+      Blanco: "/productos/mujer/samba-dama-og-c.webp",
+    },
+    rating: 5.0,
     isNew: true,
-    description: "Estas zapatillas son las Adidas Handball Spezial en la icónica combinación de gamuza color rojo vibrante con las tres rayas blancas y suela de goma retro"
+    description:
+      "Las Adidas Samba OG presentan un diseño clásico con franjas negras y detalles en la puntera. Cuentan con una suela de goma que asegura agarre y durabilidad para tu uso diario.",
   },
+
   {
-    id: "on-cloudmonster-negro-menta",
-    name: "On Running Cloudmonster",
-    brand: "OnCloud",
-    category: "Deportivo",
-    gender: "Dama",
-    price: 200000,
-    sizes: [36, 37, 38, 39],
-    colors: ["Negro/Menta"],
-    image: "/productos/mujer/on-cloudmonster-negro-menta.webp",
-    rating: 4.9,
-    isHot: true,
-    description: "Zapatillas On Running Cloudmonster en color negro con detalles en verde menta. Cuentan con suela de máxima amortiguación y tecnología CloudTec."
-  },
-  {
-    id: "nike-blazer-mid-77-blanco-negro",
-    name: "Nike Blazer Mid '77 Vintage",
-    brand: "Nike",
-    category: "Urbano",
+    id: "adidas-samba-plataforma",
+    name: "Adidas Samba Plataforma",
+    brand: "Adidas",
+    category: "Casual",
     gender: "Dama",
     price: 180000,
     sizes: [36, 37, 38, 39],
     colors: ["Blanco", "Negro"],
-    image: "/productos/mujer/nike-blazer-mid-blanco-negro.webp",
-    rating: 4.8,
-    isHot: true,
-    description: "Zapatillas clásicas Nike Blazer Mid '77 en estilo bota. Diseño en cuero blanco con el logo Swoosh en negro, lengüeta de espuma expuesta y detalles en gamuza gris en la punta frontal."
+    image: "/productos/mujer/samba-blanco-plataf.webp",
+    images: [
+      "/productos/mujer/samba-blanco-plataf.webp",
+      "/productos/mujer/samba-negro-plataf.webp",
+    ],
+    colorImages: {
+      Blanco: "/productos/mujer/samba-blanco-plataf.webp",
+      Negro: "/productos/mujer/samba-negro-plataf.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Adidas Samba en su versión con plataforma elevan tu estilo. Mantienen el diseño original y le suman altura con una suela de goma robusta y cómoda.",
   },
 
+  {
+    id: "adidas-spezial-valentin",
+    name: "Adidas Handball Spezial San Valentín",
+    brand: "Adidas",
+    category: "Casual",
+    gender: "Dama",
+    price: 200000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Gris Rojo"],
+    image: "/productos/mujer/adidas-spezial-valentin.webp",
+    images: ["/productos/mujer/adidas-spezial-valentin.webp"],
+    colorImages: {
+      "Gris Rojo": "/productos/mujer/adidas-spezial-valentin.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Adidas Handball Spezial edición San Valentín combinan gamuza con detalles exclusivos como un corazón en la lengüeta y cordones estampados. Mantienen la suela de goma clásica para darte comodidad constante en tu rutina.",
+  },
+
+  {
+    id: "nike-initiator",
+    name: "Nike Initiator",
+    brand: "Nike",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 185000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Blanco Plata"],
+    image: "/productos/mujer/nike-initiator.webp",
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Nike Initiator tienen una parte superior de malla transpirable y revestimientos que dan soporte a tu pie. Su entresuela absorbe los impactos para brindarte amortiguación constante en tus rutinas diarias.",
+  },
+
+  {
+    id: "nike-sb-dunk",
+    name: "Nike SB Dunk Low",
+    brand: "Nike",
+    category: "Casual",
+    gender: "Dama",
+    price: 195000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Rosa", "Azul"],
+    image: "/productos/mujer/nike-sb-rosa.webp",
+    images: [
+      "/productos/mujer/nike-sb-rosa.webp",
+      "/productos/mujer/nike-sb-azul.webp",
+    ],
+    colorImages: {
+      Rosa: "/productos/mujer/nike-sb-rosa.webp",
+      Azul: "/productos/mujer/nike-sb-azul.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Nike SB Dunk Low combinan la silueta clásica con detalles exclusivos en cada color. El cuello acolchado te da soporte y la suela de goma asegura tracción para tu uso diario.",
+  },
+
+  {
+    id: "nike-sb-dunk-panda",
+    name: "Nike SB Dunk Low Panda",
+    brand: "Nike",
+    category: "Casual",
+    gender: "Dama",
+    price: 180000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Blanco Negro"],
+    image: "/productos/mujer/nike-low-dama-blanegro.webp",
+    images: [
+      "/productos/mujer/nike-low-dama-blanegro.webp",
+      "/productos/mujer/nike-low-dama-blanegroo.webp",
+      "/productos/mujer/nike-low-dama-blanconegro.webp",
+    ],
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Nike SB Dunk Low Panda combinan el diseño clásico en blanco y negro con un estilo urbano. Su suela de goma proporciona tracción y el cuello acolchado te asegura comodidad durante todo el día.",
+  },
+
+  {
+    id: "jordan-1-mid-rosado",
+    name: "Air Jordan 1 Mid",
+    brand: "Jordan",
+    category: "Casual",
+    gender: "Dama",
+    price: 180000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Rosado"],
+    image: "/productos/mujer/jordan-dama-rosadas.webp",
+    images: ["/productos/mujer/jordan-dama-rosadas.webp"],
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Air Jordan 1 Mid destacan por su corte medio en tonos rosados y crema. Tienen una suela de goma que te brinda tracción y un cuello acolchado que asegura soporte continuo para tu rutina.",
+  },
+
+  {
+    id: "jordan-1-mid-charol",
+    name: "Air Jordan 1 Mid Charol",
+    brand: "Jordan",
+    category: "Casual",
+    gender: "Dama",
+    price: 180000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Negro"],
+    image: "/productos/mujer/jordan-charol-negro.webp",
+    images: [
+      "/productos/mujer/jordan-charol-negro.webp",
+      "/productos/mujer/jordan-charol-negra.webp",
+    ],
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Air Jordan 1 Mid destacan por su acabado en charol negro brillante. Su suela inferior traslúcida aporta un toque moderno y el cuello acolchado te asegura comodidad durante todo el día.",
+  },
+
+  {
+    id: "onitsuka-tiger-mexico-66",
+    name: "Onitsuka Tiger Mexico 66",
+    brand: "Onitsuka Tiger",
+    category: "Casual",
+    gender: "Dama",
+    price: 190000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Crema Rosado", "Crema Café", "Crema Gris"],
+    image: "/productos/mujer/onitsuka-rosada.webp",
+    images: [
+      "/productos/mujer/onitsuka-rosada.webp",
+      "/productos/mujer/onitsuka-cafe.webp",
+      "/productos/mujer/onitsuka-gris.webp",
+    ],
+    colorImages: {
+      "Crema Rosado": "/productos/mujer/onitsuka-rosada.webp",
+      "Crema Café": "/productos/mujer/onitsuka-cafe.webp",
+      "Crema Gris": "/productos/mujer/onitsuka-gris.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Onitsuka Tiger Mexico 66 presentan un diseño retro con su emblemática franja cruzada. Cuentan con un exterior de cuero ligero y una suela delgada que te ofrece comodidad y flexibilidad para el uso diario.",
+  },
+
+  {
+    id: "golden-goose-super-star",
+    name: "Golden Goose Super-Star",
+    brand: "Golden Goose",
+    category: "Casual",
+    gender: "Dama",
+    price: 205000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Blanco Leopardo", "Blanco Plata", "Blanco Negro"],
+    image: "/productos/mujer/golden-goose-negro-leop.webp",
+    images: [
+      "/productos/mujer/golden-goose-negro-leop.webp",
+      "/productos/mujer/golden-goose-negro-gris.webp",
+      "/productos/mujer/golden-goose-naranja-negro.webp",
+    ],
+    colorImages: {
+      "Blanco Leopardo": "/productos/mujer/golden-goose-negro-leop.webp",
+      "Blanco Plata": "/productos/mujer/golden-goose-negro-gris.webp",
+      "Blanco Negro": "/productos/mujer/golden-goose-naranja-negro.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Golden Goose Super-Star destacan por su diseño urbano y acabado desgastado. Cuentan con un detalle de estrella lateral y una suela de goma que te proporciona estilo y comodidad en tu uso diario.",
+  },
+
+  {
+    id: "asics-superblast",
+    name: "Asics Superblast",
+    brand: "Asics",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 195000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Naranja Fucsia", "Fucsia", "Celeste"],
+    image: "/productos/mujer/asics-superblast-naranja-fuscia.webp",
+    images: [
+      "/productos/mujer/asics-superblast-naranja-fuscia.webp",
+      "/productos/mujer/asics-superblast-fuscia-vibrante.webp",
+      "/productos/mujer/asics-superblast-celeste.webp",
+    ],
+    colorImages: {
+      "Naranja Fucsia": "/productos/mujer/asics-superblast-naranja-fuscia.webp",
+      Fucsia: "/productos/mujer/asics-superblast-fuscia-vibrante.webp",
+      Celeste: "/productos/mujer/asics-superblast-celeste.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Asics Superblast ofrecen una amortiguación superior gracias a su entresuela de gran volumen y la tecnología FF Blast Turbo. Su exterior de malla transpirable y suela con patrón de tracción te brindan rendimiento y confort en cada pisada.",
+  },
+
+  {
+    id: "nike-air-max-270",
+    name: "Nike Air Max 270",
+    brand: "Nike",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 190000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Gris Azul", "Blanco Rosado", "Rosado", "Beige Vino"],
+    image: "/productos/mujer/nike-270-gris-azul.webp",
+    images: [
+      "/productos/mujer/nike-270-gris-azul.webp",
+      "/productos/mujer/nike-270-blanco-rosa.webp",
+      "/productos/mujer/nike-270-rosado.webp",
+      "/productos/mujer/nike-270-beige vino.webp",
+    ],
+    colorImages: {
+      "Gris Azul": "/productos/mujer/nike-270-gris-azul.webp",
+      "Blanco Rosado": "/productos/mujer/nike-270-blanco-rosa.webp",
+      Rosado: "/productos/mujer/nike-270-rosado.webp",
+      "Beige Vino": "/productos/mujer/nike-270-beige vino.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Nike Air Max 270 integran una unidad de aire en el talón que absorbe impactos de forma eficiente. Su exterior de malla permite el flujo de aire para mantener tus pies frescos y la suela estructurada asegura un agarre estable en tu uso diario.",
+  },
+
+  {
+    id: "nike-v2k-run",
+    name: "Nike V2K Run",
+    brand: "Nike",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 180000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Café"],
+    image: "/productos/mujer/nike-v2k-cafe.webp",
+    images: ["/productos/mujer/nike-v2k-cafe.webp"],
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las Nike V2K Run presentan un estilo retro con detalles estructurados. Su malla superior permite la ventilación y la entresuela gruesa amortigua cada paso en tu rutina diaria.",
+  },
+
+  {
+    id: "puma-park-lifestyle",
+    name: "Puma Park Lifestyle",
+    brand: "Puma",
+    category: "Casual",
+    gender: "Dama",
+    price: 175000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Blanco Gris"],
+    image: "/productos/mujer/puma-dama.webp",
+    images: ["/productos/mujer/puma-dama.webp"],
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Puma Park Lifestyle combinan un exterior blanco con detalles grises y una suela crema. Este diseño te ofrece soporte y un interior acolchado que asegura comodidad en tu rutina diaria.",
+  },
+
+  {
+    id: "on-cloudmonster",
+    name: "On Cloudmonster",
+    brand: "On Cloud",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 195000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Beige"],
+    image: "/productos/mujer/on-cloud-dama.webp",
+    images: ["/productos/mujer/on-cloud-dama.webp"],
+    rating: 4.9,
+    isNew: true,
+    description:
+      "Las On Cloudmonster cuentan con tecnología CloudTec en una suela gruesa que maximiza la amortiguación. Tienen un exterior de malla transpirable que mantiene tus pies frescos y te brindan soporte constante en cada paso de tu rutina.",
+  },
+
+  {
+    id: "on-cloudtilt",
+    name: "On Running Cloudtilt",
+    brand: "On Cloud",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 195000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Blanco Vino", "Beige Taupe"],
+    image: "/productos/mujer/on-cloud-dama-b.webp",
+    images: [
+      "/productos/mujer/on-cloud-dama-b.webp",
+      "/productos/mujer/on-cloud-dama-c.webp",
+    ],
+    colorImages: {
+      "Blanco Vino": "/productos/mujer/on-cloud-dama-b.webp",
+      "Beige Taupe": "/productos/mujer/on-cloud-dama-c.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las On Running Cloudtilt cuentan con una suela gruesa y tecnología CloudTec que te asegura una pisada suave. Su exterior transpirable mantiene tus pies frescos y te ofrece comodidad continua en tu rutina diaria.",
+  },
+
+  {
+    id: "on-cloudtilt-gris-naranja",
+    name: "On Running Cloudtilt",
+    brand: "On Cloud",
+    category: "Deportivo",
+    gender: "Dama",
+    price: 200000,
+    sizes: [36, 37, 38, 39],
+    colors: ["Gris Naranja"],
+    image: "/productos/mujer/on-cloud-dama-n.webp",
+    images: ["/productos/mujer/on-cloud-dama-n.webp"],
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las On Running Cloudtilt presentan un exterior gris con una suela naranja que incluye tecnología CloudTec para darte una pisada suave. Su diseño transpirable mantiene tus pies frescos y te asegura comodidad continua en tu rutina diaria.",
+  },
+
+  {
+    id: "puma-park",
+    name: "Puma Park",
+    brand: "Puma",
+    category: "Casual",
+    gender: "Dama",
+    price: 195000,
+    sizes: [36, 37, 38, 39],
+    colors: [
+      "Blanco Gris",
+      "Blanco Azul",
+      "Blanco Negro",
+      "Blanco Verde",
+      "Blanco Rosado",
+    ],
+    image: "/productos/mujer/puma-blanco.webp",
+    images: [
+      "/productos/mujer/puma-blanco.webp",
+      "/productos/mujer/puma-azul.webp",
+      "/productos/mujer/puma-negro.webp",
+      "/productos/mujer/puma-verde.webp",
+      "/productos/mujer/puma-rosada.webp",
+    ],
+    colorImages: {
+      "Blanco Gris": "/productos/mujer/puma-blanco.webp",
+      "Blanco Azul": "/productos/mujer/puma-azul.webp",
+      "Blanco Negro": "/productos/mujer/puma-negro.webp",
+      "Blanco Verde": "/productos/mujer/puma-verde.webp",
+      "Blanco Rosado": "/productos/mujer/puma-rosada.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Puma Park combinan un exterior liso con detalles de gamuza en la punta y el talón. Llevan la franja lateral en tono contrastante y logotipos dorados. La suela de goma texturizada te brinda tracción firme en tu rutina diaria.",
+  },
   // ---------------------------------------------------------
   // SECCIÓN: CABALLERO
   // ---------------------------------------------------------
@@ -413,7 +563,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/hombre/adidas_badbo_10_cafe.jpg",
     rating: 4.8,
     isNew: true,
-    description: "Es la primera zapatilla de la línea exclusiva de Bad Bunny en colaboración con la marca. El bordado azul en el talón señala el número de serie de una edición limitada a 1994 pares a nivel mundial. La cantidad fue elegida en honor al año de nacimiento del artista. El diseño destaca por sus paneles de gamuza café con recortes triangulares sobre una base clara y el uso de cordones gruesos."
+    description:
+      "Es la primera zapatilla de la línea exclusiva de Bad Bunny en colaboración con la marca. El bordado azul en el talón señala el número de serie de una edición limitada a 1994 pares a nivel mundial. La cantidad fue elegida en honor al año de nacimiento del artista. El diseño destaca por sus paneles de gamuza café con recortes triangulares sobre una base clara y el uso de cordones gruesos.",
   },
   {
     id: "campus-bad-cafe",
@@ -427,7 +578,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/hombre/campus_bad_cafe.jpg",
     rating: 4.8,
     isNew: true,
-    description: "Este par destaca por su exterior de gamuza el diseño de doble lengüeta el cuello acolchado grueso y la etiqueta con el logo del artista."
+    description:
+      "Este par destaca por su exterior de gamuza el diseño de doble lengüeta el cuello acolchado grueso y la etiqueta con el logo del artista.",
   },
   {
     id: "adidas-badbo-hombre",
@@ -442,7 +594,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     images: ["/productos/hombre/adidas_badbo_1.0_blancas.jpg"],
     rating: 4.6,
     isNew: true,
-    description: "Estas zapatillas combinan paneles de gamuza con recortes triangulares y detalles bordados en azul en el talón. Tienen cordones gruesos y doble lengüeta."
+    description:
+      "Estas zapatillas combinan paneles de gamuza con recortes triangulares y detalles bordados en azul en el talón. Tienen cordones gruesos y doble lengüeta.",
   },
   {
     id: "jordan-hombre-retro",
@@ -456,7 +609,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/hombre/jordan_retro_hombre.png",
     rating: 4.9,
     isHot: true,
-    description: "Eleva tu estilo urbano con esta edición especial. Destaca por su base negra mate, llamativas costuras rojas en contraste y el icónico Swoosh brillante en relieve."
+    description:
+      "Eleva tu estilo urbano con esta edición especial. Destaca por su base negra mate, llamativas costuras rojas en contraste y el icónico Swoosh brillante en relieve.",
   },
   {
     id: "mind-001",
@@ -471,12 +625,13 @@ export const SNEAKER_PRODUCTS: Product[] = [
     images: ["/productos/hombre/mind_hombre1.jpg"],
     rating: 4.9,
     isHot: true,
-    description: "Estas son sandalias tipo mule Nike Mind 001, reconocibles por sus 22 nodos de espuma articulados en la suela para estimulación sensorial."
+    description:
+      "Estas son sandalias tipo mule Nike Mind 001, reconocibles por sus 22 nodos de espuma articulados en la suela para estimulación sensorial.",
   },
   {
     id: "on-cloud",
     name: "On Cloudvista 2",
-    brand: "OnCloud",
+    brand: "On Cloud",
     category: "Deportivo",
     gender: "Caballero",
     price: 195000,
@@ -490,7 +645,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     },
     rating: 4.9,
     isHot: true,
-    description: "On Cloudvista 2 es una zapatilla de trail running optimizada para terrenos mixtos y senderos moderados."
+    description:
+      "On Cloudvista 2 es una zapatilla de trail running optimizada para terrenos mixtos y senderos moderados.",
   },
   {
     id: "nike-af1-supreme",
@@ -505,7 +661,7 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/hombre/af1-supreme.jpg",
     rating: 4.9,
     isHot: true,
-    description: "Air Force One en colaboración con Supreme."
+    description: "Air Force One en colaboración con Supreme.",
   },
   {
     id: "nike-zoom-gris",
@@ -519,7 +675,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/hombre/nike-zoom-happy.jpeg",
     rating: 4.5,
     isHot: true,
-    description: "Nike Zoom en malla transpirable gris. Cuenta con suela roja, acentos en negro y el detalle de carita sonriente en el talón."
+    description:
+      "Nike Zoom en malla transpirable gris. Cuenta con suela roja, acentos en negro y el detalle de carita sonriente en el talón.",
   },
   {
     id: "nike-dunk-low-suede-panda",
@@ -534,8 +691,279 @@ export const SNEAKER_PRODUCTS: Product[] = [
     images: ["/productos/hombre/nike-dunk-suede-bn-1.jpeg"],
     rating: 4.8,
     isHot: true,
-    description: "Silueta clásica Dunk Low: capellada completamente en gamuza (suede) en contraste negro y blanco roto. Incluye detalles de caja de edición especial."
+    description:
+      "Silueta clásica Dunk Low: capellada completamente en gamuza (suede) en contraste negro y blanco roto. Incluye detalles de caja de edición especial.",
   },
+
+  {
+    id: "jordan-1-low-rojo-negro",
+    name: "Air Jordan 1 Low",
+    brand: "Nike",
+    category: "Casual",
+    gender: "Caballero",
+    price: 175000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Rojo Negro"],
+    image: "/productos/hombre/nike-low-rojo-negro.webp",
+    images: [
+      "/productos/hombre/nike-low-rojo-negro.webp",
+      "/productos/hombre/nike-low-rojo-negro-ang.webp",
+    ],
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Air Jordan 1 Low destacan por su diseño clásico en bloques de color rojo y negro. Cuentan con una suela plana de goma que te ofrece tracción firme y un cuello bajo acolchado que asegura comodidad continua en tu rutina diaria.",
+  },
+
+  {
+    id: "new-balance-603",
+    name: "New Balance 603",
+    brand: "New Balance",
+    category: "Casual",
+    gender: "Caballero",
+    price: 195000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Beige Marrón", "Beige Blanco"],
+    image: "/productos/hombre/new-balance-603-hombre-beige-marron.webp",
+    images: ["/productos/hombre/new-balance-603-beige-blanco.webp"],
+    colorImages: {
+      "Beige Marrón":
+        "/productos/hombre/new-balance-603-hombre-beige-marron.webp",
+      "Beige Blanco": "/productos/hombre/new-balance-603-beige-blanco.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las New Balance 603 combinan gamuza y malla transpirable en su exterior. Cuentan con el logo N dorado y una entresuela modular que te brinda amortiguación y estabilidad en tu uso diario.",
+  },
+
+  {
+    id: "adidas-hyperboost",
+    name: "Adidas Hyperboost",
+    brand: "Adidas",
+    category: "Deportivo",
+    gender: "Caballero",
+    price: 195000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Negro Rojo"],
+    image: "/productos/hombre/adidas-hyperboost-hombre.webp",
+    images: ["/productos/hombre/adidas-hyperboost-hombre.webp"],
+    colorImages: {
+      "Negro Rojo": "/productos/hombre/adidas-hyperboost-hombre.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Adidas Hyperboost cuentan con un exterior oscuro y malla lateral roja que permite la ventilación. Integran una entresuela gruesa que amortigua tus pisadas y te ofrece soporte continuo durante tus entrenamientos.",
+  },
+
+  {
+    id: "adidas-terrex",
+    name: "Adidas Terrex",
+    brand: "Adidas",
+    category: "Deportivo",
+    gender: "Caballero",
+    price: 195000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Gris Blanco", "Azul Negro", "Verde Naranja", "Negro Blanco"],
+    image: "/productos/hombre/adidas-terrex-gris.webp",
+    images: [
+      "/productos/hombre/adidas-terrex-gris.webp",
+      "/productos/hombre/adidas-terrex-azul.webp",
+      "/productos/hombre/adidas-terrex-naranja.webp",
+      "/productos/hombre/adidas-terrex-negro.webp",
+    ],
+    colorImages: {
+      "Gris Blanco": "/productos/hombre/adidas-terrex-gris.webp",
+      "Azul Negro": "/productos/hombre/adidas-terrex-azul.webp",
+      "Verde Naranja": "/productos/hombre/adidas-terrex-naranja.webp",
+      "Negro Blanco": "/productos/hombre/adidas-terrex-negro.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Adidas Terrex incorporan tecnología Gore-Tex impermeable y una suela Continental que asegura un agarre firme en diferentes terrenos. Su entresuela Dreamstrike absorbe los impactos y te brinda estabilidad durante tus actividades al aire libre.",
+  },
+
+  {
+    id: "nb-sc-elite",
+    name: "New Balance SC Elite",
+    brand: "New Balance",
+    category: "Deportivo",
+    gender: "Caballero",
+    price: 190000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Azul Amarillo"],
+    image: "/productos/hombre/nb-sc-elite-hombre.webp",
+    images: ["/productos/hombre/nb-sc-elite-hombre.webp"],
+    colorImages: {
+      "Azul Amarillo": "/productos/hombre/nb-sc-elite-hombre.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las New Balance SC Elite integran la tecnología FuelCell en su entresuela geométrica para darte un alto retorno de energía. Su exterior de malla transpirable mantiene tus pies frescos y te asegura amortiguación superior en tus carreras o entrenamientos.",
+  },
+
+  {
+    id: "adidas-adistar-jellyfish",
+    name: "Adidas Adistar Jellyfish Pharrell",
+    brand: "Adidas",
+    category: "Deportivo",
+    gender: "Caballero",
+    price: 190000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: [
+      "Blanco Naranja",
+      "Blanco Verde",
+      "Negro",
+      "Blanco Azul",
+      "Blanco Gris",
+    ],
+    image: "/productos/hombre/adidas-adistar-pharell-naranja.webp",
+    images: [
+      "/productos/hombre/adidas-adistar-pharell-naranja.webp",
+      "/productos/hombre/adidas-adistar-pharell-verde.webp",
+      "/productos/hombre/adidas-adistar-pharell-negras.webp",
+      "/productos/hombre/adidas-adistar-pharell-azul.webp",
+      "/productos/hombre/adidas-adistar-pharell-gris.webp",
+    ],
+    colorImages: {
+      "Blanco Naranja": "/productos/hombre/adidas-adistar-pharell-naranja.webp",
+      "Blanco Verde": "/productos/hombre/adidas-adistar-pharell-verde.webp",
+      Negro: "/productos/hombre/adidas-adistar-pharell-negras.webp",
+      "Blanco Azul": "/productos/hombre/adidas-adistar-pharell-azul.webp",
+      "Blanco Gris": "/productos/hombre/adidas-adistar-pharell-gris.webp",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Adidas Adistar Jellyfish Pharrell presentan un diseño dinámico con superposiciones sintéticas sobre malla transpirable. Integran tecnología Adiprene en el talón para una amortiguación eficiente y una entresuela robusta que asegura soporte constante y estilo distintivo en tu uso diario.",
+  },
+
+  {
+    id: "adidas-terrex-morado",
+    name: "Adidas Terrex",
+    brand: "Adidas",
+    category: "Deportivo",
+    gender: "Caballero",
+    price: 195000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Blanco Morado"],
+    image: "/productos/hombre/adidas-terrex-morado.jpg",
+    images: ["/productos/hombre/adidas-terrex-morado.jpg"],
+    colorImages: {
+      "Blanco Morado": "/productos/hombre/adidas-terrex-morado.jpg",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Adidas Terrex incorporan tecnología Gore-Tex impermeable y una suela Continental que asegura un agarre firme en diferentes terrenos. Su entresuela Dreamstrike absorbe los impactos y te brinda estabilidad durante tus actividades al aire libre con un diseño en tonos blanco y morado.",
+  },
+
+  {
+    id: "adidas-hyperboost-edge",
+    name: "Adidas Hyperboost Edge",
+    brand: "Adidas",
+    category: "Deportivo",
+    gender: "Caballero",
+    price: 200000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Negra", "Blanca"],
+    image: "/productos/hombre/adidas-hyperboost-edge-negra.jpg",
+    images: [
+      "/productos/hombre/adidas-hyperboost-edge-negra.jpg",
+      "/productos/hombre/adidas-hyperboost-edge-blanca.jpg",
+    ],
+    colorImages: {
+      Negra: "/productos/hombre/adidas-hyperboost-edge-negra.jpg",
+      Blanca: "/productos/hombre/adidas-hyperboost-edge-blanca.jpg",
+    },
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Adidas Hyperboost Edge destacan por su diseño aerodinámico con una entresuela de gran volumen que garantiza una amortiguación superior. Su construcción ligera y el ajuste envolvente te ofrecen estabilidad y confort total durante tus entrenamientos diarios.",
+  },
+
+  {
+    id: "adidas-badbunny-rise-1.0",
+    name: "Adidas Bad Bunny Rise 1.0",
+    brand: "Adidas",
+    category: "Casual",
+    gender: "Caballero",
+    price: 195000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Blanco Negro"],
+    image: "/productos/hombre/adidas-badbo-rise.webp",
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Adidas Bad Bunny Rise 1.0 presentan un estilo urbano distintivo con paneles de gamuza y contraste en negro. Su suela de caucho color caramelo proporciona tracción duradera mientras que el interior acolchado garantiza confort total en cada paso de tu rutina diaria.",
+  },
+
+  {
+    id: "nike-af1-cacao",
+    name: "Nike Air Force 1 Cacao",
+    brand: "Nike",
+    category: "Casual",
+    gender: "Caballero",
+    price: 190000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Cacao"],
+    image: "/productos/hombre/nike-af1-cacao.webp",
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las Nike Air Force 1 Cacao presentan un diseño monocromático en tono café con exterior de gamuza. Mantienen la silueta clásica con suela de aire para mayor amortiguación y aportan un estilo urbano y elegante a tu uso diario.",
+  },
+
+  {
+    id: "on-cloud-q",
+    name: "On Running Cloud Q",
+    brand: "On Cloud",
+    category: "Deportivo",
+    gender: "Caballero",
+    price: 200000,
+    sizes: [40, 41, 42, 43, 44],
+    colors: ["Negras"],
+    image: "/productos/hombre/on-hombre-q-negras.webp",
+    images: [
+      "/productos/hombre/on-hombre-q-negras.webp",
+      "/productos/hombre/on-cloud-hombre-q-negras.webp",
+    ],
+    rating: 4.9,
+    isNew: true,
+    isHot: true,
+    description:
+      "Las On Running Cloud Q combinan un exterior de malla técnica negra con una entresuela blanca de alto perfil. Su diseño enfocado en la amortiguación avanzada te proporciona una pisada suave y mayor estabilidad durante tus entrenamientos diarios.",
+  },
+
+  {
+id: "on-cloudrunner",
+name: "On Running Cloudrunner",
+brand: "On Cloud",
+category: "Deportivo",
+gender: "Caballero",
+price: 200000,
+sizes: [40, 41, 42, 43, 44],
+colors: ["Negra"],
+image: "/productos/hombre/on-cloud-runner-negra.webp",
+rating: 4.9,
+isNew: true,
+isHot: true,
+description: "Las On Running Cloudrunner combinan un diseño elegante en color negro con la tecnología CloudTec para una amortiguación excepcional. Su estructura resistente y malla transpirable brindan estabilidad y confort duradero en cada kilómetro de tu rutina diaria."
+},
+
 
   // ---------------------------------------------------------
   // SECCIÓN: UNISEX
@@ -553,7 +981,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/mujer/adidas_forum_negras.jpeg",
     rating: 4.9,
     isNew: true,
-    description: "La combinación icónica de blanco con las tres rayas negras. Ajuste seguro mediante la correa clásica Forum, con entresuela de caucho adherente y un estilo impecable."
+    description:
+      "La combinación icónica de blanco con las tres rayas negras. Ajuste seguro mediante la correa clásica Forum, con entresuela de caucho adherente y un estilo impecable.",
   },
   {
     id: "adidas-forum-low-strap-blue",
@@ -567,7 +996,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/mujer/adidas_forum_azul.jpeg",
     rating: 4.7,
     isNew: true,
-    description: "Estilo retro con vibras de baloncesto de los 80. Detalles en azul rey sobre cuero blanco que le dan un toque llamativo, elegante y deportivo a tus outfits de dama."
+    description:
+      "Estilo retro con vibras de baloncesto de los 80. Detalles en azul rey sobre cuero blanco que le dan un toque llamativo, elegante y deportivo a tus outfits de dama.",
   },
   {
     id: "new-balance-9060",
@@ -582,7 +1012,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     images: ["/productos/unisex/new_balance_9060_negras.webp"],
     rating: 4.7,
     isNew: true,
-    description: "Este calzado resalta por su estructura robusta y su entresuela ondulada con tecnología de amortiguación ABZORB. Tienes dos opciones disponibles. La primera tiene una base de malla transpirable con gamuza beige y detalles grises. La segunda ofrece un diseño oscuro que mezcla malla y gamuza negra con el logo lateral gris."
+    description:
+      "Este calzado resalta por su estructura robusta y su entresuela ondulada con tecnología de amortiguación ABZORB. Tienes dos opciones disponibles. La primera tiene una base de malla transpirable con gamuza beige y detalles grises. La segunda ofrece un diseño oscuro que mezcla malla y gamuza negra con el logo lateral gris.",
   },
   {
     id: "gazelle-azul-blanco",
@@ -596,7 +1027,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/unisex/gazelle_hom_muj.webp",
     rating: 4.7,
     isNew: true,
-    description: "Estos tenis Adidas Gazelle destacan por su diseño clásico en blanco con icónicas franjas azul marino"
+    description:
+      "Estos tenis Adidas Gazelle destacan por su diseño clásico en blanco con icónicas franjas azul marino",
   },
   {
     id: "tiger-onituska",
@@ -610,7 +1042,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/unisex/tiger_hom_mujer.webp",
     rating: 4.7,
     isNew: true,
-    description: "Son unos tenis Onitsuka Tiger modelo Mexico 66 en color amarillo con rayas negras."
+    description:
+      "Son unos tenis Onitsuka Tiger modelo Mexico 66 en color amarillo con rayas negras.",
   },
   {
     id: "vision-unisex",
@@ -624,7 +1057,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/unisex/vision_hombre_mujer.webp",
     rating: 4.7,
     isNew: true,
-    description: "Estos tenis son del modelo Vision Street Wear, reconocidos por su diseño clásico en blanco y negro."
+    description:
+      "Estos tenis son del modelo Vision Street Wear, reconocidos por su diseño clásico en blanco y negro.",
   },
   {
     id: "nike-zoom-x-happy",
@@ -638,7 +1072,8 @@ export const SNEAKER_PRODUCTS: Product[] = [
     image: "/productos/unisex/nike-zoom-x.webp",
     rating: 4.7,
     isNew: true,
-    description: "Zapatillas para correr de alto rendimiento con amortiguación ZoomX reactiva y un diseño urbano con detalles divertidos."
+    description:
+      "Zapatillas para correr de alto rendimiento con amortiguación ZoomX reactiva y un diseño urbano con detalles divertidos.",
   },
   {
     id: "nb-530-unisex",
@@ -650,11 +1085,11 @@ export const SNEAKER_PRODUCTS: Product[] = [
     sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44],
     colors: ["Negra"],
     image: "/productos/unisex/nb-530-azul-blanco.webp",
-    images: ['/productos/unisex/nb-530-blue-white.webp'],
+    images: ["/productos/unisex/nb-530-blue-white.webp"],
     rating: 4.7,
     isNew: true,
-    description: "Zapatillas deportivas New Balance 530."
-  }
+    description: "Zapatillas deportivas New Balance 530.",
+  },
 ];
 
 // ---------------------------------------------------------
@@ -664,5 +1099,11 @@ export const SNEAKER_PRODUCTS: Product[] = [
 // usando Set para evitar duplicados. De esta forma nunca tendrás
 // que mantener estas listas a mano.
 
-export const CATEGORIES = ['Todos', ...new Set(SNEAKER_PRODUCTS.map(p => p.category))];
-export const BRANDS = ['Todas', ...new Set(SNEAKER_PRODUCTS.map(p => p.brand))];
+export const CATEGORIES = [
+  "Todos",
+  ...new Set(SNEAKER_PRODUCTS.map((p) => p.category)),
+];
+export const BRANDS = [
+  "Todas",
+  ...new Set(SNEAKER_PRODUCTS.map((p) => p.brand)),
+];
