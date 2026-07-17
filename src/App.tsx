@@ -901,7 +901,7 @@ className="w-full sm:w-auto text-center px-5 py-2.5 bg-emerald-500/10 hover:bg-e
 
           {/* Copyright, terms */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-light text-center sm:text-left">
-            <p>© 2026 Trespa Store. Todos los derechos reservados. Desarrollado por Christian</p>
+            <p>© 2026 Trespa Store. Todos los derechos reservados. Desarrollado por Trespa Store</p>
             <div className="flex gap-4">
               <a href="#" className="hover:text-slate-300">Términos y condiciones</a>
               <span>•</span>
